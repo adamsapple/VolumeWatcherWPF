@@ -1,0 +1,104 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
+using Moral.Model;
+using VolumeWatcher.Enumrate;
+using Audio.CoreAudio;
+
+namespace VolumeWatcher.Model
+{
+    class VolumeWatcherModel : ModelBase
+    {
+        // 設定情報
+        private float _Opacity = 0;
+        public float Opacity
+        {
+            get { return _Opacity;  }
+            set { _Opacity = value;  SetProperty(ref _Opacity, value); }
+        }
+        private EWindowPosition _WindowPosition = EWindowPosition.LEFT_TOP;
+        public EWindowPosition WindowPosition
+        {
+            get { return _WindowPosition; }
+            set { _WindowPosition = value; SetProperty(ref _WindowPosition, value); }
+        }
+        private bool _IsKeyHook = false;
+        public bool IsKeyHook
+        {
+            get { return _IsKeyHook; }
+            set { _IsKeyHook = value; SetProperty(ref _IsKeyHook, value); }
+        }
+        private string _StartupName = string.Empty;
+        public string StartupName
+        {
+            get { return _StartupName; }
+            private set { _StartupName = value; SetProperty(ref _StartupName, value); }
+        }
+
+        // デバイスからの情報
+        private int _Volume = 0;
+        public int Volume
+        {
+            get { return _Volume; }
+            set { _Volume = value; SetProperty(ref _Volume, value); }
+        }
+        private bool _IsMute = false;
+        public bool IsMute
+        {
+            get { return _IsMute; }
+            set { _IsMute = value; SetProperty(ref _IsMute, value); }
+        }
+        private string _DeviceName = string.Empty;
+        public string DeviceName
+        {
+            get { return _DeviceName; }
+            set { _DeviceName = value; SetProperty(ref _DeviceName, value); }
+        }
+        private string _IconPath = string.Empty;
+        public string IconPath
+        {
+            get { return _IconPath; }
+            set { _IconPath = value; SetProperty(ref _IconPath, value); }
+        }
+        
+        public void LoadSettings()
+        {
+            var setting = Properties.Settings.Default;
+            // save情報を設定に反映
+            this.StartupName    = setting.startup_name;
+            this.Opacity        = setting.window_opacity;
+            this.WindowPosition = setting.window_position2;
+            this.IsKeyHook      = setting.enable_volume_key;
+        }
+
+        public void SaveSettings()
+        {
+            var setting = Properties.Settings.Default;
+            // save情報を更新
+            setting.window_opacity      = this.Opacity;
+            setting.window_position2    = this.WindowPosition;
+            setting.enable_volume_key   = this.IsKeyHook;
+            setting.Save();
+        }
+
+        public void SetDeviceInfo(MMDevice device)
+        {
+            // デバイス情報を取得し格納する
+            //this.DeviceName = device.FriendlyName;
+            //this.IconPath   = device.IconPath;
+            //OnDeviceChanged(device);
+            this.DeviceName = (string)device.GetProperty(PropertyKeys.PKEY_DEVICE_FRIENDLY_NAME);
+            this.IconPath = device.IconPath;
+
+            // volumeとmuteは「OnVolumeChanged」を流用
+            AudioEndpointVolume volume = device.AudioEndpointVolume;
+            this.Volume = (int)Math.Round(volume.MasterVolumeLevelScalar * 100);
+            this.IsMute = volume.Mute;
+        }
+    }
+}

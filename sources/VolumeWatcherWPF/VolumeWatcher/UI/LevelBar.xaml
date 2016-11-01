@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="VolumeWatcher.UI.LevelBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VolumeWatcher.UI"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <!--
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" >
+            <Rectangle Name="rectHead"  Fill="White" Height="12" />
+            <Rectangle Name="rectBody" Fill="#FF930193" Height="50"/>
+        </StackPanel>
+    </DockPanel>
+    -->
+</UserControl>

@@ -1,0 +1,10 @@
+﻿<ContextMenu x:Class="VolumeWatcher.UI.MainContextMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <MenuItem Header="Option..." Click="MenuItem_Option_Click"/>
+    <Separator />
+    <!--<MenuItem Header="Language"/>
+    <Separator />-->
+    <MenuItem Header="Exit" Click="MenuItem_Exit_Click"/>
+</ContextMenu>

@@ -1,0 +1,119 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using LinqToXaml;
+
+using Moral.Util;
+using VolumeWatcher.Model;
+
+namespace VolumeWatcher.View
+{
+    /// <summary>
+    /// オプション画面
+    /// </summary>
+    public partial class WindowOption : Window
+    {
+        private VolumeWatcherMain main = null;
+        private VolumeWatcherModel model = null;
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public WindowOption()
+        {
+            main = ((App)System.Windows.Application.Current).main;
+            model = main.model;
+
+            InitializeComponent();
+            this.DataContext = model;
+
+            // 高速化に寄与するかな
+            this.Descendants().OfType<Freezable>().ToList().Where(e => e.CanFreeze).ToList().ForEach(e => e.Freeze());
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Hide();
+            e.Cancel = true;
+            //switch (e.CloseReason)
+            //{
+            //    case CloseReason.UserClosing:   // ユーザーインターフェイスによる
+            //        e.Cancel = true;            // クローズイベントをキャンセル
+            //        break;
+            //}
+        }
+
+        /// <summary>
+        /// Form内コントールの状態を更新
+        /// </summary>
+        public void updateControl()
+        {
+            // checkBoxIsStartupの状態を更新
+            if (WindowsUtil.ExistsStartUp_CurrentUserRun(model.StartupName))
+            {
+                chkIsStartUp.IsChecked = true;
+            }
+            else
+            {
+                chkIsStartUp.IsChecked = false;
+            }
+        }
+        
+        /// <summary>
+        /// ev:chkIsStartUp チェックON
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void chkIsStartUp_Checked(object sender, RoutedEventArgs e)
+        {
+            WindowsUtil.RegiserStartUp_CurrentUserRun(model.StartupName);
+        }
+
+        /// <summary>
+        /// ev:chkIsStartUp チェックOFF
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void chkIsStartUp_Unchecked(object sender, RoutedEventArgs e)
+        {
+            WindowsUtil.UnregiserStartUp_CurrentUserRun(model.StartupName);
+        }
+
+        /// <summary>
+        /// ev:Formアクティブ時(表示時、フォーカス時)
+        /// チェックボックス状態の更新.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            // チェックボックス状態の更新
+            updateControl();
+        }
+
+        /// <summary>
+        /// keyhookのチェックON
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void chkIsKeyHook_Changed(object sender, RoutedEventArgs e)
+        {
+            main.trayComponent.EnableKeyHook = (bool)((CheckBox)sender).IsChecked;
+        }
+    }
+}

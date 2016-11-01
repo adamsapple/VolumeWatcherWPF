@@ -1,0 +1,11 @@
+﻿<Application x:Class="VolumeWatcher.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:VolumeWatcher" ShutdownMode="OnExplicitShutdown">
+    <!-- StartupUri="MainWindow.xaml"> -->
+    <Application.Resources>
+
+        <!--<FontFamily x:Key="Digifont">./resources/FFFFORWA.TTF#FFF Forward</FontFamily>-->
+
+    </Application.Resources>
+</Application>
