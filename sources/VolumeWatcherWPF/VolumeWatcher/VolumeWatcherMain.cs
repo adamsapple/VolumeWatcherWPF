@@ -12,6 +12,7 @@ using VolumeWatcher.UI;
 using VolumeWatcher.Model;
 using VolumeWatcher.View;
 using VolumeWatcher.ViewModel;
+using VolumeWatcher.Sandbox;
 
 
 namespace VolumeWatcher
@@ -66,7 +67,7 @@ namespace VolumeWatcher
             trayComponent.Initialize();
             trayComponent.IconSource = optionWindow.Icon;
 
-            
+
             //optionWindow.Show();
 
             // データバインディングが終了するまで待つ
@@ -75,7 +76,9 @@ namespace VolumeWatcher
             //    await Task.Delay(200);
             //    State = 1;
             //});
-            State = 1;
+            //State = 1;
+
+            var a = new RecorderTest();
         }
 
         /// <summary>
