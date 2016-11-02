@@ -67,5 +67,29 @@ namespace VolumeWatcher.Properties {
                 this["enable_volume_key"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public double OptionWindow_Left {
+            get {
+                return ((double)(this["OptionWindow_Left"]));
+            }
+            set {
+                this["OptionWindow_Left"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public double OptionWindow_Top {
+            get {
+                return ((double)(this["OptionWindow_Top"]));
+            }
+            set {
+                this["OptionWindow_Top"] = value;
+            }
+        }
     }
 }

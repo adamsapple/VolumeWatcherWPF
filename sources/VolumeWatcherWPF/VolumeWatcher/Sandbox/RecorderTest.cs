@@ -1,5 +1,4 @@
 ﻿using System;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +19,7 @@ namespace VolumeWatcher.Sandbox
             var device = deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications);
 
             //PutDeviceInfo(device);
-            device.AudioEndpointVolume.Mute = !device.AudioEndpointVolume.Mute;
+            //device.AudioEndpointVolume.Mute = !device.AudioEndpointVolume.Mute;
 
             var collection = deviceEnumerator.EnumAudioEndpoints(EDataFlow.eCapture, EDeviceState.Active);
 

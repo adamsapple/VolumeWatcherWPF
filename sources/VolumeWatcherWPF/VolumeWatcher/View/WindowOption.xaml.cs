@@ -15,6 +15,7 @@ using LinqToXaml;
 
 using Moral.Util;
 using VolumeWatcher.Model;
+using VolumeWatcher.ViewModel;
 
 namespace VolumeWatcher.View
 {
@@ -35,7 +36,14 @@ namespace VolumeWatcher.View
             model = main.model;
 
             InitializeComponent();
+
             this.DataContext = model;
+
+            //
+            if (this.Left < 0 && this.Top < 0)
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            }
 
             // 高速化に寄与するかな
             this.Descendants().OfType<Freezable>().ToList().Where(e => e.CanFreeze).ToList().ForEach(e => e.Freeze());
