@@ -51,6 +51,9 @@ namespace VolumeWatcher.Sandbox
         /// <param name="device"></param>
         private void PutDeviceInfo(MMDevice device)
         {
+            Console.WriteLine("id={0}, State={1}", device.Id, device.State);
+            Console.WriteLine("mute :" + device.AudioEndpointVolume.Mute);
+
             var keys = new List<PropertyKey>
             {
                 PropertyKeys.PKEY_DEVICE_INTERFACE_FRIENDLY_NAME,
