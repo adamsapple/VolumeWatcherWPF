@@ -98,14 +98,18 @@
     <Compile Include="Audio\CoreAudio\AudioSessionControl.cs" />
     <Compile Include="Audio\CoreAudio\AudioSessionManager.cs" />
     <Compile Include="Audio\CoreAudio\AudioVolumeNotificationData.cs" />
+    <Compile Include="Audio\CoreAudio\BitDepth.cs" />
     <Compile Include="Audio\CoreAudio\EDataFlow.cs" />
     <Compile Include="Audio\CoreAudio\EDeviceState.cs" />
     <Compile Include="Audio\CoreAudio\EndpointFormFactor.cs" />
     <Compile Include="Audio\CoreAudio\ERole.cs" />
+    <Compile Include="Audio\CoreAudio\ESampleRate.cs" />
     <Compile Include="Audio\CoreAudio\EStgmAccess.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\Blob.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\ClsCtx.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\ComIIds.cs" />
+    <Compile Include="Audio\CoreAudio\Interfaces\DeviceShareMode.cs" />
+    <Compile Include="Audio\CoreAudio\Interfaces\IAudioClient.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IAudioEndpointVolume.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IAudioEndpointVolumeCallback.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IAudioEndpointVolumeEx.cs" />
@@ -121,6 +125,8 @@
     <Compile Include="Audio\CoreAudio\Interfaces\IMMNotificationClient.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IPropertyStore.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\ISimpleAudioVolume.cs" />
+    <Compile Include="Audio\CoreAudio\Interfaces\WaveFormat.cs" />
+    <Compile Include="Audio\CoreAudio\Interfaces\WaveFormatExtensible.cs" />
     <Compile Include="Audio\CoreAudio\MMDevice.cs" />
     <Compile Include="Audio\CoreAudio\MMDeviceCollection.cs" />
     <Compile Include="Audio\CoreAudio\MMDeviceEnumerator.cs" />
@@ -134,6 +140,8 @@
     <None Include="Moral\UI\NotifyIconWPF.Designer.cs">
       <DependentUpon>NotifyIconWPF.cs</DependentUpon>
     </None>
+    <Compile Include="Audio\CoreAudio\SpeakerConfiguration.cs" />
+    <Compile Include="Audio\CoreAudio\WaveFormatEncoding.cs" />
     <Compile Include="Moral\Etc\KeyboardHook5.cs" />
     <Compile Include="Moral\Util\Ease.cs" />
     <Compile Include="Moral\Util\IconUtil.cs" />
@@ -234,6 +242,10 @@
     <Resource Include="resources\icon-windw.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
