@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Audio.CoreAudio.Interfaces
 {
-    internal enum DeviceShareMode
+    public enum DeviceShareMode
     {
         Shared,
         Exclusive

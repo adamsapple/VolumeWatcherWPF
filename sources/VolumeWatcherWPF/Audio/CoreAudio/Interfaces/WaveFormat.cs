@@ -4,29 +4,25 @@ using System.Runtime.InteropServices;
 namespace Audio.CoreAudio.Interfaces
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 2)]
-    internal class WaveFormat
+    public class WaveFormat
     {
-        private readonly int    averageBytesPerSecond;
-        private readonly short  bitsPerSample;
-        private readonly short  blockAlign;
+        private readonly WaveFormatEncoding formatTag;
         private readonly short  channels;
-        private readonly short  extraSize;
-        private readonly WaveFormatEncoding waveFormatTag;
-        private readonly int    sampleRate;
+        private readonly int    samplesPerSec; 
+        private readonly int    avgBytesPerSec;
+        private readonly short  blockAlign;
+        private readonly short  bitsPerSample;
+        private readonly short  cbSize;
+        
 
-        public WaveFormatEncoding Encoding => waveFormatTag;
-
+        public WaveFormatEncoding FormatTag => formatTag;
         public int Channels => channels;
-
-        public int SampleRate => sampleRate;
-
-        public int AverageBytesPerSecond => averageBytesPerSecond;
-
+        public int SampleRate => samplesPerSec;
+        public int AverageBytesPerSecond => avgBytesPerSec;
         public virtual int BlockAlign => blockAlign;
-
         public int BitsPerSample => bitsPerSample;
+        public int ExtraSize => cbSize;
 
-        public int ExtraSize => extraSize;
 
         protected WaveFormat()
         {
@@ -48,15 +44,15 @@ namespace Audio.CoreAudio.Interfaces
                 throw new ArgumentOutOfRangeException(nameof(channelMask), "Channels must be 1 or greater");
             }
 
-            sampleRate = (int)rate;
+            samplesPerSec = (int)rate;
             bitsPerSample = (short)bits;
-            extraSize = 0;
+            cbSize = 0;
 
             blockAlign = (short)(channels * (bitsPerSample / 8));
-            averageBytesPerSecond = sampleRate * blockAlign;
+            avgBytesPerSec = samplesPerSec * blockAlign;
 
-            waveFormatTag = formatTag;
-            extraSize = (short)(totalSize - Marshal.SizeOf(typeof(WaveFormat)));
+            this.formatTag = formatTag;
+            cbSize = (short)(totalSize - Marshal.SizeOf(typeof(WaveFormat)));
         }
 
         private short ChannelsFromMask(int channelMask)
@@ -79,14 +75,14 @@ namespace Audio.CoreAudio.Interfaces
 
         public override string ToString()
         {
-            switch (waveFormatTag)
+            switch (formatTag)
             {
                 case WaveFormatEncoding.Pcm:
                 case WaveFormatEncoding.Extensible:
                     // formatTag just has some extra bits after the PCM header
-                    return $"{bitsPerSample} bit PCM: {sampleRate / 1000}kHz {channels} channels";
+                    return $"{bitsPerSample} bit PCM: {samplesPerSec / 1000}kHz {channels} channels";
                 default:
-                    return waveFormatTag.ToString();
+                    return formatTag.ToString();
             }
         }
     }

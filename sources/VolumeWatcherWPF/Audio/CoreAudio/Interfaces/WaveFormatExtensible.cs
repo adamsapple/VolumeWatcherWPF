@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 namespace Audio.CoreAudio.Interfaces
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 2)]
-    internal class WaveFormatExtensible : WaveFormat
+    public class WaveFormatExtensible : WaveFormat
     {
         private readonly int dwChannelMask;
         private readonly Guid subFormat;
@@ -24,7 +24,7 @@ namespace Audio.CoreAudio.Interfaces
         /// Parameterless constructor for marshalling
         /// </summary>
         // ReSharper disable once UnusedMember.Local
-        private WaveFormatExtensible()
+        public WaveFormatExtensible()
         {
         }
 

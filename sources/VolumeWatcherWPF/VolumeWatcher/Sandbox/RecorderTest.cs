@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Audio.CoreAudio;
+using Audio.CoreAudio.Interfaces;
 
 namespace VolumeWatcher.Sandbox
 {
@@ -16,7 +17,7 @@ namespace VolumeWatcher.Sandbox
             var deviceEnumerator = new MMDeviceEnumerator();
 
             // get default device.
-            var device = deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications);
+            var device = deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
 
             //PutDeviceInfo(device);
             //device.AudioEndpointVolume.Mute = !device.AudioEndpointVolume.Mute;
@@ -42,6 +43,16 @@ namespace VolumeWatcher.Sandbox
                 }
                 PutDeviceInfo(i);
             });
+
+            if (device == null )
+            {
+                return;
+            }
+
+            var audioClient = device.AudioClient;
+            var formatTag   = audioClient.MixFormat;
+            Console.WriteLine(formatTag);
+            var result      = audioClient.IsFormatSupported(DeviceShareMode.Shared);
 
         }
 

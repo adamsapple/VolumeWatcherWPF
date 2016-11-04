@@ -10,15 +10,16 @@ namespace Audio.CoreAudio
     {
         private readonly IMMDevice _RealDevice;
         private PropertyStore _PropertyStore;
-        private AudioMeterInformation _AudioMeterInformation;
-        //private AudioEndpointVolume _AudioEndpointVolume;
-
-        private AudioEndpointVolume _AudioEndpointVolume;
+        private AudioMeterInformation   _AudioMeterInformation;
+        private AudioEndpointVolume     _AudioEndpointVolume;
+        private AudioClient             _AudioClient;
         //private AudioSessionManager _AudioSessionManager;
 
 
         private static Guid IID_IAudioMeterInformation = typeof(IAudioMeterInformation).GUID;
-        private static Guid IID_IAudioEndpointVolume = typeof(IAudioEndpointVolume).GUID;
+        private static Guid IID_IAudioEndpointVolume   = typeof(IAudioEndpointVolume).GUID;
+        private static Guid IID_IAudioClient           = typeof(IAudioClient).GUID;
+
         private readonly string _Id;
 
         internal MMDevice(IMMDevice realDevice)
@@ -49,7 +50,7 @@ namespace Audio.CoreAudio
         private void GetAudioMeterInformation()
         {
             object result;
-            Marshal.ThrowExceptionForHR(_RealDevice.Activate(ref IID_IAudioMeterInformation, ClsCtx.All, IntPtr.Zero, out result));
+            Marshal.ThrowExceptionForHR(_RealDevice.Activate(ref IID_IAudioMeterInformation, ClsCtx.InprocServer, IntPtr.Zero, out result));
             _AudioMeterInformation = new AudioMeterInformation(result as IAudioMeterInformation);
         }
         
@@ -59,6 +60,13 @@ namespace Audio.CoreAudio
             Marshal.ThrowExceptionForHR(_RealDevice.Activate(ref IID_IAudioEndpointVolume, ClsCtx.All, IntPtr.Zero, out result));
             //_AudioEndpointVolume = new AudioEndpointVolume(result as IAudioEndpointVolume);
             _AudioEndpointVolume = new AudioEndpointVolume( result as IAudioEndpointVolume );
+        }
+
+        private void GetAudioClient()
+        {
+            object result;
+            Marshal.ThrowExceptionForHR(_RealDevice.Activate(ref IID_IAudioClient, ClsCtx.All, IntPtr.Zero, out result));
+            _AudioClient = new CoreAudio.AudioClient(result as IAudioClient);
         }
 
         public EDeviceState State => GetState();
@@ -88,7 +96,18 @@ namespace Audio.CoreAudio
                 return _AudioMeterInformation;
             }
         }
-        
+
+        public AudioClient AudioClient
+        {
+            get
+            {
+                if (_AudioClient == null)
+                    GetAudioClient();
+
+                return _AudioClient;
+            }
+        }
+
         public string FriendlyName
         {
             get

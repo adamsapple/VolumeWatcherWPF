@@ -92,6 +92,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Audio\CoreAudio\AudioClient.cs" />
     <Compile Include="Audio\CoreAudio\AudioEndpointVolume.cs" />
     <Compile Include="Audio\CoreAudio\AudioEndpointVolumeNotificationDelegate.cs" />
     <Compile Include="Audio\CoreAudio\AudioMeterInformation.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Audio\CoreAudio\AudioSessionManager.cs" />
     <Compile Include="Audio\CoreAudio\AudioVolumeNotificationData.cs" />
     <Compile Include="Audio\CoreAudio\BitDepth.cs" />
+    <Compile Include="Audio\CoreAudio\EAudioClientState.cs" />
     <Compile Include="Audio\CoreAudio\EDataFlow.cs" />
     <Compile Include="Audio\CoreAudio\EDeviceState.cs" />
     <Compile Include="Audio\CoreAudio\EndpointFormFactor.cs" />
@@ -142,6 +144,7 @@
     </None>
     <Compile Include="Audio\CoreAudio\SpeakerConfiguration.cs" />
     <Compile Include="Audio\CoreAudio\WaveFormatEncoding.cs" />
+    <Compile Include="Audio\Util\HResult.cs" />
     <Compile Include="Moral\Etc\KeyboardHook5.cs" />
     <Compile Include="Moral\Util\Ease.cs" />
     <Compile Include="Moral\Util\IconUtil.cs" />
