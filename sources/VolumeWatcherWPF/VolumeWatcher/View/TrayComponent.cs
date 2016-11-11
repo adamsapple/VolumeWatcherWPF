@@ -172,7 +172,16 @@ namespace VolumeWatcher.View
                 return;
             }
 
-            KeyShortcuts.GetValueOrDefault(e.KeyCode, null)?.Invoke();
+            var act = KeyShortcuts.GetValueOrDefault(e.KeyCode, null);
+            if (act != null)
+            {
+                act.Invoke();
+                if (main.optionWindow.IsActive)
+                {
+                    // Window上でのキー操作でBeep音が鳴るのを防ぐ(コントロール・ウィンドウにキーイベントをバブリングしない)
+                    e.Cancel = true;
+                }
+            }
         }
     }
 }
