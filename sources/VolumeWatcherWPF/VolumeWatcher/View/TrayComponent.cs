@@ -176,7 +176,7 @@ namespace VolumeWatcher.View
             if (act != null)
             {
                 act.Invoke();
-                if (main.optionWindow.IsActive)
+                if (main.optionWindow.IsActive|main.volumeWindow.IsActive)
                 {
                     // Window上でのキー操作でBeep音が鳴るのを防ぐ(コントロール・ウィンドウにキーイベントをバブリングしない)
                     e.Cancel = true;
