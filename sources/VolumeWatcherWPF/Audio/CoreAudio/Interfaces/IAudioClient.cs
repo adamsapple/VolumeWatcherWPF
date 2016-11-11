@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+using Audio.Wave;
+
 
 namespace Audio.CoreAudio.Interfaces
 {
@@ -10,11 +12,11 @@ namespace Audio.CoreAudio.Interfaces
     {
         [PreserveSig]
         int Initialize(DeviceShareMode shareMode,
-            [In] [MarshalAs(UnmanagedType.U4)] uint streamFlags,
+            [In] [MarshalAs(UnmanagedType.U4)] EAudioClientStreamFlags streamFlags,
             [In] [MarshalAs(UnmanagedType.I8)] long hnsBufferDuration,
             [In] [MarshalAs(UnmanagedType.I8)] long hnsPeriodicity,
             [In] WaveFormat pFormat,
-            [In, Out] [MarshalAs(UnmanagedType.LPStruct)] ref Guid audioSessionGuid);
+            [In] ref Guid audioSessionGuid);
 
         [PreserveSig]
         int GetBufferSize([Out] [MarshalAs(UnmanagedType.U4)] out uint bufferSize);

@@ -5,20 +5,35 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
-namespace Audio.CoreAudio.Interfaces
+using Audio.Wave;
+
+namespace Audio.Wave
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 2)]
     public class WaveFormatExtensible : WaveFormat
     {
         private readonly int dwChannelMask;
         private readonly Guid subFormat;
-        private readonly short wValidBitsPerSample;
+        private short wValidBitsPerSample;
 
         public short ValidBitsPerSample => wValidBitsPerSample;
 
         public ESpeakerConfiguration ChannelMask => (ESpeakerConfiguration)dwChannelMask;
 
         public Guid SubFormat => subFormat;
+
+        public override int SampleRate
+        {
+            get
+            {
+                return base.SampleRate;
+            }
+            set
+            {
+                base.SampleRate     = value;
+                wValidBitsPerSample = (short)base.SampleRate;
+            }
+        }
 
         /// <summary>
         /// Parameterless constructor for marshalling

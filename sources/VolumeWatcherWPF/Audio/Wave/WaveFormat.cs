@@ -1,28 +1,54 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Audio.CoreAudio.Interfaces
+using Audio.Wave;
+
+namespace Audio.Wave
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 2)]
     public class WaveFormat
     {
-        private readonly WaveFormatEncoding formatTag;
-        private readonly short  channels;
-        private readonly int    samplesPerSec; 
-        private readonly int    avgBytesPerSec;
-        private readonly short  blockAlign;
-        private readonly short  bitsPerSample;
-        private readonly short  cbSize;
+        protected readonly WaveFormatEncoding formatTag;
+        protected readonly short  channels;
+        protected int             samplesPerSec;
+        protected int             avgBytesPerSec;
+        protected short           blockAlign;
+        protected short           bitsPerSample;
+        protected readonly short  cbSize;
         
 
         public WaveFormatEncoding FormatTag => formatTag;
         public int Channels => channels;
-        public int SampleRate => samplesPerSec;
         public int AverageBytesPerSecond => avgBytesPerSec;
-        public virtual int BlockAlign => blockAlign;
-        public int BitsPerSample => bitsPerSample;
+        public virtual short BlockAlign => blockAlign;
         public int ExtraSize => cbSize;
 
+        public virtual int SampleRate
+        {
+            get
+            {
+                return samplesPerSec;
+            }
+            set
+            {
+                samplesPerSec  = value;
+                avgBytesPerSec = samplesPerSec * blockAlign;
+            }
+        }
+
+        public virtual short BitsPerSample
+        {
+            get
+            {
+                return bitsPerSample;
+            }
+            set
+            {
+                bitsPerSample  = value;
+                blockAlign     = (short)(channels * (BitsPerSample / 8));
+                avgBytesPerSec = samplesPerSec * blockAlign;
+            }
+        }
 
         protected WaveFormat()
         {
