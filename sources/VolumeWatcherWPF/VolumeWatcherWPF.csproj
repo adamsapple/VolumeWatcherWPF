@@ -70,6 +70,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -79,9 +80,11 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -157,6 +160,9 @@
     <Compile Include="VolumeWatcher\ViewModel\VolumeMonitorViewModel.cs" />
     <Compile Include="VolumeWatcher\ViewModel\VolumeWindowViewModel.cs" />
     <Compile Include="VolumeWatcher\View\TrayComponent.cs" />
+    <Compile Include="VolumeWatcher\View\VersionPage.xaml.cs">
+      <DependentUpon>VersionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VolumeWatcher\View\WindowOption.xaml.cs">
       <DependentUpon>WindowOption.xaml</DependentUpon>
     </Compile>
@@ -204,6 +210,10 @@
     <Page Include="VolumeWatcher\UI\MainContextMenu.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="VolumeWatcher\View\VersionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="VolumeWatcher\View\WindowOption.xaml">
       <Generator>MSBuild:Compile</Generator>
