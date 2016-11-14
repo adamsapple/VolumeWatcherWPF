@@ -11,9 +11,9 @@
     <DockPanel ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <Image x:Name="image"  Height="100" Margin="0,16"  Width="100" DockPanel.Dock="Top" VerticalAlignment="Top"/>
         <StackPanel DockPanel.Dock="Top" VerticalAlignment="Top">
-            <TextBlock x:Name="txtApp"     TextWrapping="Wrap" Text="TextBlock" />
-            <TextBlock x:Name="txtVersion" TextWrapping="Wrap" Text="TextBlock" />
-            <TextBlock x:Name="txtDate"   TextWrapping="Wrap" Text="TextBlock" />
+            <TextBlock x:Name="txtApp"     TextWrapping="Wrap" Text="TextBlock" HorizontalAlignment="Center" />
+            <TextBlock x:Name="txtVersion" TextWrapping="Wrap" Text="TextBlock" HorizontalAlignment="Center" />
+            <TextBlock x:Name="txtDate"   TextWrapping="Wrap" Text="TextBlock" HorizontalAlignment="Center" />
         </StackPanel>
     </DockPanel>
 </Page>

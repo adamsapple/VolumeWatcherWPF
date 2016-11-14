@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Reflection;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -17,17 +16,13 @@ using System.Windows.Shapes;
 namespace VolumeWatcher.View
 {
     /// <summary>
-    /// VersionPage.xaml の相互作用ロジック
+    /// OptionPage.xaml の相互作用ロジック
     /// </summary>
-    public partial class VersionPage : Page
+    public partial class OptionPage : Page
     {
-        public VersionPage()
+        public OptionPage()
         {
             InitializeComponent();
-
-            var asm = Assembly.GetExecutingAssembly();
-            txtApp.Text = asm.GetName().Name;
-            txtVersion.Text = asm.GetName().Version.ToString();
         }
     }
 }
