@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:VolumeWatcher.ViewModel"
         mc:Ignorable="d"
         x:Class="VolumeWatcher.View.WindowOption"
-        Title="VolumeWatcher Options" Width="270"  Height="291" Closing="Window_Closing" Activated="Window_Activated" ResizeMode="NoResize" Icon="/VolumeWatcher;component/resources/icon-windw.ico" >
+        Title="VolumeWatcher Options" Width="270"  Closing="Window_Closing" Activated="Window_Activated" ResizeMode="NoResize" Icon="/VolumeWatcher;component/resources/icon-windw.ico" SizeToContent="Height" >
     <Window.Resources>
         <!-- バリューコンバータ -->
         <vm:WindowPositionConverter x:Key="E2BConverter"/>
