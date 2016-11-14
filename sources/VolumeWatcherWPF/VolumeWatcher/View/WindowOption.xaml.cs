@@ -37,6 +37,30 @@ namespace VolumeWatcher.View
             InitializeComponent();
             this.DataContext = model;
 
+            Dispatcher.BeginInvoke((Action)delegate(){
+                var maxHeight = -1.0;
+
+                foreach (System.Windows.Controls.TabItem tab in tabControl.Items)
+                {
+                    var control = (FrameworkElement)tab.Content;
+                    var height = control.ActualHeight;
+                    if (maxHeight < height)
+                    {
+                        maxHeight = height;
+                    }
+                }
+                foreach (System.Windows.Controls.TabItem tab in tabControl.Items)
+                {
+                    var control = (FrameworkElement)tab.Content;
+
+                    if (maxHeight > control.ActualHeight)
+                    {
+                        maxHeight = control.Height = maxHeight;
+                    }
+                }
+            });
+
+
             // 高速化に寄与するかな
             this.Descendants().OfType<Freezable>().ToList().Where(e => e.CanFreeze).ToList().ForEach(e => e.Freeze());
         }
@@ -104,30 +128,6 @@ namespace VolumeWatcher.View
         {
             // チェックボックス状態の更新
             updateControl();
-
-            {
-                var maxHeight = -1.0;
-
-                foreach (System.Windows.Controls.TabItem tab in tabControl.Items)
-                {
-                    var control = (FrameworkElement)tab.Content;
-                    var height = control.ActualHeight;
-                    if(maxHeight< height)
-                    {
-                        maxHeight = height;
-                    }
-                }
-                foreach (System.Windows.Controls.TabItem tab in tabControl.Items)
-                {
-                    var control = (FrameworkElement)tab.Content;
-                    
-                    if (maxHeight > control.ActualHeight)
-                    {
-                        maxHeight = control.Height = maxHeight;
-                    }
-                }
-
-            }
         }
 
         /// <summary>
