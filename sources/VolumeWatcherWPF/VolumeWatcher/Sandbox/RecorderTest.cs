@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
 
@@ -52,6 +51,30 @@ namespace VolumeWatcher.Sandbox
                 return;
             }
             */
+
+
+
+            // ピークメータ表示処理の一例
+            {
+                var meter = device.AudioMeterInformation;
+                /*/
+                Task.Run(() => {
+                    while (true)
+                    {
+                        var peak = meter.PeakValue;
+                        Console.WriteLine("peak={0:p1}", peak);
+                        Thread.Sleep(100);
+                    }
+                });
+                //*/
+                var timer = new System.Timers.Timer(100);
+                timer.Elapsed += (o,e) =>{
+                    var peak = meter.PeakValue;
+                    Console.WriteLine("peak={0:p1}", peak);
+                };
+                timer.Start();
+                //*/
+            }
             var audioClient = device.AudioClient;
             var formatTag = audioClient.MixFormat;
             Console.WriteLine("formatTag1:{0}", formatTag);
