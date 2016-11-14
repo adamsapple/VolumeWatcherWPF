@@ -104,6 +104,30 @@ namespace VolumeWatcher.View
         {
             // チェックボックス状態の更新
             updateControl();
+
+            {
+                var maxHeight = -1.0;
+
+                foreach (System.Windows.Controls.TabItem tab in tabControl.Items)
+                {
+                    var control = (FrameworkElement)tab.Content;
+                    var height = control.ActualHeight;
+                    if(maxHeight< height)
+                    {
+                        maxHeight = height;
+                    }
+                }
+                foreach (System.Windows.Controls.TabItem tab in tabControl.Items)
+                {
+                    var control = (FrameworkElement)tab.Content;
+                    
+                    if (maxHeight > control.ActualHeight)
+                    {
+                        maxHeight = control.Height = maxHeight;
+                    }
+                }
+
+            }
         }
 
         /// <summary>

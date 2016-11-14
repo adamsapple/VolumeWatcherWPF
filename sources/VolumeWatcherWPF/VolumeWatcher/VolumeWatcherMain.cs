@@ -77,8 +77,8 @@ namespace VolumeWatcher
             //});
             State = 1;
 
-            var win = new Window1();
-            win.Show();
+            //var win = new Window1();
+            optionWindow.Show();
         }
 
         /// <summary>

@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="Window1" Height="300" Width="300">
     <Grid>
-        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="269" VerticalAlignment="Top" Width="292">
+        <TabControl x:Name="tabControl" Height="269" VerticalAlignment="Top" Width="292" HorizontalAlignment="Left" TabStripPlacement="Left">
             <TabItem Header="TabItem">
-                <Grid Background="#FFE5E5E5"/>
+                
             </TabItem>
             <TabItem Header="TabItem"/>
         </TabControl>
