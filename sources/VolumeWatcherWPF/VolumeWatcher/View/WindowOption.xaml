@@ -10,8 +10,8 @@
         Title="VolumeWatcher Options" 
         Left="{Binding OptionWindow_Left, Mode=TwoWay}"
         Top="{Binding OptionWindow_Top, Mode=TwoWay}"
-        Width="270"  Height="291" 
-        Closing="Window_Closing" Activated="Window_Activated" ResizeMode="NoResize" Icon="/VolumeWatcher;component/resources/icon-windw.ico">
+        Width="270"
+        Closing="Window_Closing" Activated="Window_Activated" ResizeMode="NoResize" Icon="/VolumeWatcher;component/resources/icon-windw.ico" SizeToContent="Height">
     <Window.Resources>
         <!-- バリューコンバータ -->
         <vm:WindowPositionConverter x:Key="E2BConverter"/>
