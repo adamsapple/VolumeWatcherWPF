@@ -55,7 +55,7 @@ namespace VolumeWatcher.View
 
                     if (maxHeight > control.ActualHeight)
                     {
-                        maxHeight = control.Height = maxHeight;
+                        control.Height = maxHeight;
                     }
                 }
             });
