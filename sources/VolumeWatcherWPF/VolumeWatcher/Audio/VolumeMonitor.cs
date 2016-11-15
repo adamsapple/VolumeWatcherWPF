@@ -102,6 +102,7 @@ namespace VolumeWatcher.Audio
             // 新しくdefaultになったDeviceの参照を得る
             device = deviceEnumerator.GetDevice(deviceId);
             volume = device.AudioEndpointVolume;
+            var meter = device.AudioMeterInformation;
             volume.OnVolumeNotification += innerListener.OnVolumeNotify;    // volumeに対して変更通知のListenerを設定
         }
 

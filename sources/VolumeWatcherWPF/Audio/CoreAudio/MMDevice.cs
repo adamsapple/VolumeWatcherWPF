@@ -29,10 +29,10 @@ namespace Audio.CoreAudio
         {
             if (_RealDevice != null)
             {
-                _AudioMeterInformation?.Dispose();
-                _AudioEndpointVolume?.Dispose();
-                _AudioMeterInformation = null;
-                _AudioEndpointVolume   = null;
+                //_AudioMeterInformation?.Dispose();
+                //_AudioEndpointVolume?.Dispose();
+                //_AudioMeterInformation = null;
+                //_AudioEndpointVolume   = null;
                 //_RealDevice            = null;
             }
         }

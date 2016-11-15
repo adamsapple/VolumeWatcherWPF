@@ -36,8 +36,33 @@
             <!-- <Separator DockPanel.Dock="Right"/> -->
             <StatusBarItem />
         </StatusBar>
-        <TabControl x:Name="tabControl" DockPanel.Dock="Top" TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="10,0,0,0" SelectionChanged="tabControl_SelectionChanged">
-            <TabItem Header="設定">
+        <TabControl x:Name="tabControl" DockPanel.Dock="Top" TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="10,0,0,0" SelectionChanged="tabControl_SelectionChanged" Padding="2">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Grid Name="Panel">
+                                    <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Panel" Property="Background" Value="LightSkyBlue" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="Panel" Property="Background" Value="Transparent" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Header="設定" Padding="6,2" UseLayoutRounding="True">
                 <StackPanel Margin="10" >
                     <CheckBox x:Name="chkIsStartUp" Content="StartUpに登録する" IsChecked="false" Checked="chkIsStartUp_Checked" HorizontalAlignment="Left" />
                     <GroupBox x:Name="groupVolumeWindowPositon" Header="GroupBox"  VerticalAlignment="Top" Padding="0" Margin="0,5">
