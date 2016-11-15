@@ -14,6 +14,11 @@ namespace Audio.CoreAudio
             _AudioMeterInformation = meter;
         }
 
+        public void Dispose()
+        {
+            _AudioMeterInformation = null;
+        }
+
         private float GetPeakValue()
         {
             float result;

@@ -36,7 +36,7 @@
             <!-- <Separator DockPanel.Dock="Right"/> -->
             <StatusBarItem />
         </StatusBar>
-        <TabControl x:Name="tabControl" DockPanel.Dock="Top" TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="10,0,0,0">
+        <TabControl x:Name="tabControl" DockPanel.Dock="Top" TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="10,0,0,0" SelectionChanged="tabControl_SelectionChanged">
             <TabItem Header="設定">
                 <StackPanel Margin="10" >
                     <CheckBox x:Name="chkIsStartUp" Content="StartUpに登録する" IsChecked="false" Checked="chkIsStartUp_Checked" HorizontalAlignment="Left" />
@@ -75,9 +75,34 @@
                     </GroupBox>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="状態">
-                <DockPanel  Margin="10">
-                    <UI:LevelBar x:Name="RenderMeter" Height="100" Width="8" Margin="0,0" Value="50"/>
+            <TabItem Header="状態" x:Name="tiStatus">
+                <DockPanel Margin="10" ScrollViewer.VerticalScrollBarVisibility="Disabled" LastChildFill="False">
+                    <StackPanel Margin="0,0,0,10" DockPanel.Dock="Bottom" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <StackPanel  Margin="0,0,20,0">
+                            <TextBlock HorizontalAlignment="Center">Play</TextBlock>
+                            <UI:LevelBar x:Name="RenderMeter" DockPanel.Dock="Right" Height="152" Width="12" >
+                                <UI:LevelBar.BarColor>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF00342B" Offset="0.95"/>
+                                        <GradientStop Color="#FF3FFFD3"/>
+                                    </LinearGradientBrush>
+                                </UI:LevelBar.BarColor>
+                            </UI:LevelBar>
+                            <Label Content="{Binding Value, ElementName=RenderMeter, Mode=OneWay }" ContentStringFormat="{}{0}%" HorizontalAlignment="Center" MinWidth="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Margin="20,0,0,0">
+                            <TextBlock HorizontalAlignment="Center">Rec</TextBlock>
+                            <UI:LevelBar x:Name="CaptureMeter" DockPanel.Dock="Left" Height="152" Width="12">
+                                <UI:LevelBar.BarColor>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF3E0025" Offset="0.95"/>
+                                        <GradientStop Color="#FFFF0BBC" Offset="0.004"/>
+                                    </LinearGradientBrush>
+                                </UI:LevelBar.BarColor>
+                            </UI:LevelBar>
+                            <Label Content="{Binding Value, ElementName=CaptureMeter, Mode=OneWay }" ContentStringFormat="{}{0}%" HorizontalAlignment="Center" MinWidth="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
                 </DockPanel>
             </TabItem>
             <TabItem Header="About">
