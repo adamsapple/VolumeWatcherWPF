@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using LinqToXaml;
 
+using Audio.CoreAudio;
 using Moral;
 using Moral.Util;
 using VolumeWatcher.Model;
@@ -29,6 +30,7 @@ namespace VolumeWatcher.View
         private VolumeWatcherMain main = null;
         private VolumeWatcherModel model = null;
 
+        private System.Timers.Timer StatusTimer = new System.Timers.Timer(100);
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -40,14 +42,20 @@ namespace VolumeWatcher.View
             this.DataContext = model;
             InitializeComponent();
             
-            // About表示の準備
-            var asminfo = new AssemblyInfo(Assembly.GetEntryAssembly());
-            this.Resources["AsmInfo_ProductName"] = asminfo.Product;
-            this.Resources["AsmInfo_Version"] = asminfo.Version;
-            this.Resources["AsmInfo_Date"] = asminfo.Copyright;
-
             // 高速化に寄与するかな
             this.Descendants().OfType<Freezable>().ToList().Where(e => e.CanFreeze).ToList().ForEach(e => e.Freeze());
+
+
+            // ピークメータ表示処理の一例
+            {
+                StatusTimer.Elapsed += (o, el) => {
+                    //Console.WriteLine("peak={0:p1}", peak);
+                    Dispatcher.BeginInvoke((Action)delegate () {
+                        UpdateMeter(RenderMeter, main.VolumeMonitor1.AudioDevice?.AudioMeterInformation);
+                        UpdateMeter(CaptureMeter, main.CaptureMonitor.AudioDevice?.AudioMeterInformation);
+                    });
+                };
+            }
         }
 
         /// <summary>
@@ -87,6 +95,23 @@ namespace VolumeWatcher.View
             //        e.Cancel = true;            // クローズイベントをキャンセル
             //        break;
             //}
+        }
+
+        /// <summary>
+        /// ピークメーターの表示更新
+        /// </summary>
+        /// <param name="bar"></param>
+        /// <param name="meter"></param>
+        private void UpdateMeter(Moral.UI.LevelBar bar, AudioMeterInformation meter)
+        {
+            if (meter != null)
+            {
+                bar.Value = (int)(meter.PeakValue * 100);
+            }
+            else
+            {
+                bar.Value = 0;
+            }
         }
 
         /// <summary>
@@ -145,6 +170,24 @@ namespace VolumeWatcher.View
         private void chkIsKeyHook_Changed(object sender, RoutedEventArgs e)
         {
             main.trayComponent.EnableKeyHook = (bool)((CheckBox)sender).IsChecked;
+        }
+
+        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var ti = ((TabControl)sender).SelectedItem as TabItem;
+
+            if (ti == tiStatus)
+            {
+                StatusTimer.Start();
+                //Console.WriteLine("timer開始");
+            }
+            else
+            {
+                StatusTimer.Stop();
+                UpdateMeter(RenderMeter, null);
+                UpdateMeter(CaptureMeter, null);
+            }
+
         }
     }
 }

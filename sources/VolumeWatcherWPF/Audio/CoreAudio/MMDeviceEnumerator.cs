@@ -41,9 +41,15 @@ namespace Audio.CoreAudio
         public MMDevice GetDefaultAudioEndpoint(EDataFlow dataFlow, ERole role)
         {
             IMMDevice result;
-            Marshal.ThrowExceptionForHR(_realEnumerator.GetDefaultAudioEndpoint(dataFlow, role, out result));
-            return new MMDevice(result);
-            //return result;
+            try
+            {
+                Marshal.ThrowExceptionForHR(_realEnumerator.GetDefaultAudioEndpoint(dataFlow, role, out result));
+                return new MMDevice(result);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         public MMDevice GetDevice(string deviceId)

@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Threading;
 using System.Reflection;
 
+using Audio.CoreAudio;
 using VolumeWatcher.Audio;
 using VolumeWatcher.UI;
 using VolumeWatcher.Model;
@@ -28,6 +29,7 @@ namespace VolumeWatcher
 
         /// <summary> Volumeやデバイスを監視し、通知を行う </summary>
         public VolumeMonitor VolumeMonitor1;               // CoreAudio連携(デバイスの状態変更を監視し通知)
+        public VolumeMonitor CaptureMonitor;               // CoreAudio連携(デバイスの状態変更を監視し通知)
 
         public int State = 0;
 
@@ -41,9 +43,12 @@ namespace VolumeWatcher
             app.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;  // Exitを明示的にCallすることでアプリケーションが終了するように設定
 
             // VolumeMonitor初期化
-            VolumeMonitor1 = new VolumeMonitor();
+            VolumeMonitor1 = new VolumeMonitor(EDataFlow.eRender, ERole.eMultimedia);
             VolumeMonitor1.initDevice();
-            
+
+            CaptureMonitor = new VolumeMonitor(EDataFlow.eCapture, ERole.eMultimedia);
+            CaptureMonitor.initDevice();
+
             // Model初期化
             model = new VolumeWatcherModel();
             model.LoadSettings();

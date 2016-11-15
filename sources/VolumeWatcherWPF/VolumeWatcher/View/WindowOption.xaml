@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VolumeWatcher"
         xmlns:vm="clr-namespace:VolumeWatcher.ViewModel"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:moral="clr-namespace:Moral"
+        xmlns:UI="clr-namespace:Moral.UI"
         mc:Ignorable="d"
         x:Class="VolumeWatcher.View.WindowOption"
         Left="{Binding OptionWindow_Left, Mode=TwoWay}"
@@ -18,23 +19,25 @@
         Closing="Window_Closing"
         d:DesignHeight="311.609"
         Title="VolumeWatcher Options" Loaded="Window_Loaded">
+    <!-- xmlns:system="clr-namespace:System;assembly=mscorlib" -->
     <Window.Resources>
+        <!--<system:String x:Key="AsmInfo_ProductName">Product Name</system:String>
+        <system:String x:Key="AsmInfo_Version">9.9.9</system:String>-->
         <!-- バリューコンバータ -->
         <vm:WindowPositionConverter x:Key="E2BConverter"/>
-        <system:String x:Key="AsmInfo_ProductName">Product Name</system:String>
-        <system:String x:Key="AsmInfo_Version">9.9.9</system:String>
+        <moral:AssemblyInfo x:Key="assemblyInfo" />
     </Window.Resources>
     <DockPanel>
         <StatusBar Height="25" DockPanel.Dock="Bottom">
             <!-- 右側に配置 -->
             <!--<StatusBarItem DockPanel.Dock="Right" Margin="-4,0,0,0">%</StatusBarItem>-->
             <StatusBarItem DockPanel.Dock="Right" Content="{Binding Volume, Mode=OneWay}" MinWidth="40" HorizontalContentAlignment="Right" x:Name="lblVolume" ContentStringFormat="0\%"/>
-            <StatusBarItem DockPanel.Dock="Right">Vol:</StatusBarItem>
+            <StatusBarItem DockPanel.Dock="Right" Content="Vol:"/>
             <!-- <Separator DockPanel.Dock="Right"/> -->
-            <StatusBarItem ></StatusBarItem>
+            <StatusBarItem />
         </StatusBar>
-        <TabControl x:Name="tabControl" DockPanel.Dock="Top" TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="10,0,0,0">
-            <TabItem Header="設定" >
+        <TabControl x:Name="tabControl" DockPanel.Dock="Top" TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="10,0,0,0" SelectionChanged="tabControl_SelectionChanged">
+            <TabItem Header="設定">
                 <StackPanel Margin="10" >
                     <CheckBox x:Name="chkIsStartUp" Content="StartUpに登録する" IsChecked="false" Checked="chkIsStartUp_Checked" HorizontalAlignment="Left" />
                     <GroupBox x:Name="groupVolumeWindowPositon" Header="GroupBox"  VerticalAlignment="Top" Padding="0" Margin="0,5">
@@ -49,16 +52,15 @@
                                 <ColumnDefinition Width="1*" />
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
-                            <RadioButton x:Name="radioLT" Content="左上" Grid.Row="0" Grid.Column="0" Margin="4,4,0,4" IsChecked="{Binding WindowPosition, Converter={StaticResource E2BConverter}, ConverterParameter=LEFT_TOP}" HorizontalAlignment="Left" />
-                            <RadioButton x:Name="radioRT" Content="右上" Grid.Row="0" Grid.Column="1" Margin="4,4,0,4" IsChecked="{Binding WindowPosition, Converter={StaticResource E2BConverter}, ConverterParameter=RIGHT_TOP}" HorizontalAlignment="Left" />
-                            <RadioButton x:Name="radioLB" Content="左下" Grid.Row="1" Grid.Column="0" Margin="4,4,0,4" IsChecked="{Binding WindowPosition, Converter={StaticResource E2BConverter}, ConverterParameter=LEFT_BOTTOM}" HorizontalAlignment="Left" />
-                            <RadioButton x:Name="radioRB" Content="右下" Grid.Row="1" Grid.Column="1" Margin="4,4,0,4" IsChecked="{Binding WindowPosition, Converter={StaticResource E2BConverter}, ConverterParameter=RIGHT_BOTTOM}" HorizontalAlignment="Left" />
+                            <RadioButton x:Name="radioLT" Content="左上" Grid.Row="0" Grid.Column="0" Margin="4,4,0,4" IsChecked="{Binding WindowPosition, ConverterParameter=LEFT_TOP, Converter={StaticResource E2BConverter}}" HorizontalAlignment="Left" />
+                            <RadioButton x:Name="radioRT" Content="右上" Grid.Row="0" Grid.Column="1" Margin="4,4,0,4" IsChecked="{Binding WindowPosition, ConverterParameter=RIGHT_TOP, Converter={StaticResource E2BConverter}}" HorizontalAlignment="Left" />
+                            <RadioButton x:Name="radioLB" Content="左下" Grid.Row="1" Grid.Column="0" Margin="4,4,0,4" IsChecked="{Binding WindowPosition, ConverterParameter=LEFT_BOTTOM, Converter={StaticResource E2BConverter}}" HorizontalAlignment="Left" />
+                            <RadioButton x:Name="radioRB" Content="右下" Grid.Row="1" Grid.Column="1" Margin="4,4,0,4" IsChecked="{Binding WindowPosition, ConverterParameter=RIGHT_BOTTOM, Converter={StaticResource E2BConverter}}" HorizontalAlignment="Left" />
                         </Grid>
                     </GroupBox>
                     <DockPanel Margin="0,5,0,0">
                         <Label x:Name="label" Content="不透明度:" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0,0,5,0" Margin="4,5,0,0"/>
-                        <Label x:Name="label2" Content="{Binding Value, ElementName=sliderOpacity}" ContentStringFormat="P0"  HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0" Margin="0,5,5,0" Width="40">
-                        </Label>
+                        <Label x:Name="label2" Content="{Binding Value, ElementName=sliderOpacity}" ContentStringFormat="P0"  HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0" Margin="0,5,5,0" Width="40"/>
                         <!--<Label x:Name="label3" Content="%" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Margin="2,5,2,0"/>-->
                         <Slider x:Name="sliderOpacity"  VerticalAlignment="Top" Margin="2,4,0,0" Value="{Binding Opacity, Mode=TwoWay}" Minimum="0" Maximum="1" LargeChange="0.1" IsSnapToTickEnabled="True" SmallChange="0.01" TickFrequency="0.01"/>
                     </DockPanel>
@@ -67,20 +69,49 @@
                             <CheckBox x:Name="chkIsKeyHook" Content="キーボードでVolume操作を行う" IsChecked="{Binding IsKeyHook, Mode=TwoWay}" Checked="chkIsKeyHook_Changed" Unchecked="chkIsKeyHook_Changed"/>
                         </GroupBox.Header>
                         <StackPanel  Orientation="Vertical" IsEnabled="{Binding IsChecked, ElementName=chkIsKeyHook}" >
-                            <Label x:Name="label4" Content="[Alt]+[&lt;] => 音量+&#xA;[Alt]+[&gt;] => 音量-&#xA;[Alt]+[M] => Mute"/>
+                            <Label x:Name="label4" Content="[Alt]+[&lt;] =&gt; 音量+&#xA;[Alt]+[&gt;] =&gt; 音量-&#xA;[Alt]+[M] =&gt; Mute"/>
                             <TextBox x:Name="txtKeyCode"  Text="-" Visibility="Collapsed"/>
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
             </TabItem>
+            <TabItem Header="状態" x:Name="tiStatus">
+                <DockPanel Margin="10" ScrollViewer.VerticalScrollBarVisibility="Disabled" LastChildFill="False">
+                    <StackPanel Margin="0,0,0,10" DockPanel.Dock="Bottom" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <StackPanel  Margin="0,0,20,0">
+                            <TextBlock HorizontalAlignment="Center">Play</TextBlock>
+                            <UI:LevelBar x:Name="RenderMeter" DockPanel.Dock="Right" Height="152" Width="12" >
+                                <UI:LevelBar.BarColor>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF00342B" Offset="0.95"/>
+                                        <GradientStop Color="#FF3FFFD3"/>
+                                    </LinearGradientBrush>
+                                </UI:LevelBar.BarColor>
+                            </UI:LevelBar>
+                            <Label Content="{Binding Value, ElementName=RenderMeter, Mode=OneWay }" ContentStringFormat="{}{0}%" HorizontalAlignment="Center" MinWidth="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Margin="20,0,0,0">
+                            <TextBlock HorizontalAlignment="Center">Rec</TextBlock>
+                            <UI:LevelBar x:Name="CaptureMeter" DockPanel.Dock="Left" Height="152" Width="12">
+                                <UI:LevelBar.BarColor>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF3E0025" Offset="0.95"/>
+                                        <GradientStop Color="#FFFF0BBC" Offset="0.004"/>
+                                    </LinearGradientBrush>
+                                </UI:LevelBar.BarColor>
+                            </UI:LevelBar>
+                            <Label Content="{Binding Value, ElementName=CaptureMeter, Mode=OneWay }" ContentStringFormat="{}{0}%" HorizontalAlignment="Center" MinWidth="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DockPanel>
+            </TabItem>
             <TabItem Header="About">
                 <StackPanel Margin="10" VerticalAlignment="Top">
                     <Image x:Name="image"  Height="100" Margin="0,16"  Width="100" DockPanel.Dock="Top" VerticalAlignment="Top" Source="/VolumeWatcher;component/icon-app.ico" />
-                    <TextBlock x:Name="txtApp"     TextWrapping="Wrap" HorizontalAlignment="Center" Text="{DynamicResource AsmInfo_ProductName}" />
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,10,0,0">
-                        <TextBlock  TextWrapping="Wrap"  Text="Ver: " />
-                        <TextBlock x:Name="txtVersion" TextWrapping="Wrap" HorizontalAlignment="Center" Text="{DynamicResource AsmInfo_Version}" />
-                    </StackPanel>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Product, Source={StaticResource assemblyInfo}}" />
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding ProductVersion, Source={StaticResource assemblyInfo}, StringFormat=Ver: \{0\}}"  />
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding BuildDateTime, Source={StaticResource assemblyInfo}, StringFormat=Build: \{0\}}" Margin="0,10,0,0" />
+                    <!--<TextBlock x:Name="txtVersion" TextWrapping="Wrap" HorizontalAlignment="Center" Text="{DynamicResource AsmInfo_Version}" />-->
                 </StackPanel>
             </TabItem>
         </TabControl>

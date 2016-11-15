@@ -30,6 +30,17 @@ namespace Audio.CoreAudio
             _RealDevice = realDevice;
         }
 
+        public void Dispose()
+        {
+            if (_RealDevice != null)
+            {
+                _AudioMeterInformation?.Dispose();
+                _AudioEndpointVolume?.Dispose();
+                _AudioMeterInformation = null;
+                _AudioEndpointVolume   = null;
+                //_RealDevice            = null;
+            }
+        }
 
         private PropertyStore GetProperty()
         {

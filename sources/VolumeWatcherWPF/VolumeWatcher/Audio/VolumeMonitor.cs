@@ -36,13 +36,19 @@ namespace VolumeWatcher.Audio
         private IVolumeChangeListener listener = null;          // volume変更の通知先
         private InnerListener innerListener;                    // WASAPIの通知を受け取るクラス
 
+        private readonly EDataFlow DataFlow;
+        private readonly ERole Role;
+
+
         AudioVolumeNotificationData avndata;
 
         /**
          * <summary>コンストラクタ</summary>
          */
-        public VolumeMonitor() {
-            
+        public VolumeMonitor(EDataFlow flow, ERole role) {
+
+            DataFlow      = flow;
+            Role          = role;
             innerListener = new InnerListener(this);
         }
 
@@ -64,7 +70,7 @@ namespace VolumeWatcher.Audio
             deviceEnumerator.OnDefaultDeviceChanged += innerListener.OnDefaultDeviceChanged;
             
             // get default device.
-            device = deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
+            device = deviceEnumerator.GetDefaultAudioEndpoint(DataFlow, Role);
             volume = device.AudioEndpointVolume;
 
             // set volume state notification.
@@ -84,10 +90,15 @@ namespace VolumeWatcher.Audio
             {
                 return;
             }
-            
+
+
             // defaultでなくなったDeviceの参照を切る
             volume.OnVolumeNotification -= innerListener.OnVolumeNotify;
-            
+
+            // 今までDefaultだったデバイスを開放
+            volume?.Dispose();
+            device?.Dispose();
+
             // 新しくdefaultになったDeviceの参照を得る
             device = deviceEnumerator.GetDevice(deviceId);
             volume = device.AudioEndpointVolume;
@@ -260,7 +271,7 @@ namespace VolumeWatcher.Audio
                 [MarshalAs(UnmanagedType.LPWStr)] string defaultDeviceId)
             {
                 //Console.WriteLine("OnDefaultDeviceChanged:  DeviceId:[" + defaultDeviceId + "] EDataFlow:[" + dataFlow+ "] ERole:[" + deviceRole+"]");
-                if (dataFlow != EDataFlow.eRender || deviceRole != ERole.eMultimedia)
+                if (dataFlow != monitor.DataFlow || deviceRole != monitor.Role)
                 {
                     return;
                 }
