@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.IO;
 using System.Reflection;
 
@@ -45,6 +46,37 @@ namespace Moral
                     return version.ToString();
                 else
                     return "1.0.0.0";
+            }
+        }
+
+        public string ProductVersion
+        {
+            get
+            {
+                var assm = Assembly.GetExecutingAssembly();
+                // AssemblyInformationalVersion属性を取得する
+                var assemblyInformationalVersion = (AssemblyInformationalVersionAttribute)Attribute.GetCustomAttributes(assm, typeof(AssemblyInformationalVersionAttribute)).First();
+
+                return assemblyInformationalVersion.InformationalVersion;
+            }
+        }
+
+        public string BuildDateTime
+        {
+            get
+            {
+                string result = string.Empty;
+                var version = assembly.GetName().Version;
+
+                // バージョンが取得できない場合は
+                if (version == null)
+                {
+                    return string.Empty;
+                }
+                var build      = version.Build;
+                var revision   = version.Revision;
+                var baseDate   = new DateTime(2000, 1, 1);
+                return baseDate.AddDays(build).AddSeconds(revision * 2).ToString();
             }
         }
 

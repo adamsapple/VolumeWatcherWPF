@@ -78,8 +78,9 @@
             <TabItem Header="About">
                 <StackPanel Margin="10" VerticalAlignment="Top">
                     <Image x:Name="image"  Height="100" Margin="0,16"  Width="100" DockPanel.Dock="Top" VerticalAlignment="Top" Source="/VolumeWatcher;component/icon-app.ico" />
-                    <TextBlock x:Name="txtApp"     TextWrapping="Wrap" HorizontalAlignment="Center" Text="{Binding Source={StaticResource assemblyInfo}, Path=Product}" />
-                    <TextBlock x:Name="txtVersion" TextWrapping="Wrap" HorizontalAlignment="Center" Text="{Binding Source={StaticResource assemblyInfo}, Path=Version, StringFormat=Ver: {0}}" Margin="0,10,0,0" />
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Source={StaticResource assemblyInfo}, Path=Product}" />
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Source={StaticResource assemblyInfo}, Path=ProductVersion, StringFormat=Ver: {0}}"  />
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Source={StaticResource assemblyInfo}, Path=BuildDateTime, StringFormat=Build: {0}}" Margin="0,10,0,0" />
                     <!--<TextBlock x:Name="txtVersion" TextWrapping="Wrap" HorizontalAlignment="Center" Text="{DynamicResource AsmInfo_Version}" />-->
                 </StackPanel>
             </TabItem>
