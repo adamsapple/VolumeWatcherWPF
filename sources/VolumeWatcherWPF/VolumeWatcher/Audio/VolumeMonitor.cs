@@ -96,8 +96,8 @@ namespace VolumeWatcher.Audio
             volume.OnVolumeNotification -= innerListener.OnVolumeNotify;
 
             // 今までDefaultだったデバイスを開放
-            volume?.Dispose();
-            device?.Dispose();
+            volume?.Dispose(true);
+            device?.Dispose(true);
 
             // 新しくdefaultになったDeviceの参照を得る
             device = deviceEnumerator.GetDevice(deviceId);

@@ -8,7 +8,7 @@ namespace Audio.CoreAudio
 {
     public class MMDevice
     {
-        private readonly IMMDevice _RealDevice;
+        private IMMDevice _RealDevice;
         private PropertyStore _PropertyStore;
         private AudioMeterInformation   _AudioMeterInformation;
         private AudioEndpointVolume     _AudioEndpointVolume;
@@ -28,18 +28,6 @@ namespace Audio.CoreAudio
 
 
             _RealDevice = realDevice;
-        }
-
-        public void Dispose()
-        {
-            if (_RealDevice != null)
-            {
-                _AudioMeterInformation?.Dispose();
-                _AudioEndpointVolume?.Dispose();
-                _AudioMeterInformation = null;
-                _AudioEndpointVolume   = null;
-                //_RealDevice            = null;
-            }
         }
 
         private PropertyStore GetProperty()
@@ -185,11 +173,16 @@ namespace Audio.CoreAudio
 
         }
 
-        protected virtual void Dispose(bool disposing)
+        public virtual void Dispose(bool disposing)
         {
-            _AudioEndpointVolume?.Dispose(disposing);
-            _AudioMeterInformation?.Dispose(disposing);
-            _PropertyStore = null;
+            if(_RealDevice != null)
+            {
+                _AudioEndpointVolume?.Dispose(disposing);
+                _AudioMeterInformation?.Dispose(disposing);
+                _AudioClient?.Dispose(disposing);
+                _PropertyStore = null;
+                _RealDevice    = null;
+            }
         }
 
         ~MMDevice()
