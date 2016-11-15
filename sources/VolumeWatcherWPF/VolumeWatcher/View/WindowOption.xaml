@@ -8,7 +8,16 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         x:Class="VolumeWatcher.View.WindowOption"
-        Title="VolumeWatcher Options" Width="340"  Closing="Window_Closing" Activated="Window_Activated" ResizeMode="NoResize" Icon="/VolumeWatcher;component/resources/icon-windw.ico" d:DesignHeight="311.609" SizeToContent="Height" >
+        Left="{Binding OptionWindow_Left, Mode=TwoWay}"
+        Top="{Binding OptionWindow_Top, Mode=TwoWay}"
+        Width="340"
+        SizeToContent="Height"
+        ResizeMode="NoResize" 
+        Icon="/VolumeWatcher;component/resources/icon-windw.ico" 
+        Activated="Window_Activated"
+        Closing="Window_Closing"
+        d:DesignHeight="311.609"
+        Title="VolumeWatcher Options">
     <Window.Resources>
         <!-- バリューコンバータ -->
         <vm:WindowPositionConverter x:Key="E2BConverter"/>

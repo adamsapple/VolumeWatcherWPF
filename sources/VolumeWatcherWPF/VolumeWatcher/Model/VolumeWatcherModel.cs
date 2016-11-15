@@ -18,8 +18,8 @@ namespace VolumeWatcher.Model
         private float _Opacity = 0;
         public float Opacity
         {
-            get { return _Opacity;  }
-            set { _Opacity = value;  SetProperty(ref _Opacity, value); }
+            get { return _Opacity; }
+            set { _Opacity = value; SetProperty(ref _Opacity, value); }
         }
         private EWindowPosition _WindowPosition = EWindowPosition.LEFT_TOP;
         public EWindowPosition WindowPosition
@@ -65,24 +65,45 @@ namespace VolumeWatcher.Model
             get { return _IconPath; }
             set { _IconPath = value; SetProperty(ref _IconPath, value); }
         }
-        
+
+        private double _OptionWindow_Left = -1.0;
+        public double OptionWindow_Left
+        {
+            get { return _OptionWindow_Left; }
+            set { _OptionWindow_Left = value; SetProperty(ref _OptionWindow_Left, value); }
+        }
+        private double _OptionWindow_Top = -1.0;
+        public double OptionWindow_Top
+        {
+            get { return _OptionWindow_Top; }
+            set { _OptionWindow_Top = value; SetProperty(ref _OptionWindow_Top, value); }
+        }
+
+
         public void LoadSettings()
         {
             var setting = Properties.Settings.Default;
             // save情報を設定に反映
-            this.StartupName    = setting.startup_name;
-            this.Opacity        = setting.window_opacity;
+            this.StartupName = setting.startup_name;
+            this.Opacity = setting.window_opacity;
             this.WindowPosition = setting.window_position2;
-            this.IsKeyHook      = setting.enable_volume_key;
+            this.IsKeyHook = setting.enable_volume_key;
+
+            this.OptionWindow_Left = setting.OptionWindow_Left;
+            this.OptionWindow_Top = setting.OptionWindow_Top;
         }
 
         public void SaveSettings()
         {
             var setting = Properties.Settings.Default;
             // save情報を更新
-            setting.window_opacity      = this.Opacity;
-            setting.window_position2    = this.WindowPosition;
-            setting.enable_volume_key   = this.IsKeyHook;
+            setting.window_opacity = this.Opacity;
+            setting.window_position2 = this.WindowPosition;
+            setting.enable_volume_key = this.IsKeyHook;
+
+            setting.OptionWindow_Left = this.OptionWindow_Left;
+            setting.OptionWindow_Top = this.OptionWindow_Top;
+
             setting.Save();
         }
 
