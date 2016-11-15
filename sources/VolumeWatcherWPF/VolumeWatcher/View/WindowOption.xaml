@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VolumeWatcher"
         xmlns:vm="clr-namespace:VolumeWatcher.ViewModel"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:moral="clr-namespace:Moral"
         mc:Ignorable="d"
         x:Class="VolumeWatcher.View.WindowOption"
         Left="{Binding OptionWindow_Left, Mode=TwoWay}"
@@ -18,11 +18,13 @@
         Closing="Window_Closing"
         d:DesignHeight="311.609"
         Title="VolumeWatcher Options" Loaded="Window_Loaded">
+    <!-- xmlns:system="clr-namespace:System;assembly=mscorlib" -->
     <Window.Resources>
         <!-- バリューコンバータ -->
         <vm:WindowPositionConverter x:Key="E2BConverter"/>
-        <system:String x:Key="AsmInfo_ProductName">Product Name</system:String>
-        <system:String x:Key="AsmInfo_Version">9.9.9</system:String>
+        <moral:AssemblyInfo x:Key="assemblyInfo" />
+        <!--<system:String x:Key="AsmInfo_ProductName">Product Name</system:String>
+        <system:String x:Key="AsmInfo_Version">9.9.9</system:String>-->
     </Window.Resources>
     <DockPanel>
         <StatusBar Height="25" DockPanel.Dock="Bottom">
@@ -76,11 +78,9 @@
             <TabItem Header="About">
                 <StackPanel Margin="10" VerticalAlignment="Top">
                     <Image x:Name="image"  Height="100" Margin="0,16"  Width="100" DockPanel.Dock="Top" VerticalAlignment="Top" Source="/VolumeWatcher;component/icon-app.ico" />
-                    <TextBlock x:Name="txtApp"     TextWrapping="Wrap" HorizontalAlignment="Center" Text="{DynamicResource AsmInfo_ProductName}" />
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,10,0,0">
-                        <TextBlock  TextWrapping="Wrap"  Text="Ver: " />
-                        <TextBlock x:Name="txtVersion" TextWrapping="Wrap" HorizontalAlignment="Center" Text="{DynamicResource AsmInfo_Version}" />
-                    </StackPanel>
+                    <TextBlock x:Name="txtApp"     TextWrapping="Wrap" HorizontalAlignment="Center" Text="{Binding Source={StaticResource assemblyInfo}, Path=Product}" />
+                    <TextBlock x:Name="txtVersion" TextWrapping="Wrap" HorizontalAlignment="Center" Text="{Binding Source={StaticResource assemblyInfo}, Path=Version, StringFormat=Ver: {0}}" Margin="0,10,0,0" />
+                    <!--<TextBlock x:Name="txtVersion" TextWrapping="Wrap" HorizontalAlignment="Center" Text="{DynamicResource AsmInfo_Version}" />-->
                 </StackPanel>
             </TabItem>
         </TabControl>

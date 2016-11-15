@@ -9,14 +9,16 @@ namespace Moral
 {
     public class AssemblyInfo
     {
+        private readonly Assembly assembly;
+
+        public AssemblyInfo() : this(Assembly.GetEntryAssembly()){ }
+
         public AssemblyInfo(Assembly assembly)
         {
             if (assembly == null)
                 throw new ArgumentNullException("assembly");
             this.assembly = assembly;
         }
-
-        private readonly Assembly assembly;
 
         /// <summary>
         /// Gets the title property

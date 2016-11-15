@@ -39,12 +39,6 @@ namespace VolumeWatcher.View
             this.DataContext = model;
             InitializeComponent();
             
-            // About表示の準備
-            var asminfo = new AssemblyInfo(Assembly.GetEntryAssembly());
-            this.Resources["AsmInfo_ProductName"] = asminfo.Product;
-            this.Resources["AsmInfo_Version"] = asminfo.Version;
-            this.Resources["AsmInfo_Date"] = asminfo.Copyright;
-
             // 高速化に寄与するかな
             this.Descendants().OfType<Freezable>().ToList().Where(e => e.CanFreeze).ToList().ForEach(e => e.Freeze());
         }
