@@ -8,63 +8,108 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VolumeWatcher.Properties {
-    
-    
+namespace VolumeWatcher.Properties
+{
+
+
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
-        
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
+    {
+
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-        
-        public static Settings Default {
-            get {
+
+        public static Settings Default
+        {
+            get
+            {
                 return defaultInstance;
             }
         }
-        
+
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("ボリューム監視＆表示")]
-        public string startup_name {
-            get {
+        public string startup_name
+        {
+            get
+            {
                 return ((string)(this["startup_name"]));
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int window_position {
-            get {
+        public int window_position
+        {
+            get
+            {
                 return ((int)(this["window_position"]));
             }
-            set {
+            set
+            {
                 this["window_position"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0.8")]
-        public float window_opacity {
-            get {
+        public float window_opacity
+        {
+            get
+            {
                 return ((float)(this["window_opacity"]));
             }
-            set {
+            set
+            {
                 this["window_opacity"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool enable_volume_key {
-            get {
+        public bool enable_volume_key
+        {
+            get
+            {
                 return ((bool)(this["enable_volume_key"]));
             }
-            set {
+            set
+            {
                 this["enable_volume_key"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public double OptionWindow_Left
+        {
+            get
+            {
+                return ((double)(this["OptionWindow_Left"]));
+            }
+            set
+            {
+                this["OptionWindow_Left"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public double OptionWindow_Top
+        {
+            get
+            {
+                return ((double)(this["OptionWindow_Top"]));
+            }
+            set
+            {
+                this["OptionWindow_Top"] = value;
             }
         }
     }
