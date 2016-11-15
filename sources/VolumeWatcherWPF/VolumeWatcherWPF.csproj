@@ -152,6 +152,7 @@
     <Compile Include="Audio\Wave\ESpeakerConfiguration.cs" />
     <Compile Include="Audio\Wave\WaveFormatEncoding.cs" />
     <Compile Include="Audio\Util\HResult.cs" />
+    <Compile Include="Moral\AssemblyInfo.cs" />
     <Compile Include="Moral\Etc\KeyboardHook5.cs" />
     <Compile Include="Moral\Util\Ease.cs" />
     <Compile Include="Moral\Util\IconUtil.cs" />
