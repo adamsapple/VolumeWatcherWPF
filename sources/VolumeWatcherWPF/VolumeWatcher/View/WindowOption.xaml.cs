@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using LinqToXaml;
 
+using Moral;
 using Moral.Util;
 using VolumeWatcher.Model;
 
@@ -37,6 +39,12 @@ namespace VolumeWatcher.View
             InitializeComponent();
             this.DataContext = model;
 
+
+            var asminfo = new AssemblyInfo(Assembly.GetEntryAssembly());
+            this.Resources["AsmInfo_ProductName"] = asminfo.Product;
+            this.Resources["AsmInfo_Version"] = asminfo.Version;
+            this.Resources["AsmInfo_Date"] = asminfo.Copyright;
+
             Dispatcher.BeginInvoke((Action)delegate(){
                 var maxHeight = -1.0;
 
@@ -49,6 +57,7 @@ namespace VolumeWatcher.View
                         maxHeight = height;
                     }
                 }
+
                 foreach (System.Windows.Controls.TabItem tab in tabControl.Items)
                 {
                     var control = (FrameworkElement)tab.Content;

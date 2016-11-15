@@ -137,6 +137,7 @@
     <None Include="Moral\UI\NotifyIconWPF.Designer.cs">
       <DependentUpon>NotifyIconWPF.cs</DependentUpon>
     </None>
+    <Compile Include="Moral\AssemblyInfo.cs" />
     <Compile Include="Moral\Etc\KeyboardHook5.cs" />
     <Compile Include="Moral\Util\Ease.cs" />
     <Compile Include="Moral\Util\IconUtil.cs" />
@@ -159,16 +160,7 @@
     </Compile>
     <Compile Include="VolumeWatcher\ViewModel\VolumeMonitorViewModel.cs" />
     <Compile Include="VolumeWatcher\ViewModel\VolumeWindowViewModel.cs" />
-    <Compile Include="VolumeWatcher\View\OptionPage.xaml.cs">
-      <DependentUpon>OptionPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="VolumeWatcher\View\TrayComponent.cs" />
-    <Compile Include="VolumeWatcher\View\VersionPage.xaml.cs">
-      <DependentUpon>VersionPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="VolumeWatcher\View\Window1.xaml.cs">
-      <DependentUpon>Window1.xaml</DependentUpon>
-    </Compile>
     <Compile Include="VolumeWatcher\View\WindowOption.xaml.cs">
       <DependentUpon>WindowOption.xaml</DependentUpon>
     </Compile>
@@ -216,18 +208,6 @@
     <Page Include="VolumeWatcher\UI\MainContextMenu.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="VolumeWatcher\View\OptionPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="VolumeWatcher\View\VersionPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="VolumeWatcher\View\Window1.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="VolumeWatcher\View\WindowOption.xaml">
       <Generator>MSBuild:Compile</Generator>

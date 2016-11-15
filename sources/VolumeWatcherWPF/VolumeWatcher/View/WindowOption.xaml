@@ -5,12 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VolumeWatcher"
         xmlns:vm="clr-namespace:VolumeWatcher.ViewModel"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         x:Class="VolumeWatcher.View.WindowOption"
         Title="VolumeWatcher Options" Width="340"  Closing="Window_Closing" Activated="Window_Activated" ResizeMode="NoResize" Icon="/VolumeWatcher;component/resources/icon-windw.ico" d:DesignHeight="311.609" SizeToContent="Height" >
     <Window.Resources>
         <!-- バリューコンバータ -->
         <vm:WindowPositionConverter x:Key="E2BConverter"/>
+        <system:String x:Key="AsmInfo_ProductName">Product Name</system:String>
+        <system:String x:Key="AsmInfo_Version">9.9.9</system:String>
     </Window.Resources>
     <DockPanel>
         <StatusBar Height="25" DockPanel.Dock="Bottom">
@@ -61,8 +64,15 @@
                     </GroupBox>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="TabItem">
-                <Grid Background="#FFE5E5E5" Margin="10"/>
+            <TabItem Header="About">
+                <StackPanel Margin="10" VerticalAlignment="Top">
+                    <Image x:Name="image"  Height="100" Margin="0,16"  Width="100" DockPanel.Dock="Top" VerticalAlignment="Top" Source="/VolumeWatcher;component/icon-app.ico" />
+                    <TextBlock x:Name="txtApp"     TextWrapping="Wrap" HorizontalAlignment="Center" Text="{DynamicResource AsmInfo_ProductName}" />
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,10,0,0">
+                        <TextBlock  TextWrapping="Wrap"  Text="Ver: " />
+                        <TextBlock x:Name="txtVersion" TextWrapping="Wrap" HorizontalAlignment="Center" Text="{DynamicResource AsmInfo_Version}" />
+                    </StackPanel>
+                </StackPanel>
             </TabItem>
         </TabControl>
     </DockPanel>
