@@ -17,7 +17,7 @@
         Activated="Window_Activated"
         Closing="Window_Closing"
         d:DesignHeight="311.609"
-        Title="VolumeWatcher Options">
+        Title="VolumeWatcher Options" Loaded="Window_Loaded">
     <Window.Resources>
         <!-- バリューコンバータ -->
         <vm:WindowPositionConverter x:Key="E2BConverter"/>

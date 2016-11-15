@@ -36,42 +36,39 @@ namespace VolumeWatcher.View
             main = ((App)System.Windows.Application.Current).main;
             model = main.model;
 
-            InitializeComponent();
             this.DataContext = model;
-
-
+            InitializeComponent();
+            
+            // About表示の準備
             var asminfo = new AssemblyInfo(Assembly.GetEntryAssembly());
             this.Resources["AsmInfo_ProductName"] = asminfo.Product;
             this.Resources["AsmInfo_Version"] = asminfo.Version;
             this.Resources["AsmInfo_Date"] = asminfo.Copyright;
 
-            Dispatcher.BeginInvoke((Action)delegate(){
-                var maxHeight = -1.0;
-
-                foreach (System.Windows.Controls.TabItem tab in tabControl.Items)
-                {
-                    var control = (FrameworkElement)tab.Content;
-                    var height = control.ActualHeight;
-                    if (maxHeight < height)
-                    {
-                        maxHeight = height;
-                    }
-                }
-
-                foreach (System.Windows.Controls.TabItem tab in tabControl.Items)
-                {
-                    var control = (FrameworkElement)tab.Content;
-
-                    if (maxHeight > control.ActualHeight)
-                    {
-                        control.Height = maxHeight;
-                    }
-                }
-            });
-
-
             // 高速化に寄与するかな
             this.Descendants().OfType<Freezable>().ToList().Where(e => e.CanFreeze).ToList().ForEach(e => e.Freeze());
+        }
+
+        /// <summary>
+        /// Load時。初回表示前に1回だけ呼ばれる。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // ウィンドウ位置が保存されてない場合は初期位置(中央)に
+            if (this.Left < 0 && this.Top < 0)
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            }
+
+            // 各Tabの大きさを一番大きいものにそろえる
+            var list = this.tabControl.Items.OfType<TabItem>().ToList().Select(el=> (FrameworkElement)el.Content).ToList();
+            var maxHeight = list.Max(el => el.ActualHeight);
+            list.Where(el => (maxHeight > el.ActualHeight)).ToList()
+                .ForEach(el => el.Height = maxHeight);
+            //Dispatcher.BeginInvoke((Action)delegate () {
+            //});
         }
 
         /// <summary>
