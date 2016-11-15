@@ -18,8 +18,8 @@ namespace VolumeWatcher.Model
         private float _Opacity = 0;
         public float Opacity
         {
-            get { return _Opacity;  }
-            set { _Opacity = value;  SetProperty(ref _Opacity, value); }
+            get { return _Opacity; }
+            set { _Opacity = value; SetProperty(ref _Opacity, value); }
         }
         private EWindowPosition _WindowPosition = EWindowPosition.LEFT_TOP;
         public EWindowPosition WindowPosition
