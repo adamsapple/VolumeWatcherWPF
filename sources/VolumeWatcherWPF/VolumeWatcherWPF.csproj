@@ -164,7 +164,6 @@
     <Compile Include="VolumeWatcher\Enumrate\EWindowPosition.cs" />
     <Compile Include="Moral\Model\ModelBase.cs" />
     <Compile Include="VolumeWatcher\Model\VolumeWatcherModel.cs" />
-    <Compile Include="VolumeWatcher\Sandbox\RecorderTest.cs" />
     <Compile Include="VolumeWatcher\ViewModel\WindowPositionConverter.cs" />
     <Compile Include="VolumeWatcher\Properties\Settings.cs" />
     <Compile Include="VolumeWatcher\ViewModel\TrayComponentViewModel.cs" />
