@@ -123,7 +123,7 @@ namespace Audio.CoreAudio
         [PreserveSig]
         public int OnNotify(IntPtr notificationData)
         {
-            avndata = (avndata != null) ? avndata : new AudioVolumeNotificationData();
+            avndata  = (avndata != null) ? avndata : new AudioVolumeNotificationData();
             var data = avndata;
 
             data.Initialize(notificationData);
