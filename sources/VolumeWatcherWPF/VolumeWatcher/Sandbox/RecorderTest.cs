@@ -73,6 +73,7 @@ namespace VolumeWatcher.Sandbox
                     Console.WriteLine("peak={0:p1}", peak);
                 };
                 timer.Start();
+                timer.Stop();
                 //*/
             }
             var audioClient = device.AudioClient;
