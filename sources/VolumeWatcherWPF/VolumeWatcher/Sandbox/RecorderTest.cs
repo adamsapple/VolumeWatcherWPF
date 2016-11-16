@@ -19,7 +19,7 @@ namespace VolumeWatcher.Sandbox
             var deviceEnumerator = new MMDeviceEnumerator();
 
             // get default device.
-            var device = deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
+            var device = deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia);
 
             //PutDeviceInfo(device);
             //device.AudioEndpointVolume.Mute = !device.AudioEndpointVolume.Mute;
@@ -52,30 +52,6 @@ namespace VolumeWatcher.Sandbox
             }
             */
 
-
-
-            // ピークメータ表示処理の一例
-            {
-                var meter = device.AudioMeterInformation;
-                /*/
-                Task.Run(() => {
-                    while (true)
-                    {
-                        var peak = meter.PeakValue;
-                        Console.WriteLine("peak={0:p1}", peak);
-                        Thread.Sleep(100);
-                    }
-                });
-                //*/
-                var timer = new System.Timers.Timer(100);
-                timer.Elapsed += (o,e) =>{
-                    var peak = meter.PeakValue;
-                    Console.WriteLine("peak={0:p1}", peak);
-                };
-                timer.Start();
-                timer.Stop();
-                //*/
-            }
             var audioClient = device.AudioClient;
             var formatTag = audioClient.MixFormat;
             Console.WriteLine("formatTag1:{0}", formatTag);
