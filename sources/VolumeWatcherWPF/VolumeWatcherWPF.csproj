@@ -95,24 +95,34 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Audio\CoreAudio\AudioClient.cs" />
+    <Compile Include="Audio\CoreAudio\EAudioClientBufferFlags.cs" />
+    <Compile Include="Audio\CoreAudio\EAudioClientStreamFlags.cs" />
     <Compile Include="Audio\CoreAudio\AudioEndpointVolume.cs" />
     <Compile Include="Audio\CoreAudio\AudioEndpointVolumeNotificationDelegate.cs" />
     <Compile Include="Audio\CoreAudio\AudioMeterInformation.cs" />
+    <Compile Include="Audio\CoreAudio\AudioRenderClient.cs" />
     <Compile Include="Audio\CoreAudio\AudioSessionControl.cs" />
     <Compile Include="Audio\CoreAudio\AudioSessionManager.cs" />
     <Compile Include="Audio\CoreAudio\AudioVolumeNotificationData.cs" />
+    <Compile Include="Audio\Wave\EBitDepth.cs" />
+    <Compile Include="Audio\CoreAudio\EAudioClientState.cs" />
     <Compile Include="Audio\CoreAudio\EDataFlow.cs" />
     <Compile Include="Audio\CoreAudio\EDeviceState.cs" />
     <Compile Include="Audio\CoreAudio\EndpointFormFactor.cs" />
     <Compile Include="Audio\CoreAudio\ERole.cs" />
+    <Compile Include="Audio\Wave\ESampleRate.cs" />
     <Compile Include="Audio\CoreAudio\EStgmAccess.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\Blob.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\ClsCtx.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\ComIIds.cs" />
+    <Compile Include="Audio\CoreAudio\Interfaces\DeviceShareMode.cs" />
+    <Compile Include="Audio\CoreAudio\Interfaces\IAudioClient.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IAudioEndpointVolume.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IAudioEndpointVolumeCallback.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IAudioEndpointVolumeEx.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IAudioMeterInformation.cs" />
+    <Compile Include="Audio\CoreAudio\Interfaces\IAudioRenderClient.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IAudioSessionControl.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IAudioSessionControl2.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IAudioSessionEnumerator.cs" />
@@ -124,6 +134,8 @@
     <Compile Include="Audio\CoreAudio\Interfaces\IMMNotificationClient.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IPropertyStore.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\ISimpleAudioVolume.cs" />
+    <Compile Include="Audio\Wave\WaveFormat.cs" />
+    <Compile Include="Audio\Wave\WaveFormatExtensible.cs" />
     <Compile Include="Audio\CoreAudio\MMDevice.cs" />
     <Compile Include="Audio\CoreAudio\MMDeviceCollection.cs" />
     <Compile Include="Audio\CoreAudio\MMDeviceEnumerator.cs" />
@@ -137,6 +149,9 @@
     <None Include="Moral\UI\NotifyIconWPF.Designer.cs">
       <DependentUpon>NotifyIconWPF.cs</DependentUpon>
     </None>
+    <Compile Include="Audio\Wave\ESpeakerConfiguration.cs" />
+    <Compile Include="Audio\Wave\WaveFormatEncoding.cs" />
+    <Compile Include="Audio\Util\HResult.cs" />
     <Compile Include="Moral\AssemblyInfo.cs" />
     <Compile Include="Moral\Etc\KeyboardHook5.cs" />
     <Compile Include="Moral\Util\Ease.cs" />
@@ -237,6 +252,10 @@
     <Resource Include="resources\icon-windw.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

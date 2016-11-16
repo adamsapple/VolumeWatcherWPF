@@ -9,7 +9,7 @@ using Audio.CoreAudio.Interfaces;
 
 namespace Audio.CoreAudio
 {
-    public class AudioEndpointVolume : IDisposable
+    public class AudioEndpointVolume
     {
         private IAudioEndpointVolume _realAudioEndpointVolume;
         private AudioEndpointVolumeCallback _callback;
@@ -23,13 +23,17 @@ namespace Audio.CoreAudio
             _OnVolumeNotification += (n) => { };
         }
 
-        public void Dispose()
+        public void Dispose(bool disposing)
         {
-            if (_callback != null)
-            {
-                Marshal.ThrowExceptionForHR(_realAudioEndpointVolume.UnregisterControlChangeNotify(_callback));
-                _callback = null;
+            
+            if (_OnVolumeNotification != null) {
+                foreach(var d in _OnVolumeNotification.GetInvocationList())
+                {
+                    OnVolumeNotification -= (AudioEndpointVolumeNotificationDelegate)d;
+                }
             }
+            _callback                = null;
+            _realAudioEndpointVolume = null;
         }
 
         internal void FireNotification(AudioVolumeNotificationData NotificationData)
@@ -119,7 +123,7 @@ namespace Audio.CoreAudio
         [PreserveSig]
         public int OnNotify(IntPtr notificationData)
         {
-            avndata = (avndata != null) ? avndata : new AudioVolumeNotificationData();
+            avndata  = (avndata != null) ? avndata : new AudioVolumeNotificationData();
             var data = avndata;
 
             data.Initialize(notificationData);

@@ -82,7 +82,7 @@ namespace VolumeWatcher
             //});
             State = 1;
 
-            //optionWindow.Show();
+            //var a = new VolumeWatcher.Sandbox.RecorderTest();
         }
 
         /// <summary>

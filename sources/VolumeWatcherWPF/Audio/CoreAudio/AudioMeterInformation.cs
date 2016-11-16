@@ -66,6 +66,15 @@ namespace Audio.CoreAudio
             return result;
         }
 
+        public virtual void Dispose(bool disposing)
+        {
+            //_AudioMeterInformation = null;
+        }
+
+        ~AudioMeterInformation()
+        {
+            Dispose(false);
+        }
 
         /*
     [PreserveSig]

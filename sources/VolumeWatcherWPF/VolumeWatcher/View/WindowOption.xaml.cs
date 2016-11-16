@@ -18,6 +18,7 @@ using Audio.CoreAudio;
 using Moral;
 using Moral.Util;
 using VolumeWatcher.Model;
+using VolumeWatcher.ViewModel;
 
 namespace VolumeWatcher.View
 {

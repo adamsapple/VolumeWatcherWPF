@@ -8,33 +8,26 @@ namespace Audio.CoreAudio
 {
     public class MMDevice
     {
-        private readonly IMMDevice _RealDevice;
+        private IMMDevice _RealDevice;
         private PropertyStore _PropertyStore;
-        private AudioMeterInformation _AudioMeterInformation;
-        //private AudioEndpointVolume _AudioEndpointVolume;
-
-        private AudioEndpointVolume _AudioEndpointVolume;
+        private AudioMeterInformation   _AudioMeterInformation;
+        private AudioEndpointVolume     _AudioEndpointVolume;
+        private AudioClient             _AudioClient;
         //private AudioSessionManager _AudioSessionManager;
 
 
         private static Guid IID_IAudioMeterInformation = typeof(IAudioMeterInformation).GUID;
-        private static Guid IID_IAudioEndpointVolume = typeof(IAudioEndpointVolume).GUID;
+        private static Guid IID_IAudioEndpointVolume   = typeof(IAudioEndpointVolume).GUID;
+        private static Guid IID_IAudioClient           = typeof(IAudioClient).GUID;
+
+        private readonly string _Id;
 
         internal MMDevice(IMMDevice realDevice)
         {
-            _RealDevice = realDevice;
-        }
+            Marshal.ThrowExceptionForHR(realDevice.GetId(out _Id));
 
-        public void Dispose()
-        {
-            if (_RealDevice != null)
-            {
-                _AudioMeterInformation?.Dispose();
-                _AudioEndpointVolume?.Dispose();
-                _AudioMeterInformation = null;
-                _AudioEndpointVolume   = null;
-                //_RealDevice            = null;
-            }
+
+            _RealDevice = realDevice;
         }
 
         private PropertyStore GetProperty()
@@ -44,11 +37,19 @@ namespace Audio.CoreAudio
             return new PropertyStore(propstore);
         }
 
+
+        private EDeviceState GetState()
+        {
+            EDeviceState result;
+            Marshal.ThrowExceptionForHR(_RealDevice.GetState(out result));
+
+            return result;
+        }
         
         private void GetAudioMeterInformation()
         {
             object result;
-            Marshal.ThrowExceptionForHR(_RealDevice.Activate(ref IID_IAudioMeterInformation, ClsCtx.All, IntPtr.Zero, out result));
+            Marshal.ThrowExceptionForHR(_RealDevice.Activate(ref IID_IAudioMeterInformation, ClsCtx.InprocServer, IntPtr.Zero, out result));
             _AudioMeterInformation = new AudioMeterInformation(result as IAudioMeterInformation);
         }
         
@@ -59,6 +60,16 @@ namespace Audio.CoreAudio
             //_AudioEndpointVolume = new AudioEndpointVolume(result as IAudioEndpointVolume);
             _AudioEndpointVolume = new AudioEndpointVolume( result as IAudioEndpointVolume );
         }
+
+        private void GetAudioClient()
+        {
+            object result;
+            Marshal.ThrowExceptionForHR(_RealDevice.Activate(ref IID_IAudioClient, ClsCtx.All, IntPtr.Zero, out result));
+            _AudioClient = new CoreAudio.AudioClient(result as IAudioClient);
+        }
+
+        public EDeviceState State => GetState();
+        public string Id => _Id;
 
         public AudioEndpointVolume AudioEndpointVolume
         {
@@ -84,7 +95,18 @@ namespace Audio.CoreAudio
                 return _AudioMeterInformation;
             }
         }
-        
+
+        public AudioClient AudioClient
+        {
+            get
+            {
+                if (_AudioClient == null)
+                    GetAudioClient();
+
+                return _AudioClient;
+            }
+        }
+
         public string FriendlyName
         {
             get
@@ -127,17 +149,6 @@ namespace Audio.CoreAudio
             return _PropertyStore[key].Value;
         }
 
-        public string ID
-        {
-            get
-            {
-                string Result;
-                Marshal.ThrowExceptionForHR(_RealDevice.GetId(out Result));
-                return Result;
-            }
-        }
-
-
         internal void FireOnDeviceStateChanged(string deviceId, EDeviceState newState)
         {
         }
@@ -160,6 +171,23 @@ namespace Audio.CoreAudio
         internal void FireOnPropertyValueChanged(string deviceId, PropertyKey propertyKey)
         {
 
+        }
+
+        public virtual void Dispose(bool disposing)
+        {
+            if(_RealDevice != null)
+            {
+                _AudioEndpointVolume?.Dispose(disposing);
+                _AudioMeterInformation?.Dispose(disposing);
+                _AudioClient?.Dispose(disposing);
+                _PropertyStore = null;
+                _RealDevice    = null;
+            }
+        }
+
+        ~MMDevice()
+        {
+            Dispose(false);
         }
     }
 }

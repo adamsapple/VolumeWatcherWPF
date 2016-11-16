@@ -86,23 +86,27 @@ namespace VolumeWatcher.Audio
          */
         void updateDevice(string deviceId)
         {
+            // イレギュラー時は終了
             if (deviceEnumerator == null || deviceId == null)
             {
                 return;
             }
 
-
             // defaultでなくなったDeviceの参照を切る
             volume.OnVolumeNotification -= innerListener.OnVolumeNotify;
 
             // 今までDefaultだったデバイスを開放
-            volume?.Dispose();
-            device?.Dispose();
+            volume?.Dispose(true);
+            device?.Dispose(true);
 
             // 新しくdefaultになったDeviceの参照を得る
             device = deviceEnumerator.GetDevice(deviceId);
-            volume = device.AudioEndpointVolume;
-            volume.OnVolumeNotification += innerListener.OnVolumeNotify;    // volumeに対して変更通知のListenerを設定
+            if(device != null)
+            {
+                volume    = device.AudioEndpointVolume;
+                var meter = device.AudioMeterInformation;
+                volume.OnVolumeNotification += innerListener.OnVolumeNotify;    // volumeに対して変更通知のListenerを設定
+            }
         }
 
         /// <summary>

@@ -84,25 +84,25 @@ namespace VolumeWatcher.Model
         {
             var setting = Properties.Settings.Default;
             // save情報を設定に反映
-            this.StartupName = setting.startup_name;
-            this.Opacity = setting.window_opacity;
-            this.WindowPosition = setting.window_position2;
-            this.IsKeyHook = setting.enable_volume_key;
+            this.StartupName       = setting.startup_name;
+            this.Opacity           = setting.window_opacity;
+            this.WindowPosition    = setting.window_position2;
+            this.IsKeyHook         = setting.enable_volume_key;
 
             this.OptionWindow_Left = setting.OptionWindow_Left;
-            this.OptionWindow_Top = setting.OptionWindow_Top;
+            this.OptionWindow_Top  = setting.OptionWindow_Top;
         }
 
         public void SaveSettings()
         {
             var setting = Properties.Settings.Default;
             // save情報を更新
-            setting.window_opacity = this.Opacity;
-            setting.window_position2 = this.WindowPosition;
-            setting.enable_volume_key = this.IsKeyHook;
+            setting.window_opacity      = this.Opacity;
+            setting.window_position2    = this.WindowPosition;
+            setting.enable_volume_key   = this.IsKeyHook;
 
-            setting.OptionWindow_Left = this.OptionWindow_Left;
-            setting.OptionWindow_Top = this.OptionWindow_Top;
+            setting.OptionWindow_Left   = this.OptionWindow_Left;
+            setting.OptionWindow_Top    = this.OptionWindow_Top;
 
             setting.Save();
         }
