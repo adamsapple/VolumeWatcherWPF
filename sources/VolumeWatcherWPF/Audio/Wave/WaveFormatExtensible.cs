@@ -63,7 +63,7 @@ namespace Audio.Wave
         public override string ToString()
         {
             return
-                $"{base.ToString()} wBitsPerSample:{wValidBitsPerSample} dwChannelMask:{dwChannelMask} subFormat:{subFormat} extraSize:{ExtraSize}";
+                $"{{ {base.ToString()} wBitsPerSample:{wValidBitsPerSample} dwChannelMask:{dwChannelMask} subFormat:{subFormat} extraSize:{ExtraSize} }}";
         }
     }
 }

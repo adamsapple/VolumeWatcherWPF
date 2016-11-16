@@ -106,7 +106,7 @@ namespace Audio.Wave
                 case WaveFormatEncoding.Pcm:
                 case WaveFormatEncoding.Extensible:
                     // formatTag just has some extra bits after the PCM header
-                    return $"{bitsPerSample} bit PCM: {samplesPerSec / 1000}kHz {channels} channels";
+                    return $"{{ {bitsPerSample} bit PCM: {samplesPerSec / 1000}kHz {channels} channels }}";
                 default:
                     return formatTag.ToString();
             }

@@ -11,13 +11,17 @@ using Audio.CoreAudio.Interfaces;
 
 namespace VolumeWatcher.Sandbox
 {
-    class RecorderTest : IDisposable
+    class RecorderTest : ISandBox
     {
         WasapiCapture capture;
         WasapiRender  render;
 
 
         public RecorderTest()
+        {
+        }
+
+        public void Start()
         {
             var deviceEnumerator = new MMDeviceEnumerator();
 
@@ -172,6 +176,12 @@ namespace VolumeWatcher.Sandbox
             return result;
         }
 
+        public void Stop()
+        {
+            capture.StopRecording();
+            render.Stop();
+        }
+
         #region
 
         /// <summary>
@@ -179,11 +189,15 @@ namespace VolumeWatcher.Sandbox
         /// </summary>
         public void Dispose()
         {
-            capture.StopRecording();
-            render.Stop();
+            if (render == null)
+            {
+                return;
+            }
+            Stop();
 
             capture.Dispose();
             render.Dispose();
+            render = null;
         }
 
         #endregion

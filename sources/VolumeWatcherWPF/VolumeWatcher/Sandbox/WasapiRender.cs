@@ -273,7 +273,8 @@ namespace VolumeWatcher.Sandbox
                 // Normal setup for both sharedMode
                 audioClient.Initialize(shareMode, EAudioClientStreamFlags.None, latencyRefTimes, 0, outputFormat, Guid.Empty);
             }
-
+            
+            Debug.WriteLine(string.Format("RenderAudioClient: {0}", audioClient.ToString()));
             // Get the RenderClient
             renderClient = audioClient.AudioRenderClient;
         }

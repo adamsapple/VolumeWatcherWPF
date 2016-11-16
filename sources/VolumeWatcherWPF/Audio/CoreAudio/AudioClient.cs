@@ -230,6 +230,11 @@ namespace Audio.CoreAudio
             _realAudioClient.Reset();
         }
 
+        public string ToString()
+        {
+            return $"{{ Latency: {StreamLatency}, Padding: {CurrentPadding}, MDPeriod: {MinimumDevicePeriod}nsec, DDPeriod: {DefaultDevicePeriod}nsec }}";
+        }
+
         #region Dispose Members.
 
         /// <summary>

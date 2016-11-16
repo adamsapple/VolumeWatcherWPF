@@ -111,6 +111,7 @@ namespace VolumeWatcher.Sandbox
                 0,
                 WaveFormat,
                 Guid.Empty);
+            Debug.WriteLine(string.Format("CaptureAudioClient: {0}", audioClient.ToString()));
 
             var bufferFrameCount = audioClient.BufferSize;
             this.bytesPerFrame   = this.WaveFormat.Channels * this.WaveFormat.BitsPerSample / 8;
@@ -189,7 +190,7 @@ namespace VolumeWatcher.Sandbox
 
         private void DoRecording(AudioClient client)
         {
-            Debug.WriteLine(client.BufferSize);
+            Debug.WriteLine(string.Format("num Buffer Frames: {0}",client.BufferSize));
             int bufferFrameCount = audioClient.BufferSize;
 
             // Calculate the actual duration of the allocated buffer.
