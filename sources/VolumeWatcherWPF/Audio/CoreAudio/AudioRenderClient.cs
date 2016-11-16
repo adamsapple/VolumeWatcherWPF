@@ -15,11 +15,11 @@ namespace Audio.CoreAudio
     /// </summary>
     public class AudioRenderClient : IDisposable
     {
-        IAudioRenderClient audioRenderClientInterface;
+        IAudioRenderClient _realAudioRenderClient;
 
         internal AudioRenderClient(IAudioRenderClient audioRenderClientInterface)
         {
-            this.audioRenderClientInterface = audioRenderClientInterface;
+            this._realAudioRenderClient = audioRenderClientInterface;
         }
 
         /// <summary>
@@ -27,10 +27,10 @@ namespace Audio.CoreAudio
         /// </summary>
         /// <param name="numFramesRequested">Number of frames requested</param>
         /// <returns>Pointer to the buffer</returns>
-        public IntPtr GetBuffer(uint numFramesRequested)
+        public IntPtr GetBuffer(int numFramesRequested)
         {
             IntPtr bufferPointer;
-            Marshal.ThrowExceptionForHR(audioRenderClientInterface.GetBuffer(numFramesRequested, out bufferPointer));
+            Marshal.ThrowExceptionForHR(_realAudioRenderClient.GetBuffer(numFramesRequested, out bufferPointer));
             return bufferPointer;
         }
 
@@ -39,24 +39,29 @@ namespace Audio.CoreAudio
         /// </summary>
         /// <param name="numFramesWritten">Number of frames written</param>
         /// <param name="bufferFlags">Buffer flags</param>
-        public void ReleaseBuffer(uint numFramesWritten, EAudioClientBufferFlags bufferFlags)
+        public void ReleaseBuffer(int numFramesWritten, EAudioClientBufferFlags bufferFlags)
         {
-            Marshal.ThrowExceptionForHR(audioRenderClientInterface.ReleaseBuffer(numFramesWritten, bufferFlags));
+            Marshal.ThrowExceptionForHR(_realAudioRenderClient.ReleaseBuffer(numFramesWritten, bufferFlags));
         }
+
+
+        #region Dispose Members.
 
         /// <summary>
         /// Release the COM object
         /// </summary>
         public void Dispose()
         {
-            if (audioRenderClientInterface != null)
+            if (_realAudioRenderClient != null)
             {
                 // althugh GC would do this for us, we want it done now
                 // to let us reopen WASAPI
-                Marshal.ReleaseComObject(audioRenderClientInterface);
-                audioRenderClientInterface = null;
+                Marshal.ReleaseComObject(_realAudioRenderClient);
+                _realAudioRenderClient = null;
                 GC.SuppressFinalize(this);
             }
         }
+
+        #endregion
     }
 }

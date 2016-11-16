@@ -11,7 +11,7 @@ namespace Audio.CoreAudio.Interfaces
     internal interface IAudioClient
     {
         [PreserveSig]
-        int Initialize(DeviceShareMode shareMode,
+        int Initialize(EAudioClientShareMode shareMode,
             [In] [MarshalAs(UnmanagedType.U4)] EAudioClientStreamFlags streamFlags,
             [In] [MarshalAs(UnmanagedType.I8)] long hnsBufferDuration,
             [In] [MarshalAs(UnmanagedType.I8)] long hnsPeriodicity,
@@ -29,12 +29,12 @@ namespace Audio.CoreAudio.Interfaces
 
         [PreserveSig]
         int IsFormatSupported(
-            DeviceShareMode shareMode,
+            EAudioClientShareMode shareMode,
             [In] WaveFormat pFormat,
             [Out] out WaveFormatExtensible closestMatchFormat);
 
         [PreserveSig]
-        int GetMixFormat([Out] out WaveFormatExtensible format);
+        int GetMixFormat([Out] out WaveFormat format);
 
         [PreserveSig]
         int GetDevicePeriod(

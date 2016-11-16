@@ -179,7 +179,7 @@ namespace Audio.CoreAudio
             {
                 _AudioEndpointVolume?.Dispose(disposing);
                 _AudioMeterInformation?.Dispose(disposing);
-                _AudioClient?.Dispose(disposing);
+                _AudioClient?.Dispose();
                 _PropertyStore = null;
                 _RealDevice    = null;
             }
@@ -187,7 +187,8 @@ namespace Audio.CoreAudio
 
         ~MMDevice()
         {
-            Dispose(false);
+            //Todo:無駄な解放をやめなきゃならぬ
+            //Dispose(false);
         }
     }
 }

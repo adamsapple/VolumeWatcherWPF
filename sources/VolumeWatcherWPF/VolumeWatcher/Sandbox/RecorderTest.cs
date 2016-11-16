@@ -11,17 +11,21 @@ using Audio.CoreAudio.Interfaces;
 
 namespace VolumeWatcher.Sandbox
 {
-    class RecorderTest
+    class RecorderTest : IDisposable
     {
+        WasapiCapture capture;
+        WasapiRender  render;
+
 
         public RecorderTest()
         {
             var deviceEnumerator = new MMDeviceEnumerator();
 
             // get default device.
-            var device = deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia);
+            var deviceCapture = deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eConsole);
+            var deviceRender  = deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eConsole);
 
-            //PutDeviceInfo(device);
+            PutDeviceInfo(deviceCapture);
             //device.AudioEndpointVolume.Mute = !device.AudioEndpointVolume.Mute;
             /*
             var collection = deviceEnumerator.EnumAudioEndpoints(EDataFlow.eCapture, EDeviceState.Active);
@@ -40,7 +44,7 @@ namespace VolumeWatcher.Sandbox
 
             devices.ForEach((i) => {
                 if (device.Equals(i))
-                {
+               { 
                     Console.WriteLine("this is default;");
                 }
                 PutDeviceInfo(i);
@@ -52,24 +56,35 @@ namespace VolumeWatcher.Sandbox
             }
             */
 
+            var shareMode    = EAudioClientShareMode.Shared;
+            capture      = new WasapiCapture(deviceCapture);                    // Captureデバイスの準備
+            capture.StartRecording();
+            render       = new WasapiRender(deviceRender, shareMode, false, 0); // Renderデバイスの準備
+            render.Init(capture.WaveProvider);
+            render.Play();
+
+            Console.WriteLine("capture:{0}",capture.WaveFormat);
+            Console.WriteLine("render :{0}", render.WaveFormat);
+
+            /*
             var audioClient = device.AudioClient;
             var formatTag = audioClient.MixFormat;
             Console.WriteLine("formatTag1:{0}", formatTag);
             //formatTag.BitsPerSample = 16;
             Console.WriteLine("formatTag2:{0}", formatTag);
-            WaveFormatExtensible altFormat;
-            var supported         = audioClient.IsFormatSupported(DeviceShareMode.Shared, out altFormat);
-            if (altFormat != null)
-            {
-                formatTag = altFormat;
-            }
+            //WaveFormatExtensible altFormat;
+            //var supported         = audioClient.IsFormatSupported(DeviceShareMode.Shared, altFormat);
+            //if (altFormat != null)
+            //{
+            //    formatTag = altFormat;
+            //}
             Console.WriteLine("altFormat:{0}", formatTag);
             // 再生レイテンシ
-            const uint latency_ms_ = 50;/* ms */
+            const uint latency_ms_ = 50;
             const uint periods_per_buffer_ = 4; // バッファ中の区切り数（レイテンシ時間が何個あるか）
-            uint buffer_period = latency_ms_ /* ms */ * 10000;
+            uint buffer_period = latency_ms_ * 10000;
             uint buffer_duration = buffer_period * periods_per_buffer_;
-            audioClient.Initialize(DeviceShareMode.Shared,
+            audioClient.Initialize(EAudioClientShareMode.Shared,
                 EAudioClientStreamFlags.NoPersist,
                 buffer_duration, buffer_period, formatTag, Guid.NewGuid());
 
@@ -88,7 +103,7 @@ namespace VolumeWatcher.Sandbox
             Marshal.Copy(musicdata, 0, buffer, size);
 
             audioClient.Start();
-
+            */
 
             //var buffer            = audioRenderClient.GetBuffer(buffer_size);
             //Marshal.FreeHGlobal(buffer);
@@ -156,5 +171,21 @@ namespace VolumeWatcher.Sandbox
 
             return result;
         }
+
+        #region
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        public void Dispose()
+        {
+            capture.StopRecording();
+            render.Stop();
+
+            capture.Dispose();
+            render.Dispose();
+        }
+
+        #endregion
     }
 }

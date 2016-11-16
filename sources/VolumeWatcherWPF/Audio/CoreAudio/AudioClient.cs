@@ -16,15 +16,17 @@ namespace Audio.CoreAudio
     /// <remarks>
     /// https://github.com/SjB/NAudio/tree/master/NAudio/CoreAudioApi
     /// </remarks>
-    public class AudioClient
+    public class AudioClient :IDisposable
     {
         private IAudioClient _realAudioClient;
-        WaveFormatExtensible mixFormat;
 
-        
-        public uint BufferSize => GetBufferSize();
+        private AudioRenderClient  _AudioRenderClient;
+        private AudioCaptureClient _AudioCaptureClient;
+        private WaveFormat mixFormat;
 
-        private AudioRenderClient _AudioRenderClient;
+        public int BufferSize       => GetBufferSize();
+        public WaveFormat MixFormat => mixFormat;
+
         public AudioRenderClient AudioRenderClient
         {
             get
@@ -33,7 +35,15 @@ namespace Audio.CoreAudio
                 return _AudioRenderClient;
             }
         }
-        
+
+        public AudioCaptureClient AudioCaptureClient
+        {
+            get
+            {
+                if (_AudioCaptureClient == null) GetAudioCaptureClient();
+                return _AudioCaptureClient;
+            }
+        }
 
         internal AudioClient(IAudioClient realAudioClient)
         {
@@ -41,14 +51,7 @@ namespace Audio.CoreAudio
             GetMixFormat();
         }
 
-        public void Dispose(bool disposing)
-        {
-            _realAudioClient = null;
-            mixFormat = null;
-        }
-
-
-        public void  Initialize(DeviceShareMode shareMode,
+        public void  Initialize(EAudioClientShareMode shareMode,
             EAudioClientStreamFlags streamFlags,
             long bufferDuration,
             long periodicity,
@@ -61,25 +64,80 @@ namespace Audio.CoreAudio
             mixFormat = null;
 
         }
-
-
-        public WaveFormatExtensible MixFormat => mixFormat;
+        
         private void GetMixFormat()
         {
             Marshal.ThrowExceptionForHR( _realAudioClient.GetMixFormat(out mixFormat) );
         }
 
-        public bool IsFormatSupported(DeviceShareMode shareMode, out WaveFormatExtensible closestMatchFormat) {
-            Marshal.ThrowExceptionForHR(_realAudioClient.IsFormatSupported(shareMode, mixFormat, out closestMatchFormat));
-            return true;
+        /// <summary>
+        /// Determines whether if the specified output format is supported
+        /// </summary>
+        /// <param name="shareMode">The share mode.</param>
+        /// <param name="desiredFormat">The desired format.</param>
+        /// <returns>
+        /// 	<c>true</c> if [is format supported] [the specified share mode]; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsFormatSupported(EAudioClientShareMode shareMode,
+            WaveFormat desiredFormat)
+        {
+            WaveFormatExtensible closestMatchFormat;
+            return IsFormatSupported(shareMode, desiredFormat, out closestMatchFormat);
         }
 
-        private uint GetBufferSize()
+        /// <summary>
+        /// Determines if the specified output format is supported in shared mode
+        /// </summary>
+        /// <param name="shareMode">Share Mode</param>
+        /// <param name="desiredFormat">Desired Format</param>
+        /// <param name="closestMatchFormat">Output The closest match format.</param>
+        /// <returns>
+        /// 	<c>true</c> if [is format supported] [the specified share mode]; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsFormatSupported(EAudioClientShareMode shareMode, WaveFormat desiredFormat, out WaveFormatExtensible closestMatchFormat)
+        {
+            int hresult = _realAudioClient.IsFormatSupported(shareMode, desiredFormat, out closestMatchFormat);
+            // S_OK is 0, S_FALSE = 1
+            if (hresult == 0)
+            {
+                // directly supported
+                return true;
+            }
+            if (hresult == 1)
+            {
+                return false;
+            }
+            //else if (hresult == (int)AudioClientErrors.UnsupportedFormat)
+            //{
+            //    return false;
+            //}
+            else
+            {
+                Marshal.ThrowExceptionForHR(hresult);
+            }
+            // shouldn't get here
+            throw new NotSupportedException("Unknown hresult " + hresult.ToString());
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="shareMode"></param>
+        /// <param name="desiredFormat"></param>
+        /// <returns></returns>
+        public WaveFormatExtensible CheckSupportFormat(EAudioClientShareMode shareMode, WaveFormat desiredFormat)
+        {
+            WaveFormatExtensible closestMatchFormat;
+            int hresult = _realAudioClient.IsFormatSupported(shareMode, desiredFormat, out closestMatchFormat);
+            return closestMatchFormat;
+        }
+
+        private int GetBufferSize()
         {
             uint result;
             Marshal.ThrowExceptionForHR(_realAudioClient.GetBufferSize(out result));
 
-            return result;
+            return (int)result;
         }
 
         private void GetAudioRenderClient()
@@ -90,33 +148,72 @@ namespace Audio.CoreAudio
             _AudioRenderClient = new AudioRenderClient(result as IAudioRenderClient);
         }
 
+        private void GetAudioCaptureClient()
+        {
+            object result;
+            var IID_AUDIO_CAPTURE_CLIENT = typeof(IAudioCaptureClient).GUID;
+            Marshal.ThrowExceptionForHR(_realAudioClient.GetService(IID_AUDIO_CAPTURE_CLIENT, out result));
+            _AudioCaptureClient = new AudioCaptureClient(result as IAudioCaptureClient);
+        }
+
+        /// <summary>
+        /// Gets the stream latency (must initialize first)
+        /// </summary>
+        public long StreamLatency
+        {
+            get
+            {
+                long result;
+                Marshal.ThrowExceptionForHR(_realAudioClient.GetStreamLatency(out result));
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Gets the current padding (must initialize first)
+        /// </summary>
+        public int CurrentPadding
+        {
+            get
+            {
+                int result;
+                Marshal.ThrowExceptionForHR(_realAudioClient.GetCurrentPadding(out result));
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Gets the default device period (can be called before initialize)
+        /// </summary>
+        public long DefaultDevicePeriod
+        {
+            get
+            {
+                long defaultDevicePeriod;
+                long minimumDevicePeriod;
+                Marshal.ThrowExceptionForHR(_realAudioClient.GetDevicePeriod(out defaultDevicePeriod, out minimumDevicePeriod));
+                return defaultDevicePeriod;
+            }
+        }
+
+        /// <summary>
+        /// Gets the minimum device period (can be called before initialize)
+        /// </summary>
+        public long MinimumDevicePeriod
+        {
+            get
+            {
+                long defaultDevicePeriod;
+                long minimumDevicePeriod;
+                Marshal.ThrowExceptionForHR(_realAudioClient.GetDevicePeriod(out defaultDevicePeriod, out minimumDevicePeriod));
+                return minimumDevicePeriod;
+            }
+        }
 
         /*
         [PreserveSig]
-        int GetService(
-            [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceId,
-            [Out, MarshalAs(UnmanagedType.IUnknown)] out object interfacePointer);
-        
-
-        [PreserveSig]
-        int GetStreamLatency([Out] [MarshalAs(UnmanagedType.I8)] out long bufferSize);
-
-        [PreserveSig]
-        int GetCurrentPadding(out int currentPadding);
-
-        [PreserveSig]
-        int IsFormatSupported(
-            DeviceShareMode shareMode,
-            [In] WaveFormat pFormat,
-            [Out] out WaveFormatExtensible closestMatchFormat);
-
-        [PreserveSig]
         int GetMixFormat([Out] out WaveFormatExtensible format);
-
-        [PreserveSig]
-        int GetDevicePeriod(
-            [Out] [MarshalAs(UnmanagedType.I8)] out long defaultDevicePeriod,
-            [Out] [MarshalAs(UnmanagedType.I8)]out long minimumDevicePeriod);*/
+        */
 
         public void Start()
         {
@@ -133,6 +230,30 @@ namespace Audio.CoreAudio
             _realAudioClient.Reset();
         }
 
-        
+        #region Dispose Members.
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        public void Dispose()
+        { 
+            if (_realAudioClient == null)
+            {
+                return;
+            }
+
+            mixFormat = null;
+            _AudioRenderClient?.Dispose();
+            _AudioRenderClient = null;
+            _AudioCaptureClient?.Dispose();
+            _AudioCaptureClient = null;
+            
+            Marshal.ReleaseComObject(_realAudioClient);
+            _realAudioClient = null;
+
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 }

@@ -33,6 +33,8 @@ namespace VolumeWatcher
 
         public int State = 0;
 
+        public VolumeWatcher.Sandbox.RecorderTest tester;
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -82,7 +84,7 @@ namespace VolumeWatcher
             //});
             State = 1;
 
-            var a = new VolumeWatcher.Sandbox.RecorderTest();
+            tester = new VolumeWatcher.Sandbox.RecorderTest();
         }
 
         /// <summary>
@@ -92,6 +94,9 @@ namespace VolumeWatcher
         public void OnExit(ExitEventArgs e)
         {
             State = 2;
+
+            tester.Dispose();
+
             model.SaveSettings();
             optionWindow.Close();
             volumeWindow.Close();

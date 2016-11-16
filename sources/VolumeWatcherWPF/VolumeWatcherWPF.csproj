@@ -95,6 +95,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Audio\CoreAudio\AudioCaptureClient.cs" />
     <Compile Include="Audio\CoreAudio\AudioClient.cs" />
     <Compile Include="Audio\CoreAudio\EAudioClientBufferFlags.cs" />
     <Compile Include="Audio\CoreAudio\EAudioClientStreamFlags.cs" />
@@ -105,18 +106,20 @@
     <Compile Include="Audio\CoreAudio\AudioSessionControl.cs" />
     <Compile Include="Audio\CoreAudio\AudioSessionManager.cs" />
     <Compile Include="Audio\CoreAudio\AudioVolumeNotificationData.cs" />
+    <Compile Include="Audio\CoreAudio\Interfaces\IAudioCaptureClient.cs" />
     <Compile Include="Audio\Wave\EBitDepth.cs" />
     <Compile Include="Audio\CoreAudio\EAudioClientState.cs" />
     <Compile Include="Audio\CoreAudio\EDataFlow.cs" />
     <Compile Include="Audio\CoreAudio\EDeviceState.cs" />
     <Compile Include="Audio\CoreAudio\EndpointFormFactor.cs" />
     <Compile Include="Audio\CoreAudio\ERole.cs" />
+    <Compile Include="Audio\Wave\EPlaybackState.cs" />
     <Compile Include="Audio\Wave\ESampleRate.cs" />
     <Compile Include="Audio\CoreAudio\EStgmAccess.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\Blob.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\ClsCtx.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\ComIIds.cs" />
-    <Compile Include="Audio\CoreAudio\Interfaces\DeviceShareMode.cs" />
+    <Compile Include="Audio\CoreAudio\Interfaces\EAudioClientShareMode.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IAudioClient.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IAudioEndpointVolume.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IAudioEndpointVolumeCallback.cs" />
@@ -134,6 +137,7 @@
     <Compile Include="Audio\CoreAudio\Interfaces\IMMNotificationClient.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IPropertyStore.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\ISimpleAudioVolume.cs" />
+    <Compile Include="Audio\Wave\IWaveProvider.cs" />
     <Compile Include="Audio\Wave\WaveFormat.cs" />
     <Compile Include="Audio\Wave\WaveFormatExtensible.cs" />
     <Compile Include="Audio\CoreAudio\MMDevice.cs" />
@@ -164,7 +168,12 @@
     <Compile Include="VolumeWatcher\Enumrate\EWindowPosition.cs" />
     <Compile Include="Moral\Model\ModelBase.cs" />
     <Compile Include="VolumeWatcher\Model\VolumeWatcherModel.cs" />
+    <Compile Include="VolumeWatcher\Sandbox\BufferedWaveProvider.cs" />
+    <Compile Include="VolumeWatcher\Sandbox\CircularBuffer.cs" />
     <Compile Include="VolumeWatcher\Sandbox\RecorderTest.cs" />
+    <Compile Include="VolumeWatcher\Sandbox\ReSampler.cs" />
+    <Compile Include="VolumeWatcher\Sandbox\WasapiCapture.cs" />
+    <Compile Include="VolumeWatcher\Sandbox\WasapiRender.cs" />
     <Compile Include="VolumeWatcher\ViewModel\WindowPositionConverter.cs" />
     <Compile Include="VolumeWatcher\Properties\Settings.cs" />
     <Compile Include="VolumeWatcher\ViewModel\TrayComponentViewModel.cs" />
