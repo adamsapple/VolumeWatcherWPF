@@ -89,12 +89,19 @@ namespace VolumeWatcher.View
         {
             Hide();
             e.Cancel = true;
+            StatusTimer.Stop();                 // Meterタイマーを停止しておく。
             //switch (e.CloseReason)
             //{
             //    case CloseReason.UserClosing:   // ユーザーインターフェイスによる
             //        e.Cancel = true;            // クローズイベントをキャンセル
             //        break;
             //}
+        }
+
+        public new void Show()
+        {
+            base.Show();
+            tabControl_SelectionChanged(tabControl, null);      // タイマー再開の必要があれば行う。
         }
 
         /// <summary>
