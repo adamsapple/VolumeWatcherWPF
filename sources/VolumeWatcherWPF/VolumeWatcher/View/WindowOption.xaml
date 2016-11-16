@@ -36,7 +36,7 @@
             <!-- <Separator DockPanel.Dock="Right"/> -->
             <StatusBarItem />
         </StatusBar>
-        <TabControl x:Name="tabControl" DockPanel.Dock="Top" TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,0,2,0" SelectionChanged="tabControl_SelectionChanged" BorderThickness="1,0,0,0">
+        <TabControl x:Name="tabControl" DockPanel.Dock="Top" TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,0,2,0" SelectionChanged="tabControl_SelectionChanged" BorderThickness="1,0,0,0" BorderBrush="#FFDADADA">
             <TabControl.Resources>
                 <Style TargetType="TabItem">
                     <Setter Property="Template">
