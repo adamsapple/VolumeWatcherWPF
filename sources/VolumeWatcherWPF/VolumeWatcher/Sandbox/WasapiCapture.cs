@@ -195,6 +195,7 @@ namespace VolumeWatcher.Sandbox
                 }
 
                 client.Stop();
+                client.Reset();
                 Debug.WriteLine("[capture]Task stop detected.");
             });
             Debug.WriteLine("[capture]Task started");
