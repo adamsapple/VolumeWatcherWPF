@@ -18,7 +18,7 @@ namespace Audio.CoreAudio.Interfaces
         // WASAPI
         internal const string IID_AUDIO_CAPTURE_CLIENT           = "C8ADBD64-E71E-48A0-A4DE-185C395CD317";
         internal const string IID_AUDIO_CLIENT                   = "1CB9AD4C-DBFA-4C32-B178-C2F568A703B2";
-        internal const string IID_AUDIO_CLIENT2                  = "1CB9AD4C-DBFA-4C32-B178-C2F568A703B2";
+        internal const string IID_AUDIO_CLIENT2                  = "726778CD-F60A-4eda-82DE-E47610CD78AA";
         internal const string IID_AUDIO_CLIENT3                  = "1CB9AD4C-DBFA-4C32-B178-C2F568A703B2";
         internal const string IID_AUDIO_CLOCK                    = "CD63314F-3FBA-4A1B-812C-EF96358728E7";
         internal const string IID_AUDIO_CLOCK2                   = "6F49FF73-6727-49AC-A008-D98CF5E70048";

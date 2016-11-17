@@ -63,8 +63,8 @@ namespace VolumeWatcher.Sandbox
             var shareMode    = EAudioClientShareMode.Shared;
             capture      = new WasapiCapture(deviceCapture);                    // Captureデバイスの準備
             capture.StartRecording();
-            render       = new WasapiRender(deviceRender, shareMode, false, 0); // Renderデバイスの準備
-            render.Init(capture.WaveProvider);
+            render       = new WasapiRender(deviceRender, shareMode, true, 0); // Renderデバイスの準備
+            render.Initialize(capture.WaveProvider);
             render.Play();
 
             Console.WriteLine("capture:{0}",capture.WaveFormat);

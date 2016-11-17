@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
@@ -33,6 +34,8 @@ namespace VolumeWatcher.Sandbox
         internal byte[]          recordBuffer;
         private byte[]          tempBuffer;
         private int             bytesPerFrame;
+
+        private EventWaitHandle frameEventWaitHandle;
 
         private BufferedWaveProvider waveProvider;
         public IWaveProvider WaveProvider => waveProvider;
@@ -121,6 +124,9 @@ namespace VolumeWatcher.Sandbox
             //WaveProvider = new InnerWaveProvider(this);
             waveProvider = new BufferedWaveProvider(WaveFormat);
 
+            frameEventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
+            audioClient.SetEventHandle(frameEventWaitHandle);
+
             isInitialized = true;
         }
 
@@ -135,7 +141,7 @@ namespace VolumeWatcher.Sandbox
         /// <summary>
         /// Start Recording
         /// </summary>
-        public void StartRecording()
+        public void StartRecording1()
         {
             InitializeCaptureDevice();
             ThreadStart start = delegate { this.CaptureThread(this.audioClient); };
@@ -144,6 +150,43 @@ namespace VolumeWatcher.Sandbox
             Debug.WriteLine("Thread starting...");
             this.stop = false;
             this.captureThread.Start();
+        }
+
+        public void StartRecording()
+        {
+            StartRecording1();
+        }
+
+        public void StartRecording2()
+        {
+            InitializeCaptureDevice();
+            //    ThreadStart start = delegate { this.CaptureThread(this.audioClient); };
+            //    this.captureThread = new Thread(start);
+
+            Debug.WriteLine("Thread starting...");
+            this.stop = false;
+            Task.Run(async () => {
+                var client = audioClient;
+                Debug.WriteLine(string.Format("num Buffer Frames: {0}", client.BufferSize));
+                int bufferFrameCount = audioClient.BufferSize;
+
+                // Calculate the actual duration of the allocated buffer.
+                long actualDuration = (long)((double)REFTIMES_PER_SEC *
+                                 bufferFrameCount / WaveFormat.SampleRate);
+                int sleepMilliseconds = (int)(actualDuration / REFTIMES_PER_MILLISEC / 2);
+
+                AudioCaptureClient capture = client.AudioCaptureClient;
+                client.Start();
+                Debug.WriteLine(string.Format("sleep: {0} ms", sleepMilliseconds));
+                while (!this.stop)
+                {
+                    //Thread.Sleep(sleepMilliseconds);
+                    await client.WaitEvent();
+                    ReadNextPacket(capture);
+                }
+            });
+            //    this.captureThread.Start();
+
         }
 
         /// <summary>
@@ -201,9 +244,12 @@ namespace VolumeWatcher.Sandbox
             AudioCaptureClient capture = client.AudioCaptureClient;
             client.Start();
             Debug.WriteLine(string.Format("sleep: {0} ms", sleepMilliseconds));
-            while (!this.stop)
+
+            while( !this.stop )
             {
-                Thread.Sleep(sleepMilliseconds);
+                //Thread.Sleep(sleepMilliseconds);
+                frameEventWaitHandle.WaitOne( sleepMilliseconds);
+
                 ReadNextPacket(capture);
             }
         }

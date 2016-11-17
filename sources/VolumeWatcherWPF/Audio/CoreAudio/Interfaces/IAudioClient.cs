@@ -6,7 +6,8 @@ using Audio.Wave;
 
 namespace Audio.CoreAudio.Interfaces
 {
-    [Guid(ComIIds.IID_AUDIO_CLIENT)]
+    //[Guid(ComIIds.IID_AUDIO_CLIENT)]
+    [Guid(ComIIds.IID_AUDIO_CLIENT2)]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     internal interface IAudioClient
     {

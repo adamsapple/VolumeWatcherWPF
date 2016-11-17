@@ -107,6 +107,7 @@
     <Compile Include="Audio\CoreAudio\AudioSessionManager.cs" />
     <Compile Include="Audio\CoreAudio\AudioVolumeNotificationData.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IAudioCaptureClient.cs" />
+    <Compile Include="Audio\CoreAudio\NativeMethods.cs" />
     <Compile Include="Audio\Wave\EBitDepth.cs" />
     <Compile Include="Audio\CoreAudio\EAudioClientState.cs" />
     <Compile Include="Audio\CoreAudio\EDataFlow.cs" />

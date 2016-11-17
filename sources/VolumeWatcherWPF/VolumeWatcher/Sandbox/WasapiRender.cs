@@ -18,8 +18,7 @@ namespace VolumeWatcher.Sandbox
         private AudioRenderClient renderClient;
         private IWaveProvider sourceProvider;
         private int latencyMilliseconds;
-        private int bufferFrameCount;
-        private int bytesPerFrame;
+        
         private bool isUsingEventSync;
         private EventWaitHandle frameEventWaitHandle;
         private byte[] readBuffer;
@@ -86,13 +85,14 @@ namespace VolumeWatcher.Sandbox
             try
             {
                 // fill a whole buffer
-                bufferFrameCount = audioClient.BufferSize;
-                bytesPerFrame    = outputFormat.Channels * outputFormat.BitsPerSample / 8;
-                readBuffer       = new byte[bufferFrameCount * bytesPerFrame];
+                var bufferFrameCount = audioClient.BufferSize;
+                //var bytesPerFrame    = outputFormat.Channels * outputFormat.BitsPerSample / 8;
+                
+                readBuffer       = new byte[bufferFrameCount * outputFormat.BlockAlign];
                 FillBuffer(playbackProvider, bufferFrameCount);
 
                 // Create WaitHandle for sync
-                WaitHandle[] waitHandles = new WaitHandle[] { frameEventWaitHandle };
+                //WaitHandle[] waitHandles = new WaitHandle[] { frameEventWaitHandle };
 
                 audioClient.Start();
 
@@ -102,7 +102,8 @@ namespace VolumeWatcher.Sandbox
                     int indexHandle = 0;
                     if (isUsingEventSync)
                     {
-                        indexHandle = WaitHandle.WaitAny(waitHandles, 3 * latencyMilliseconds, false);
+                        //indexHandle = WaitHandle.WaitAny(waitHandles, 3 * latencyMilliseconds, false);
+                        frameEventWaitHandle.WaitOne(3 * latencyMilliseconds);
                     }
                     else
                     {
@@ -167,15 +168,16 @@ namespace VolumeWatcher.Sandbox
 
         private void FillBuffer(IWaveProvider playbackProvider, int frameCount)
         {
-            IntPtr buffer = renderClient.GetBuffer(frameCount);
-            int readLength = frameCount * bytesPerFrame;
-            int read = playbackProvider.Read(readBuffer, 0, readLength);
+            IntPtr buffer  = renderClient.GetBuffer(frameCount);
+            int readLength = frameCount * outputFormat.BlockAlign;
+            int read       = playbackProvider.Read(readBuffer, 0, readLength);
+
             if (read == 0)
             {
                 PlaybackState = EPlaybackState.Stopped;
             }
             Marshal.Copy(readBuffer, 0, buffer, read);
-            int actualFrameCount = read / bytesPerFrame;
+            int actualFrameCount = read / outputFormat.BlockAlign;
             /*if (actualFrameCount != frameCount)
             {
                 Debug.WriteLine(String.Format("WASAPI wanted {0} frames, supplied {1}", frameCount, actualFrameCount ));
@@ -228,7 +230,7 @@ namespace VolumeWatcher.Sandbox
         /// Initialize for playing the specified wave stream
         /// </summary>
         /// <param name="waveProvider">IWaveProvider to play</param>
-        public void Init(IWaveProvider waveProvider)
+        public void Initialize(IWaveProvider waveProvider)
         {
             long latencyRefTimes = latencyMilliseconds * 10000;
 
@@ -266,7 +268,7 @@ namespace VolumeWatcher.Sandbox
 
                 // Create the Wait Event Handle
                 frameEventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
-                //audioClient.SetEventHandle(frameEventWaitHandle);
+                audioClient.SetEventHandle(frameEventWaitHandle);
             }
             else
             {
@@ -278,25 +280,6 @@ namespace VolumeWatcher.Sandbox
             // Get the RenderClient
             renderClient = audioClient.AudioRenderClient;
         }
-
-        /// <summary>
-        /// Volume
-        /// </summary>
-        public float Volume
-        {
-            get
-            {
-                return 1.0f;
-            }
-            set
-            {
-                if (value != 1.0f)
-                {
-                    throw new NotImplementedException();
-                }
-            }
-        }
-     
 
         #region IDisposable Members
 
