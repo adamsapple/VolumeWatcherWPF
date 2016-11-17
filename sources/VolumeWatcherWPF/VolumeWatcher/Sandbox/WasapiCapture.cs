@@ -27,18 +27,19 @@ namespace VolumeWatcher.Sandbox
 
         private MMDevice        device;
         private AudioClient     audioClient;
-        private Thread          captureThread;
+        //private Thread          captureThread;
+        private Task            captureTask;
 
         private bool            isInitialized;
         private volatile bool   stop;
-        internal byte[]          recordBuffer;
-        private byte[]          tempBuffer;
+        internal byte[]         recordBuffer;
         private int             bytesPerFrame;
 
         private EventWaitHandle frameEventWaitHandle;
 
         private BufferedWaveProvider waveProvider;
         public IWaveProvider WaveProvider => waveProvider;
+        public bool IsRunning => (captureTask != null);
 
         /// <summary>
         /// Recording wave format
@@ -138,6 +139,7 @@ namespace VolumeWatcher.Sandbox
             return EAudioClientStreamFlags.None;
         }
 
+        /*
         /// <summary>
         /// Start Recording
         /// </summary>
@@ -151,65 +153,75 @@ namespace VolumeWatcher.Sandbox
             this.stop = false;
             this.captureThread.Start();
         }
+        */
 
-        public void StartRecording()
+        public void Start()
         {
-            StartRecording1();
+            StartRecording();
         }
 
-        public void StartRecording2()
+        private void StartRecording()
         {
+            if (IsRunning)
+            {
+                return;
+            }
+
             InitializeCaptureDevice();
-            //    ThreadStart start = delegate { this.CaptureThread(this.audioClient); };
-            //    this.captureThread = new Thread(start);
 
-            Debug.WriteLine("Thread starting...");
+            Debug.WriteLine("[capture]Task starting...");
             this.stop = false;
-            Task.Run(async () => {
+            captureTask = Task.Run( () => {
                 var client = audioClient;
-                Debug.WriteLine(string.Format("num Buffer Frames: {0}", client.BufferSize));
-                int bufferFrameCount = audioClient.BufferSize;
 
+                int bufferFrameCount = client.BufferSize;
                 // Calculate the actual duration of the allocated buffer.
                 long actualDuration = (long)((double)REFTIMES_PER_SEC *
                                  bufferFrameCount / WaveFormat.SampleRate);
                 int sleepMilliseconds = (int)(actualDuration / REFTIMES_PER_MILLISEC / 2);
 
+                Debug.WriteLine(string.Format("num Buffer Frames: {0}", client.BufferSize));
+                Debug.WriteLine(string.Format("sleep: {0} ms", sleepMilliseconds));
+
+
                 AudioCaptureClient capture = client.AudioCaptureClient;
                 client.Start();
-                Debug.WriteLine(string.Format("sleep: {0} ms", sleepMilliseconds));
+
                 while (!this.stop)
                 {
-                    //Thread.Sleep(sleepMilliseconds);
-                    await client.WaitEvent();
+                    //Task.Delay(sleepMilliseconds);        // 待機
+                    frameEventWaitHandle.WaitOne(sleepMilliseconds);    // 待機
                     ReadNextPacket(capture);
                 }
-            });
-            //    this.captureThread.Start();
 
+                client.Stop();
+                Debug.WriteLine("[capture]Task stop detected.");
+            });
+            Debug.WriteLine("[capture]Task started");
         }
 
         /// <summary>
         /// Stop Recording
         /// </summary>
-        public void StopRecording()
+        public void Stop()
         {
-            if (this.captureThread != null)
+            if (!IsRunning)
             {
-                this.stop = true;
-
-                Debug.WriteLine("Thread ending...");
-
-                // wait for thread to end
-                this.captureThread.Join();
-                this.captureThread = null;
-
-                Debug.WriteLine("Done.");
-
-                this.stop = false;
+                return;
             }
-        }
 
+            this.stop = true;
+            Debug.WriteLine("[capture]Task ending...");
+
+            // wait for Task to end
+            this.captureTask?.Wait();
+            this.captureTask = null;
+
+            Debug.WriteLine("[capture]Task Done.");
+            this.stop = false;
+        }
+        
+        /*
         private void CaptureThread(AudioClient client)
         {
             Exception exception = null;
@@ -262,6 +274,7 @@ namespace VolumeWatcher.Sandbox
             //    handler(this, new StoppedEventArgs(exception));
             //}
         }
+        */
 
         private void ReadNextPacket(AudioCaptureClient capture)
         {
@@ -312,7 +325,7 @@ namespace VolumeWatcher.Sandbox
         /// </summary>
         public void Dispose()
         {
-            StopRecording();
+            Stop();
             if (audioClient != null)
             {
                 audioClient.Dispose();
@@ -321,35 +334,5 @@ namespace VolumeWatcher.Sandbox
         }
 
         #endregion
-
-
-        public class InnerWaveProvider : IWaveProvider
-        {
-            WasapiCapture parent;
-            internal int Offset { get; set; }
-            internal int Length { get; set; }
-
-            public InnerWaveProvider(WasapiCapture parent)
-            {
-                this.parent = parent;
-                WaveFormat  = parent.WaveFormat;
-            }
-
-            public WaveFormat WaveFormat { get; }
-            public int Read(byte[] buffer, int offset, int count)
-            {
-                int srcoffs = Offset;
-                int length = Math.Min(Length, count);
-                byte[] src  = parent.recordBuffer;
-
-                Array.Copy(src, srcoffs, buffer, offset, length);
-                int result = length;
-                if(src.Length-srcoffs< result)
-                {
-                    result = src.Length - srcoffs;
-                }
-                return result;
-            }
-        }
     }
 }

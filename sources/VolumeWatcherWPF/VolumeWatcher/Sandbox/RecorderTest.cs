@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
-
+using System.Threading.Tasks;
 
 using Audio.Wave;
 using Audio.CoreAudio;
@@ -62,13 +62,23 @@ namespace VolumeWatcher.Sandbox
 
             var shareMode    = EAudioClientShareMode.Shared;
             capture      = new WasapiCapture(deviceCapture);                    // Captureデバイスの準備
-            capture.StartRecording();
+            capture.Start();
             render       = new WasapiRender(deviceRender, shareMode, true, 0); // Renderデバイスの準備
             render.Initialize(capture.WaveProvider);
             render.Play();
 
-            Console.WriteLine("capture:{0}",capture.WaveFormat);
-            Console.WriteLine("render :{0}", render.WaveFormat);
+
+            Task.Run(async () =>
+            {
+                Console.WriteLine("capture:{0}", capture.WaveFormat);
+                Console.WriteLine("render :{0}", render.WaveFormat);
+
+                await Task.Delay(30000);
+                render.Stop();
+                capture.Stop();
+            });
+            
+
 
             /*
             var audioClient = device.AudioClient;
@@ -178,7 +188,7 @@ namespace VolumeWatcher.Sandbox
 
         public void Stop()
         {
-            capture.StopRecording();
+            capture.Stop();
             render.Stop();
         }
 

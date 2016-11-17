@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 
@@ -23,10 +24,13 @@ namespace VolumeWatcher.Sandbox
         private EventWaitHandle frameEventWaitHandle;
         private byte[] readBuffer;
         
-        private Thread playThread;
+        private Thread  playThread;
+        private Task    playTask;
         private WaveFormat outputFormat;
         public WaveFormat WaveFormat => outputFormat;
         private SynchronizationContext syncContext;
+
+        public bool IsRunning => (playTask != null);
 
         public EPlaybackState PlaybackState { get; private set; }
         //public event EventHandler<StoppedEventArgs> PlaybackStopped;
@@ -78,6 +82,7 @@ namespace VolumeWatcher.Sandbox
             return enumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eConsole);
         }
 
+        /*
         private void PlayThread()
         {
             IWaveProvider playbackProvider = this.sourceProvider;
@@ -147,6 +152,7 @@ namespace VolumeWatcher.Sandbox
                 //RaisePlaybackStopped(exception);
             }
         }
+        */
 
         /*
         private void RaisePlaybackStopped(Exception e)
@@ -190,16 +196,83 @@ namespace VolumeWatcher.Sandbox
         /// </summary>
         public void Play()
         {
-            if (PlaybackState != EPlaybackState.Playing)
+            if (PlaybackState == EPlaybackState.Playing)
             {
-                if (PlaybackState == EPlaybackState.Stopped)
-                {
-                    playThread = new Thread(new ThreadStart(PlayThread));
-                    playThread.Start();
-                }
+                return;
+            }
+
+            if (PlaybackState == EPlaybackState.Paused)
+            {
+                PlaybackState = EPlaybackState.Playing;
+                return;
+            }
+
+            playTask = Task.Run(() => {
+                IWaveProvider playbackProvider = this.sourceProvider;
+                AudioClient client             = this.audioClient;
+                Exception exception            = null;
 
                 PlaybackState = EPlaybackState.Playing;
-            }
+
+                try
+                {
+                    // fill a whole buffer
+                    var bufferFrameCount = client.BufferSize;
+                    var bytesPerFrame    = outputFormat.Channels * outputFormat.BitsPerSample / 8;
+
+                    readBuffer = new byte[bufferFrameCount * bytesPerFrame];
+                    //FillBuffer(playbackProvider, bufferFrameCount);
+
+                    client.Start();
+
+                    while (PlaybackState != EPlaybackState.Stopped)
+                    {
+                        // If using Event Sync, Wait for notification from AudioClient or Sleep half latency
+                        if (isUsingEventSync)
+                        {
+                            //indexHandle = WaitHandle.WaitAny(waitHandles, 3 * latencyMilliseconds, false);
+                            frameEventWaitHandle.WaitOne(3 * latencyMilliseconds);
+                        }
+                        else
+                        {
+                            Task.Delay(latencyMilliseconds / 2);
+                        }
+
+                        // If still playing and notification is ok
+                        if (PlaybackState != EPlaybackState.Playing)
+                        {
+                            continue;
+                        }
+                            
+                        // See how much buffer space is available.
+                        int numFramesPadding = 0;
+                        if (isUsingEventSync)
+                        {
+                            // In exclusive mode, always ask the max = bufferFrameCount = audioClient.BufferSize
+                            numFramesPadding = (shareMode == EAudioClientShareMode.Shared) ? client.CurrentPadding : 0;
+                        }
+                        else
+                        {
+                            numFramesPadding = client.CurrentPadding;
+                        }
+                        int numFramesAvailable = bufferFrameCount - numFramesPadding;
+                        if (numFramesAvailable > 0)
+                        {
+                            FillBuffer(playbackProvider, numFramesAvailable);
+                        }
+                    }
+                    client.Stop();
+                    client.Reset();
+                }
+                catch (Exception e)
+                {
+                    exception = e;
+                }
+                finally
+                {
+                    //RaisePlaybackStopped(exception);
+                }
+            });
         }
 
         /// <summary>
@@ -210,8 +283,11 @@ namespace VolumeWatcher.Sandbox
             if (PlaybackState != EPlaybackState.Stopped)
             {
                 PlaybackState = EPlaybackState.Stopped;
-                playThread.Join();
-                playThread = null;
+                //playThread.Join();
+                //playThread = null;
+
+                playTask?.Wait();
+                playTask = null;
             }
         }
 

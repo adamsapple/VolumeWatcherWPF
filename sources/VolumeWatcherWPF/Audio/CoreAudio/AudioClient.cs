@@ -21,7 +21,6 @@ namespace Audio.CoreAudio
         private AudioRenderClient  _AudioRenderClient;
         private AudioCaptureClient _AudioCaptureClient;
         private WaveFormat mixFormat;
-        private IntPtr hEvent = IntPtr.Zero;
 
         public int BufferSize       => GetBufferSize();
         public WaveFormat MixFormat => mixFormat;
@@ -48,9 +47,6 @@ namespace Audio.CoreAudio
         {
             _realAudioClient = realAudioClient;
             GetMixFormat();
-
-            //hEvent = NativeMethods.CreateEventEx(IntPtr.Zero, IntPtr.Zero, 0, EEventAccess.EventAllAccess);
-            //_realAudioClient.SetEventHandle(hEvent);
         }
 
         public void  Initialize(EAudioClientShareMode shareMode,
@@ -141,21 +137,6 @@ namespace Audio.CoreAudio
         public void SetEventHandle(EventWaitHandle eventWaitHandle)
         {
             _realAudioClient.SetEventHandle(eventWaitHandle.SafeWaitHandle.DangerousGetHandle());
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public Task WaitEvent()
-        {
-            return Task.Run(() =>
-                {
-                    int result = NativeMethods.WaitForSingleObjectEx(hEvent, 50, false);
-                    //int result = NativeMethods.WaitForSingleObjectEx(hEvent, unchecked((int)0xFFFFFFFF), true);
-                    //if (result != 0) { throw new Exception("Unexpected event"); }
-                }
-            );
         }
 
         private int GetBufferSize()
@@ -279,12 +260,6 @@ namespace Audio.CoreAudio
             _AudioCaptureClient?.Dispose();
             _AudioCaptureClient = null;
             
-            if(hEvent != IntPtr.Zero)
-            {
-                NativeMethods.CloseHandle(hEvent);
-                hEvent = IntPtr.Zero;
-            }
-
             Marshal.ReleaseComObject(_realAudioClient);
             _realAudioClient = null;
 
