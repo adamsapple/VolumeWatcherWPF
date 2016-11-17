@@ -29,8 +29,8 @@ namespace VolumeWatcher.View
     {
         private VolumeWatcherMain main = null;
         private VolumeWatcherModel model = null;
+        private OptionWindowViewModel viewmodel = new OptionWindowViewModel();
 
-        private System.Timers.Timer StatusTimer = new System.Timers.Timer(100);
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -41,21 +41,13 @@ namespace VolumeWatcher.View
 
             this.DataContext = model;
             InitializeComponent();
-            
+
+            viewmodel.SetBinding(this, main);
+            RenderMeter.DataContext  = viewmodel;
+            CaptureMeter.DataContext = viewmodel;
+
             // 高速化に寄与するかな
             this.Descendants().OfType<Freezable>().ToList().Where(e => e.CanFreeze).ToList().ForEach(e => e.Freeze());
-
-
-            // ピークメータ表示処理の一例
-            {
-                StatusTimer.Elapsed += (o, el) => {
-                    //Console.WriteLine("peak={0:p1}", peak);
-                    Dispatcher.BeginInvoke((Action)delegate () {
-                        UpdateMeter(RenderMeter, main.VolumeMonitor1.AudioDevice?.AudioMeterInformation);
-                        UpdateMeter(CaptureMeter, main.CaptureMonitor.AudioDevice?.AudioMeterInformation);
-                    });
-                };
-            }
         }
 
         /// <summary>
@@ -89,7 +81,7 @@ namespace VolumeWatcher.View
         {
             Hide();
             e.Cancel = true;
-            StatusTimer.Stop();                 // Meterタイマーを停止しておく。
+            viewmodel.Stop();                     // Meterタイマーを停止しておく。
             //switch (e.CloseReason)
             //{
             //    case CloseReason.UserClosing:   // ユーザーインターフェイスによる
@@ -102,23 +94,6 @@ namespace VolumeWatcher.View
         {
             base.Show();
             tabControl_SelectionChanged(tabControl, null);      // タイマー再開の必要があれば行う。
-        }
-
-        /// <summary>
-        /// ピークメーターの表示更新
-        /// </summary>
-        /// <param name="bar"></param>
-        /// <param name="meter"></param>
-        private void UpdateMeter(Moral.UI.LevelBar bar, AudioMeterInformation meter)
-        {
-            if (meter != null)
-            {
-                bar.Value = (int)(meter.PeakValue * 100);
-            }
-            else
-            {
-                bar.Value = 0;
-            }
         }
 
         /// <summary>
@@ -185,16 +160,12 @@ namespace VolumeWatcher.View
 
             if (ti == tiStatus)
             {
-                StatusTimer.Start();
-                //Console.WriteLine("timer開始");
+                viewmodel.Start();
             }
             else
             {
-                StatusTimer.Stop();
-                UpdateMeter(RenderMeter, null);
-                UpdateMeter(CaptureMeter, null);
+                viewmodel.Stop();
             }
-
         }
     }
 }

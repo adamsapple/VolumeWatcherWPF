@@ -60,25 +60,23 @@ namespace VolumeWatcher.Sandbox
             }
             */
 
-            var shareMode    = EAudioClientShareMode.Shared;
-            capture      = new WasapiCapture(deviceCapture);                    // Captureデバイスの準備
+            var shareMode = EAudioClientShareMode.Shared;
+            capture       = new WasapiCapture(deviceCapture);                   // Captureデバイスの準備
+            render        = new WasapiRender(deviceRender, shareMode, true, 0); // Renderデバイスの準備
+
             capture.Start();
-            render       = new WasapiRender(deviceRender, shareMode, true, 0); // Renderデバイスの準備
             render.Initialize(capture.WaveProvider);
             render.Play();
-
 
             Task.Run(async () =>
             {
                 Console.WriteLine("capture:{0}", capture.WaveFormat);
                 Console.WriteLine("render :{0}", render.WaveFormat);
 
-                await Task.Delay(30000);
+                await Task.Delay(10000);
                 render.Stop();
                 capture.Stop();
             });
-            
-
 
             /*
             var audioClient = device.AudioClient;

@@ -108,7 +108,7 @@
                     <StackPanel Margin="0,0,0,10" DockPanel.Dock="Bottom" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                         <StackPanel  Margin="0,0,20,0">
                             <TextBlock HorizontalAlignment="Center">Play</TextBlock>
-                            <UI:LevelBar x:Name="RenderMeter" DockPanel.Dock="Right" Height="152" Width="12" >
+                            <UI:LevelBar x:Name="RenderMeter" DockPanel.Dock="Right" Height="152" Width="12" Value="{Binding RenderPeakValue, Mode=OneWay}" >
                                 <UI:LevelBar.BarColor>
                                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                         <GradientStop Color="#FF00342B" Offset="0.95"/>
@@ -120,7 +120,7 @@
                         </StackPanel>
                         <StackPanel Margin="20,0,0,0">
                             <TextBlock HorizontalAlignment="Center">Rec</TextBlock>
-                            <UI:LevelBar x:Name="CaptureMeter" DockPanel.Dock="Left" Height="152" Width="12">
+                            <UI:LevelBar x:Name="CaptureMeter" DockPanel.Dock="Left" Height="152" Width="12" Value="{Binding CapturePeakValue, Mode=OneWay}" >
                                 <UI:LevelBar.BarColor>
                                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                         <GradientStop Color="#FF3E0025" Offset="0.95"/>

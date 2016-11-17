@@ -24,7 +24,6 @@ namespace VolumeWatcher.Sandbox
         private EventWaitHandle frameEventWaitHandle;
         private byte[] readBuffer;
         
-        private Thread  playThread;
         private Task    playTask;
         private WaveFormat outputFormat;
         public WaveFormat WaveFormat => outputFormat;
@@ -207,6 +206,7 @@ namespace VolumeWatcher.Sandbox
                 return;
             }
 
+            Debug.WriteLine("[render]Task starting...");
             playTask = Task.Run(() => {
                 IWaveProvider playbackProvider = this.sourceProvider;
                 AudioClient client             = this.audioClient;
@@ -263,6 +263,7 @@ namespace VolumeWatcher.Sandbox
                     }
                     client.Stop();
                     client.Reset();
+                    Debug.WriteLine("[render]Task stop detected.");
                 }
                 catch (Exception e)
                 {
@@ -273,6 +274,7 @@ namespace VolumeWatcher.Sandbox
                     //RaisePlaybackStopped(exception);
                 }
             });
+            Debug.WriteLine("[render]Task started");
         }
 
         /// <summary>
@@ -283,11 +285,10 @@ namespace VolumeWatcher.Sandbox
             if (PlaybackState != EPlaybackState.Stopped)
             {
                 PlaybackState = EPlaybackState.Stopped;
-                //playThread.Join();
-                //playThread = null;
-
+                Debug.WriteLine("[render]Task ending...");
                 playTask?.Wait();
                 playTask = null;
+                Debug.WriteLine("[render]Task Done.");
             }
         }
 
