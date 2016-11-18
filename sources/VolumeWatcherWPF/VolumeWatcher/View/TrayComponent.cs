@@ -85,6 +85,24 @@ namespace VolumeWatcher.View
                         // Mute
                         main.VolumeMonitor1.AudioDevice.AudioEndpointVolume.Mute = !main.VolumeMonitor1.AudioDevice.AudioEndpointVolume.Mute;
                     }
+                },
+                {
+                    Key.K, () => {
+                        // 音量-
+                        main.CaptureMonitor.AudioDevice.AudioEndpointVolume.MasterVolumeLevelScalar -= add;
+                    }
+                },
+                {
+                    Key.L, () => {
+                        // 音量+
+                        main.CaptureMonitor.AudioDevice.AudioEndpointVolume.MasterVolumeLevelScalar += add;
+                    }
+                },
+                {
+                    Key.J, () => {
+                        // Mute
+                        main.CaptureMonitor.AudioDevice.AudioEndpointVolume.Mute = !main.CaptureMonitor.AudioDevice.AudioEndpointVolume.Mute;
+                    }
                 }
             };
             KeyShortcuts = dict;
