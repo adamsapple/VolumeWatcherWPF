@@ -41,8 +41,8 @@ namespace VolumeWatcher.Sandbox
 
         private EventWaitHandle frameEventWaitHandle;
 
-        //public BufferedWaveProvider waveProvider;
-        private ResampleWaveProvider waveProvider;
+        public BufferedWaveProvider waveProvider;
+        //private ResampleWaveProvider waveProvider;
 
         public IWaveProvider WaveProvider => waveProvider;
         public bool IsRunning => (captureTask != null);
@@ -134,8 +134,8 @@ namespace VolumeWatcher.Sandbox
             Debug.WriteLine(string.Format("record buffer size = {0}", this.recordBuffer.Length));
 
             //WaveProvider = new InnerWaveProvider(this);
-            //waveProvider = new BufferedWaveProvider(WaveFormat);
-            waveProvider = new ResampleWaveProvider(WaveFormat, WaveFormat);
+            waveProvider = new BufferedWaveProvider(WaveFormat);
+            //waveProvider = new ResampleWaveProvider(WaveFormat, WaveFormat);
 
             frameEventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
             audioClient.SetEventHandle(frameEventWaitHandle);

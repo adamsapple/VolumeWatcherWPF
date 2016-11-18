@@ -29,7 +29,6 @@ namespace VolumeWatcher.Sandbox
         public WaveFormat WaveFormat => outputFormat;
 
         private SynchronizationContext syncContext;
-        private ResamplerDmoStream ResamplerStream;
 
         public bool IsRunning => (playTask != null);
 
@@ -328,9 +327,9 @@ namespace VolumeWatcher.Sandbox
 
             //ResamplerStream = new ResamplerDmoStream(waveProvider, outputFormat);
             //this.sourceProvider = ResamplerStream;
-            this.sourceProvider = waveProvider;
-            ((ResampleWaveProvider)this.sourceProvider).SetOutWaveFormat(outputFormat);
-
+            //this.sourceProvider = waveProvider;
+            this.sourceProvider = new ResampleWaveProvider(waveProvider, outputFormat);
+            
             // If using EventSync, setup is specific with shareMode
             if (isUsingEventSync)
             {
