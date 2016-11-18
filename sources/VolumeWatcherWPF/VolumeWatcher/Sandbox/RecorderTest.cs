@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -63,17 +64,18 @@ namespace VolumeWatcher.Sandbox
             var shareMode = EAudioClientShareMode.Shared;
             capture       = new WasapiCapture(deviceCapture);                   // Captureデバイスの準備
             render        = new WasapiRender(deviceRender, shareMode, true, 0); // Renderデバイスの準備
-
-            capture.Start();
+            
+            capture.Initialize();
             render.Initialize(capture.WaveProvider);
-            render.Play();
 
             Task.Run(async () =>
             {
-                Console.WriteLine("capture:{0}", capture.WaveFormat);
-                Console.WriteLine("render :{0}", render.WaveFormat);
+                capture.Start();
+                render.Play();
+                Debug.WriteLine(string.Format("capture:{0}", capture.WaveFormat));
+                Debug.WriteLine(string.Format("render :{0}", render.WaveFormat));
 
-                await Task.Delay(10000);
+                await Task.Delay(20000);
                 render.Stop();
                 capture.Stop();
             });

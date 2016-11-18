@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Audio.Util
 {
-    public enum HResult
+    public enum HResult :int
     {
         S_OK = 0,
         S_FALSE = 1,
+        E_INVALIDARG = unchecked((int)0x80000003),
     }
 
     public static class HResultUtil

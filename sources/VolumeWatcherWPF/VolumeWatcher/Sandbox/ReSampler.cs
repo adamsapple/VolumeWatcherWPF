@@ -12,7 +12,5 @@ namespace VolumeWatcher.Sandbox
     /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms694197%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
     /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms703190(v=vs.85).aspx
     /// </summary>
-    class ReSampler
-    {
-    }
+    
 }

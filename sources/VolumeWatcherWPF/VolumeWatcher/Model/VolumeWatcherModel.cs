@@ -47,6 +47,12 @@ namespace VolumeWatcher.Model
             get { return _Volume; }
             set { _Volume = value; SetProperty(ref _Volume, value); }
         }
+        private int _RecVolume;
+        public int RecVolume
+        {
+            get { return _RecVolume; }
+            set { _RecVolume = value; SetProperty(ref _RecVolume, value); }
+        }
         private bool _IsMute = false;
         public bool IsMute
         {
@@ -120,6 +126,21 @@ namespace VolumeWatcher.Model
             AudioEndpointVolume volume = device.AudioEndpointVolume;
             this.Volume = (int)Math.Round(volume.MasterVolumeLevelScalar * 100);
             this.IsMute = volume.Mute;
+        }
+
+        public void SetRecDeviceInfo(MMDevice device)
+        {
+            // デバイス情報を取得し格納する
+            //this.DeviceName = device.FriendlyName;
+            //this.IconPath   = device.IconPath;
+            //OnDeviceChanged(device);
+            //this.DeviceName = (string)device.GetProperty(PropertyKeys.PKEY_DEVICE_FRIENDLY_NAME);
+            //this.IconPath = device.IconPath;
+
+            // volumeとmuteは「OnVolumeChanged」を流用
+            AudioEndpointVolume volume = device.AudioEndpointVolume;
+            this.RecVolume = (int)Math.Round(volume.MasterVolumeLevelScalar * 100);
+            //this.IsMute = volume.Mute;
         }
     }
 }

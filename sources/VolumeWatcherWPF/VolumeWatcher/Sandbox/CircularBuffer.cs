@@ -7,11 +7,11 @@ namespace VolumeWatcher.Sandbox
 {
     public class CircularBuffer
     {
-        private byte[] buffer;
-        private int writePosition;
-        private int readPosition;
-        private int byteCount;
-        private object lockObject;
+        private byte[]  buffer;
+        private int     writePosition;
+        private int     readPosition;
+        private int     byteCount;
+        private object  lockObject;
 
         /// <summary>
         /// Create a new circular buffer

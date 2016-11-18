@@ -36,7 +36,7 @@ namespace VolumeWatcher.View
         /// </summary>
         public WindowOption()
         {
-            main = ((App)System.Windows.Application.Current).main;
+            main  = ((App)System.Windows.Application.Current).main;
             model = main.model;
 
             this.DataContext = model;

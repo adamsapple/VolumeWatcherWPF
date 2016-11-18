@@ -55,7 +55,7 @@ namespace VolumeWatcher
             model = new VolumeWatcherModel();
             model.LoadSettings();
             
-            var VolumeMonitorViewModel1 = new VolumeMonitorViewModel(VolumeMonitor1, model);
+            var VolumeMonitorViewModel1 = new VolumeMonitorViewModel(VolumeMonitor1, CaptureMonitor, model);
         }
 
         /// <summary>

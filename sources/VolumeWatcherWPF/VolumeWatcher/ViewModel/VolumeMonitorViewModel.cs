@@ -14,13 +14,18 @@ namespace VolumeWatcher.ViewModel
     {
         VolumeWatcherModel Model = null;
 
-        public VolumeMonitorViewModel(VolumeMonitor monitor, VolumeWatcherModel model )
+        public VolumeMonitorViewModel(VolumeMonitor renderMonitor, VolumeMonitor captureMonitor, VolumeWatcherModel model )
         {
             Model = model;
-            Model.SetDeviceInfo(monitor.AudioDevice);
 
-            monitor.OnVolumeNotification += OnVolumeChanged;
-            monitor.OnDefaultDeviceChanged += OnDeviceChanged;
+            renderMonitor.OnVolumeNotification += OnVolumeChanged;
+            renderMonitor.OnDefaultDeviceChanged += OnDeviceChanged;
+
+            captureMonitor.OnVolumeNotification += OnRecVolumeChanged;
+            captureMonitor.OnDefaultDeviceChanged += OnRecDeviceChanged;
+
+            Model.SetDeviceInfo(renderMonitor.AudioDevice);
+            Model.SetRecDeviceInfo(captureMonitor.AudioDevice);
         }
 
         /// <summary>
@@ -41,6 +46,25 @@ namespace VolumeWatcher.ViewModel
         public void OnDeviceChanged(MMDevice device)
         {
             Model.SetDeviceInfo(device);
+        }
+        /// <summary>
+         /// ev:MixerVolume変更時
+         /// </summary>
+         /// <param name="vol"></param>
+         /// <param name="mute"></param>
+        public void OnRecVolumeChanged(float vol, bool mute)
+        {
+            Model.RecVolume = (int)Math.Round(vol * 100);
+            //Model.IsMute = mute;
+        }
+
+        /// <summary>
+        /// ev:規定の再生デバイス変更時
+        /// </summary>
+        /// <param name="device"></param>
+        public void OnRecDeviceChanged(MMDevice device)
+        {
+            Model.SetRecDeviceInfo(device);
         }
     }
 }

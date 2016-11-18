@@ -27,7 +27,9 @@ namespace VolumeWatcher.Sandbox
         private Task    playTask;
         private WaveFormat outputFormat;
         public WaveFormat WaveFormat => outputFormat;
+
         private SynchronizationContext syncContext;
+        private ResamplerDmoStream ResamplerStream;
 
         public bool IsRunning => (playTask != null);
 
@@ -324,7 +326,10 @@ namespace VolumeWatcher.Sandbox
             }
             //audioClient.Initialize(shareMode, EAudioClientStreamFlags.None, 1000000, 0, outputFormat, Guid.Empty);
 
+            //ResamplerStream = new ResamplerDmoStream(waveProvider, outputFormat);
+            //this.sourceProvider = ResamplerStream;
             this.sourceProvider = waveProvider;
+            ((ResampleWaveProvider)this.sourceProvider).SetOutWaveFormat(outputFormat);
 
             // If using EventSync, setup is specific with shareMode
             if (isUsingEventSync)

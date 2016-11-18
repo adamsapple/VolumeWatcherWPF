@@ -31,8 +31,11 @@
         <StatusBar Height="25" DockPanel.Dock="Bottom">
             <!-- 右側に配置 -->
             <!--<StatusBarItem DockPanel.Dock="Right" Margin="-4,0,0,0">%</StatusBarItem>-->
-            <StatusBarItem DockPanel.Dock="Right" Content="{Binding Volume, Mode=OneWay}" MinWidth="40" HorizontalContentAlignment="Right" x:Name="lblVolume" ContentStringFormat="0\%"/>
+            <StatusBarItem DockPanel.Dock="Right" Content="{Binding Volume, Mode=OneWay}" MinWidth="40" HorizontalContentAlignment="Right" x:Name="lblVolume" ContentStringFormat="0\%" Padding="0,3,3,3"/>
             <StatusBarItem DockPanel.Dock="Right" Content="Vol:"/>
+            <Separator  DockPanel.Dock="Right" Background="#FFDADADA"/>
+            <StatusBarItem DockPanel.Dock="Right" Content="{Binding RecVolume, Mode=OneWay}" MinWidth="40" HorizontalContentAlignment="Right" ContentStringFormat="0\%" Padding="0,3,3,3"/>
+            <StatusBarItem DockPanel.Dock="Right" Content="Rec:"/>
             <!-- <Separator DockPanel.Dock="Right"/> -->
             <StatusBarItem />
         </StatusBar>

@@ -10,6 +10,10 @@ using Audio.CoreAudio;
 using Audio.CoreAudio.Interfaces;
 using Audio.Wave;
 
+//
+// http://www.codeproject.com/Articles/460145/Recording-and-playing-PCM-audio-on-Windows-VB?msg=4373191#xx4373191xx
+//
+
 
 namespace VolumeWatcher.Sandbox
 {
@@ -37,7 +41,9 @@ namespace VolumeWatcher.Sandbox
 
         private EventWaitHandle frameEventWaitHandle;
 
-        private BufferedWaveProvider waveProvider;
+        //public BufferedWaveProvider waveProvider;
+        private ResampleWaveProvider waveProvider;
+
         public IWaveProvider WaveProvider => waveProvider;
         public bool IsRunning => (captureTask != null);
 
@@ -87,6 +93,11 @@ namespace VolumeWatcher.Sandbox
             return devices.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eConsole);
         }
 
+        public void Initialize()
+        {
+            InitializeCaptureDevice();
+        }
+
         private void InitializeCaptureDevice()
         {
             if (isInitialized)
@@ -123,7 +134,8 @@ namespace VolumeWatcher.Sandbox
             Debug.WriteLine(string.Format("record buffer size = {0}", this.recordBuffer.Length));
 
             //WaveProvider = new InnerWaveProvider(this);
-            waveProvider = new BufferedWaveProvider(WaveFormat);
+            //waveProvider = new BufferedWaveProvider(WaveFormat);
+            waveProvider = new ResampleWaveProvider(WaveFormat, WaveFormat);
 
             frameEventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
             audioClient.SetEventHandle(frameEventWaitHandle);

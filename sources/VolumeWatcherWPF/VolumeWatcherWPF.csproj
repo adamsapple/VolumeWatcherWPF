@@ -108,6 +108,31 @@
     <Compile Include="Audio\CoreAudio\AudioVolumeNotificationData.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\IAudioCaptureClient.cs" />
     <Compile Include="Audio\CoreAudio\NativeMethods.cs" />
+    <Compile Include="Audio\DMO\AudioMediaSubtypes.cs" />
+    <Compile Include="Audio\DMO\DmoGuids.cs" />
+    <Compile Include="Audio\DMO\EDmoEnumFlags.cs" />
+    <Compile Include="Audio\DMO\DmoInterop.cs" />
+    <Compile Include="Audio\DMO\DmoPartialMediaType.cs" />
+    <Compile Include="Audio\DMO\EDmoHResults.cs" />
+    <Compile Include="Audio\DMO\Interfaces\IEnumDmo.cs" />
+    <Compile Include="Audio\DMO\Interfaces\IMediaBuffer.cs" />
+    <Compile Include="Audio\DMO\Interfaces\ComIds.cs" />
+    <Compile Include="Audio\DMO\EDmoInputDataBufferFlags.cs" />
+    <Compile Include="Audio\DMO\EDmoInputStatusFlags.cs" />
+    <Compile Include="Audio\DMO\DmoMediaType.cs" />
+    <Compile Include="Audio\DMO\DmoOutputDataBuffer.cs" />
+    <Compile Include="Audio\DMO\EDmoOutputDataBufferFlags.cs" />
+    <Compile Include="Audio\DMO\EDmoProcessOutputFlags.cs" />
+    <Compile Include="Audio\DMO\EDmoSetTypeFlags.cs" />
+    <Compile Include="Audio\DMO\Interfaces\IMediaObject.cs" />
+    <Compile Include="Audio\DMO\EInputStreamInfoFlags.cs" />
+    <Compile Include="Audio\DMO\EOutputStreamInfoFlags.cs" />
+    <Compile Include="Audio\DMO\Interfaces\IWMResamplerProps.cs" />
+    <Compile Include="Audio\DMO\MediaBuffer.cs" />
+    <Compile Include="Audio\DMO\MediaObjectSizeInfo.cs" />
+    <Compile Include="Audio\DMO\MediaTypes.cs" />
+    <Compile Include="Audio\DMO\ResamplerMediaObject.cs" />
+    <Compile Include="Audio\DMO\MediaObject.cs" />
     <Compile Include="Audio\Wave\EBitDepth.cs" />
     <Compile Include="Audio\CoreAudio\EAudioClientState.cs" />
     <Compile Include="Audio\CoreAudio\EDataFlow.cs" />
@@ -139,6 +164,7 @@
     <Compile Include="Audio\CoreAudio\Interfaces\IPropertyStore.cs" />
     <Compile Include="Audio\CoreAudio\Interfaces\ISimpleAudioVolume.cs" />
     <Compile Include="Audio\Wave\IWaveProvider.cs" />
+    <Compile Include="Audio\Wave\ResamplerDmoStream.cs" />
     <Compile Include="Audio\Wave\WaveFormat.cs" />
     <Compile Include="Audio\Wave\WaveFormatExtensible.cs" />
     <Compile Include="Audio\CoreAudio\MMDevice.cs" />
@@ -157,6 +183,7 @@
     <Compile Include="Audio\Wave\ESpeakerConfiguration.cs" />
     <Compile Include="Audio\Wave\WaveFormatEncoding.cs" />
     <Compile Include="Audio\Util\HResult.cs" />
+    <Compile Include="Audio\Wave\WaveStream.cs" />
     <Compile Include="Moral\AssemblyInfo.cs" />
     <Compile Include="Moral\Etc\KeyboardHook5.cs" />
     <Compile Include="Moral\Util\Ease.cs" />
@@ -173,6 +200,7 @@
     <Compile Include="VolumeWatcher\Sandbox\CircularBuffer.cs" />
     <Compile Include="VolumeWatcher\Sandbox\ISandBox.cs" />
     <Compile Include="VolumeWatcher\Sandbox\RecorderTest.cs" />
+    <Compile Include="VolumeWatcher\Sandbox\ResampleWaveProvider.cs" />
     <Compile Include="VolumeWatcher\Sandbox\ReSampler.cs" />
     <Compile Include="VolumeWatcher\Sandbox\WasapiCapture.cs" />
     <Compile Include="VolumeWatcher\Sandbox\WasapiRender.cs" />
@@ -264,6 +292,7 @@
   <ItemGroup>
     <Resource Include="resources\icon-windw.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

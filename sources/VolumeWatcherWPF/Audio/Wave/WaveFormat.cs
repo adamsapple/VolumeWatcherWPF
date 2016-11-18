@@ -14,7 +14,7 @@ namespace Audio.Wave
         protected int             avgBytesPerSec;
         protected short           blockAlign;
         protected short           bitsPerSample;
-        protected readonly short  cbSize;
+        protected short           cbSize;
         
 
         public WaveFormatEncoding FormatTag => formatTag;
@@ -50,6 +50,48 @@ namespace Audio.Wave
             }
         }
 
+        /// <summary>
+        /// Returns the encoding type used
+        /// </summary>
+        public WaveFormatEncoding Encoding => formatTag;
+
+        /// <summary>
+        /// Helper function to retrieve a WaveFormat structure from a pointer
+        /// </summary>
+        /// <param name="pointer">WaveFormat structure</param>
+        /// <returns></returns>
+        public static WaveFormat MarshalFromPtr(IntPtr pointer)
+        {
+            WaveFormat waveFormat = (WaveFormat)Marshal.PtrToStructure(pointer, typeof(WaveFormat));
+            switch (waveFormat.Encoding)
+            {
+                case WaveFormatEncoding.Pcm:
+                    // can't rely on extra size even being there for PCM so blank it to avoid reading
+                    // corrupt data
+                    waveFormat.cbSize = 0;
+                    break;
+                case WaveFormatEncoding.Extensible:
+                    waveFormat = (WaveFormatExtensible)Marshal.PtrToStructure(pointer, typeof(WaveFormatExtensible));
+                    break;
+                default:
+                    break;
+            }
+            return waveFormat;
+        }
+
+        /// <summary>
+        /// Helper function to marshal WaveFormat to an IntPtr
+        /// </summary>
+        /// <param name="format">WaveFormat</param>
+        /// <returns>IntPtr to WaveFormat structure (needs to be freed by callee)</returns>
+        public static IntPtr MarshalToPtr(WaveFormat format)
+        {
+            int formatSize = Marshal.SizeOf(format);
+            IntPtr formatPointer = Marshal.AllocHGlobal(formatSize);
+            Marshal.StructureToPtr(format, formatPointer, false);
+            return formatPointer;
+        }
+
         protected WaveFormat()
         {
 
@@ -70,12 +112,11 @@ namespace Audio.Wave
                 throw new ArgumentOutOfRangeException(nameof(channelMask), "Channels must be 1 or greater");
             }
 
-            samplesPerSec = (int)rate;
-            bitsPerSample = (short)bits;
-            cbSize = 0;
-
-            blockAlign = (short)(channels * (bitsPerSample / 8));
-            avgBytesPerSec = samplesPerSec * blockAlign;
+            SampleRate    = (int)rate;
+            BitsPerSample = (short)bits;
+            cbSize        = 0;
+            //blockAlign     = (short)(channels * (bitsPerSample / 8));
+            //avgBytesPerSec = samplesPerSec * blockAlign;
 
             this.formatTag = formatTag;
             cbSize = (short)(totalSize - Marshal.SizeOf(typeof(WaveFormat)));
