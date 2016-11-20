@@ -17,8 +17,9 @@ namespace Moral.Model
         {
             //if (Equals(field, value)) { return false; }
             field = value;
-            var h = this.PropertyChanged;
-            if (h != null) { h(this, new PropertyChangedEventArgs(propertyName)); }
+            //var handler = this.PropertyChanged;
+            //if (handler != null) { handler(this, new PropertyChangedEventArgs(propertyName)); }
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             return true;
         }
     }   

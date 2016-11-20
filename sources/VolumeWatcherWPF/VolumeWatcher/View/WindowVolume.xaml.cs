@@ -70,10 +70,12 @@ namespace VolumeWatcher.View
             main = ((App)System.Windows.Application.Current).main;
             model = main.model;
 
+            this.DataContext = model;
+
             InitializeComponent();
             viewmodel.SetBinding(this);
 
-            this.DataContext = model;
+            
 
             // タイマーの生成
             timer.Interval = 33;
@@ -90,7 +92,7 @@ namespace VolumeWatcher.View
             this.NoActiveWindow();
         }
 
-
+        /*
         /// <summary>
         /// 
         /// </summary>
@@ -100,7 +102,7 @@ namespace VolumeWatcher.View
             ImageSource img = WindowsUtil.GetIconFromEXEDLL2(iconpath).ToImageSource();
             imgDevIcon.Source = img;
         }
-
+        */
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             timer.Stop();           // タイマーイベント発行を停止

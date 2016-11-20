@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
+using Audio.CoreAudio;
 using VolumeWatcher.View;
 using VolumeWatcher.Enumrate;
 
@@ -56,12 +57,12 @@ namespace VolumeWatcher.ViewModel
                                    new FrameworkPropertyMetadata(false, new PropertyChangedCallback((sender, e) => {
                                        var self  = (WindowVolume)sender;
                                        var value = (bool)e.NewValue;
-                                       var old = (bool)e.OldValue;
+                                       var old   = (bool)e.OldValue;
                                         self.IsMute = value;
                                         self.UpdateControls();
                                         self.ShowVolume();
                                    })));
-
+        /*
         private static readonly DependencyProperty IconPathProperty =
             DependencyProperty.Register("IconPath", typeof(string), typeof(WindowVolume),
                                     new FrameworkPropertyMetadata(string.Empty, new PropertyChangedCallback((sender, e) => {
@@ -71,7 +72,15 @@ namespace VolumeWatcher.ViewModel
                                         self.ShowVolume();
                                         self.IsBindInitialized = true;
                                     })));
-
+        */
+        private static readonly DependencyProperty RenderDeviceProperty =
+           DependencyProperty.Register("RenderDevice", typeof(MMDevice), typeof(WindowVolume),
+                                   new FrameworkPropertyMetadata(null, new PropertyChangedCallback((sender, e) => {
+                                       var self  = (WindowVolume)sender;
+                                       //var value = (MMDevice)e.NewValue;
+                                       self.ShowVolume();
+                                       self.IsBindInitialized = true;
+                                   })));
         /// <summary>
         /// 
         /// </summary>
@@ -87,7 +96,9 @@ namespace VolumeWatcher.ViewModel
             // binding設定:IsMute
             view.SetBinding(IsMuteProperty, new Binding("IsMute") { Mode = BindingMode.OneWay });
             // binding設定:IconPathProperty
-            view.SetBinding(IconPathProperty, new Binding("IconPath") { Mode = BindingMode.OneWay });
+            //view.SetBinding(IconPathProperty, new Binding("IconPath") { Mode = BindingMode.OneWay });
+            // binding設定:RenderDeviceProperty
+            view.SetBinding(RenderDeviceProperty, new Binding("RenderDevice") { Mode = BindingMode.OneWay });
         }
     }
 }

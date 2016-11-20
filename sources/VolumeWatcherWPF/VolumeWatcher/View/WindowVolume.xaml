@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VolumeWatcher.View"
         xmlns:vm="clr-namespace:VolumeWatcher.ViewModel"
+        xmlns:vmc="clr-namespace:VolumeWatcher.ViewModel.Converter"
         xmlns:UI="clr-namespace:Moral.UI"
         x:Class="VolumeWatcher.View.WindowVolume"
         mc:Ignorable="d"
@@ -14,12 +15,14 @@
     <!-- Background="Transparent" -->
     <Window.Resources>
         <!--<vm:VolumeWindowViewModel x:Name="myViewModel" x:Key="myViewModel"/>-->
+        <vmc:MMDeviceToIconConverter x:Key="Device2IconConverter"/>
     </Window.Resources>
     <DockPanel>
         <StackPanel  DockPanel.Dock="Bottom">
             <Label x:Name="labelVolume" Content="{Binding Value, ElementName=barVolume, Mode=OneWay}" HorizontalContentAlignment="Center" Foreground="White" VerticalContentAlignment="Stretch" RenderOptions.EdgeMode="Aliased"/>
             <Border Margin="6,0,6,6" BorderThickness="1" BorderBrush="#FF00AEFF" RenderOptions.EdgeMode="Aliased" >
-                <Image x:Name="imgDevIcon" Height="32" Width="32" Stretch="UniformToFill"  />
+                <!--<Image x:Name="imgDevIcon" Height="32" Width="32" Stretch="UniformToFill"  />-->
+                <Image Width="32" Height="32" Stretch="UniformToFill" Source="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
             </Border>
         </StackPanel>
         <UI:LevelBar x:Name="barVolume" Value="{Binding Volume, Mode=OneWay}" Width="12" HeadColor="White" BarColor="#FF8500B8" RenderOptions.EdgeMode="Aliased" Margin="0,16,0,0" BackColor="#FF5F5F5F" />

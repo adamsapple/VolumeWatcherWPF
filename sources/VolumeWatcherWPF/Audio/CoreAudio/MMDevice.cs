@@ -124,7 +124,25 @@ namespace Audio.CoreAudio
                 //return "Unknown";
             }
         }
-        
+
+        public string DeviceFriendlyName
+        {
+            get
+            {
+                if (_PropertyStore == null)
+                {
+                    _PropertyStore = GetProperty();
+                }
+                //var nameGuid = Program.settings.ShowHardwareName
+                //    ? PKEY.PKEY_Device_FriendlyName
+                //    : PKEY.PKEY_Device_DeviceDesc;
+
+                //if (_PropertyStore.Contains(nameGuid))
+                return (string)_PropertyStore[PropertyKeys.PKEY_DEVICE_FRIENDLY_NAME].Value;
+                //return "Unknown";
+            }
+        }
+
         public string IconPath
         {
             get

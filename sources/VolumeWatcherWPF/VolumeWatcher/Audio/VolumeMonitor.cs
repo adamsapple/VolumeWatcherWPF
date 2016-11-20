@@ -308,11 +308,15 @@ namespace VolumeWatcher.Audio
                 // 更新されたボリューム値をListenerに通知
                 //monitor.listener.OnVolumeChanged(data.MasterVolume, data.Muted);
 
+                /*
                 if (_OnAudioVolumeChanged == null || _OnAudioVolumeChanged.GetInvocationList().Length == 0)
                 {
                     return;
                 }
                 _OnAudioVolumeChanged(data.MasterVolume, data.Muted);
+                */
+
+                _OnAudioVolumeChanged?.Invoke(data.MasterVolume, data.Muted);
             }
         }
     }

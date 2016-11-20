@@ -6,36 +6,29 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
+using Audio.CoreAudio;
 using VolumeWatcher.View;
 
 namespace VolumeWatcher.ViewModel
 {
     public class TrayComponentViewModel
     {
-        private static readonly DependencyProperty IconPathProperty =
-            DependencyProperty.Register("IconPath", typeof(string), typeof(TrayComponent),
-                                    new FrameworkPropertyMetadata(string.Empty, new PropertyChangedCallback((sender, e) => {
-                                        var self = (TrayComponent)sender;
-                                        var value = (string)e.NewValue;
-                                        self.SetDeviceIcon(value);
-                                    })));
-
-        private static readonly DependencyProperty DeviceNameProperty =
-           DependencyProperty.Register("DeviceName", typeof(string), typeof(TrayComponent),
-                                   new FrameworkPropertyMetadata(string.Empty, new PropertyChangedCallback((sender, e) => {
+        private static readonly DependencyProperty RenderDeviceProperty =
+           DependencyProperty.Register("RenderDevice", typeof(MMDevice), typeof(TrayComponent),
+                                   new FrameworkPropertyMetadata(null, new PropertyChangedCallback((sender, e) => {
                                        var self = (TrayComponent)sender;
-                                       var value = (string)e.NewValue;
-                                       self.UpdateTrayText(value);
+                                       var device = (MMDevice)e.NewValue;
+                                       if (device != null)
+                                       {
+                                           self.SetDeviceIcon(device.IconPath);
+                                           self.UpdateTrayText(device.DeviceFriendlyName);
+                                       }
                                    })));
-
-
 
         public void SetBinding(FrameworkElement view)
         {
-            // binding設定:IconPathProperty
-            view.SetBinding(IconPathProperty, new Binding("IconPath") { Mode = BindingMode.OneWay });
-            // binding設定:DeviceName
-            view.SetBinding(DeviceNameProperty, new Binding("DeviceName") { Mode = BindingMode.OneWay });
+            // binding設定:RenderDevice
+            view.SetBinding(RenderDeviceProperty, new Binding("RenderDevice") { Mode = BindingMode.OneWay });
         }
     }
 }

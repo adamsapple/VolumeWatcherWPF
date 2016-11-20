@@ -75,7 +75,7 @@ namespace VolumeWatcher.Sandbox
                 Debug.WriteLine(string.Format("capture:{0}", capture.WaveFormat));
                 Debug.WriteLine(string.Format("render :{0}", render.WaveFormat));
 
-                await Task.Delay(20000);
+                await Task.Delay(2000);
                 render.Stop();
                 capture.Stop();
             });

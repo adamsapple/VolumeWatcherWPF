@@ -14,7 +14,10 @@ namespace VolumeWatcher.Model
 {
     class VolumeWatcherModel : ModelBase
     {
+        #region 設定情報
+        //
         // 設定情報
+        //
         private float _Opacity = 0;
         public float Opacity
         {
@@ -40,7 +43,12 @@ namespace VolumeWatcher.Model
             private set { _StartupName = value; SetProperty(ref _StartupName, value); }
         }
 
+        #endregion
+
+        #region デバイスからの情報
+        //
         // デバイスからの情報
+        //
         private int _Volume = 0;
         public int Volume
         {
@@ -72,6 +80,26 @@ namespace VolumeWatcher.Model
             set { _IconPath = value; SetProperty(ref _IconPath, value); }
         }
 
+        private AudioEndpointVolume _RenderVolume;
+        public AudioEndpointVolume RenderVolume
+        {
+            get { return _RenderVolume; }
+            set { _RenderVolume = value; SetProperty(ref _RenderVolume, value); }
+        }
+
+        private MMDevice _RenderDevice;
+        public MMDevice RenderDevice
+        {
+            get { return _RenderDevice; }
+            set { _RenderDevice = value; SetProperty(ref _RenderDevice, value); }
+        }
+
+        #endregion
+
+        #region About OptionWindowの表示位置関係
+        //
+        // About OptionWindowの表示位置関係
+        //
         private double _OptionWindow_Left = -1.0;
         public double OptionWindow_Left
         {
@@ -84,7 +112,8 @@ namespace VolumeWatcher.Model
             get { return _OptionWindow_Top; }
             set { _OptionWindow_Top = value; SetProperty(ref _OptionWindow_Top, value); }
         }
-
+        
+        #endregion
 
         public void LoadSettings()
         {
@@ -119,6 +148,7 @@ namespace VolumeWatcher.Model
             //this.DeviceName = device.FriendlyName;
             //this.IconPath   = device.IconPath;
             //OnDeviceChanged(device);
+            this.RenderDevice = device;
             this.DeviceName = (string)device.GetProperty(PropertyKeys.PKEY_DEVICE_FRIENDLY_NAME);
             this.IconPath = device.IconPath;
 
