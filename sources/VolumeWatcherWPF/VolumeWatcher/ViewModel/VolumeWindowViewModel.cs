@@ -31,17 +31,6 @@ namespace VolumeWatcher.ViewModel
                                        var value = (EWindowPosition)e.NewValue;
                                        self.WindowPosition = value;
                                        self.ShowVolume();
-                                       //var dispatcher = Application.Current.Dispatcher;
-                                       //dispatcher.BeginInvoke((Action)delegate ()
-                                       //{
-                                       //  
-                                       //});
-
-                                       //var dispatcher = Application.Current.Dispatcher;
-                                       //dispatcher.BeginInvoke((Action)delegate ()
-                                       //{
-
-                                       //});
                                    })));
 
         private static readonly DependencyProperty VolumeProperty =
@@ -62,17 +51,7 @@ namespace VolumeWatcher.ViewModel
                                         self.UpdateControls();
                                         self.ShowVolume();
                                    })));
-        /*
-        private static readonly DependencyProperty IconPathProperty =
-            DependencyProperty.Register("IconPath", typeof(string), typeof(WindowVolume),
-                                    new FrameworkPropertyMetadata(string.Empty, new PropertyChangedCallback((sender, e) => {
-                                        var self = (WindowVolume)sender;
-                                        var value = (string)e.NewValue;
-                                        self.SetDeviceIcon(value);
-                                        self.ShowVolume();
-                                        self.IsBindInitialized = true;
-                                    })));
-        */
+        
         private static readonly DependencyProperty RenderDeviceProperty =
            DependencyProperty.Register("RenderDevice", typeof(MMDevice), typeof(WindowVolume),
                                    new FrameworkPropertyMetadata(null, new PropertyChangedCallback((sender, e) => {
@@ -95,8 +74,6 @@ namespace VolumeWatcher.ViewModel
             view.SetBinding(VolumeProperty, new Binding("Volume") { Mode = BindingMode.OneWay });
             // binding設定:IsMute
             view.SetBinding(IsMuteProperty, new Binding("IsMute") { Mode = BindingMode.OneWay });
-            // binding設定:IconPathProperty
-            //view.SetBinding(IconPathProperty, new Binding("IconPath") { Mode = BindingMode.OneWay });
             // binding設定:RenderDeviceProperty
             view.SetBinding(RenderDeviceProperty, new Binding("RenderDevice") { Mode = BindingMode.OneWay });
         }

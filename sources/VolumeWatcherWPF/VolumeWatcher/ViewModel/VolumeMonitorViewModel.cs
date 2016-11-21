@@ -47,19 +47,20 @@ namespace VolumeWatcher.ViewModel
         {
             Model.SetDeviceInfo(device);
         }
+
         /// <summary>
-         /// ev:MixerVolume変更時
+         /// ev:録音Level変更時
          /// </summary>
          /// <param name="vol"></param>
          /// <param name="mute"></param>
         public void OnRecVolumeChanged(float vol, bool mute)
         {
             Model.RecVolume = (int)Math.Round(vol * 100);
-            //Model.IsMute = mute;
+            Model.IsRecMute = mute;
         }
 
         /// <summary>
-        /// ev:規定の再生デバイス変更時
+        /// ev:規定の録音デバイス変更時
         /// </summary>
         /// <param name="device"></param>
         public void OnRecDeviceChanged(MMDevice device)

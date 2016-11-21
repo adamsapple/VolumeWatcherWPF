@@ -84,7 +84,7 @@ namespace VolumeWatcher
             //});
             State = 1;
 
-            tester?.Start();
+            //tester?.Start();
         }
 
         /// <summary>
@@ -95,8 +95,8 @@ namespace VolumeWatcher
         {
             State = 2;
 
-            tester?.Stop();
-            tester?.Dispose();
+            //tester?.Stop();
+            //tester?.Dispose();
 
             model.SaveSettings();
             optionWindow.Close();

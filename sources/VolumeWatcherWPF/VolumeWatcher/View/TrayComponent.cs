@@ -21,8 +21,8 @@ namespace VolumeWatcher.View
     /// </summary>
     public class TrayComponent: TaskbarIcon
     {
-        VolumeWatcherMain main = null;
-        VolumeWatcherModel model = null;
+        VolumeWatcherMain      main      = null;
+        VolumeWatcherModel     model     = null;
         TrayComponentViewModel viewmodel = new TrayComponentViewModel();
 
         private bool isKeyHook = false;
@@ -34,8 +34,9 @@ namespace VolumeWatcher.View
         /// </summary>
         public TrayComponent() {
             // notifyIcon settings.
-            this.ContextMenu = new MainContextMenu();
+            this.ContextMenu   = new MainContextMenu();
             this.keyboardHook1 = new KeyboardHook();
+
             this.TrayMouseDoubleClick += (_o, _e) => {
                 var main = ((App)System.Windows.Application.Current).main;
 
@@ -58,12 +59,11 @@ namespace VolumeWatcher.View
         /// </summary>
         public void Initialize()
         {
-            main = ((App)System.Windows.Application.Current).main;
+            main  = ((App)System.Windows.Application.Current).main;
             model = main.model;
             this.ToolTip = model.StartupName;
 
             this.DataContext = model;
-            
 
             const float add = 0.02f;
             var dict = new Dictionary<System.Windows.Input.Key, Action>()
@@ -158,6 +158,11 @@ namespace VolumeWatcher.View
             }
             set
             {
+
+                if(isKeyHook == value)
+                {
+                    return;
+                }
 
                 if (value)
                 {
