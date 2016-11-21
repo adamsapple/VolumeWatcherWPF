@@ -21,16 +21,7 @@ namespace Audio.CoreAudio
             this._realAudioCaptureClient = audipCaptureClientInterface;
         }
 
-        public void Clear()
-        {
-            int numFramesToRead;
-            EAudioClientBufferFlags flags;
-            long devicePosition;
-            long qpcPosition;
-
-            var bufferPointer = GetBuffer(out numFramesToRead, out flags, out devicePosition, out qpcPosition);
-            // todo:初期化する方法が分かってない.
-        }
+        
         /// <summary>
         /// Gets a pointer to the buffer
         /// </summary>

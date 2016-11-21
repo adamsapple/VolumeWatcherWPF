@@ -10,6 +10,8 @@ using Audio.Wave;
 using Audio.CoreAudio;
 using Audio.CoreAudio.Interfaces;
 
+using Moral.Audio;
+
 namespace VolumeWatcher.Sandbox
 {
     class RecorderTest : ISandBox
@@ -24,7 +26,7 @@ namespace VolumeWatcher.Sandbox
 
         public void Start()
         {
-            var deviceEnumerator = new MMDeviceEnumerator();
+            var deviceEnumerator = MMDeviceEnumerator.GetInstance();
 
             // get default device.
             var deviceCapture = deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eConsole);

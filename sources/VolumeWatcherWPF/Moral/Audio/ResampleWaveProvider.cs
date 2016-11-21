@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Audio.Wave;
 
-namespace VolumeWatcher.Sandbox
+namespace Moral.Audio
 {
     /// <summary>
     /// 超簡易的にリサンプリングするWaveProvider。

@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 
-namespace VolumeWatcher.Sandbox
+namespace Moral.Data
 {
-    public class CircularBuffer
+    public class CircularBuffer<T>
     {
-        private byte[]  buffer;
+        private T[]     buffer;
         private int     writePosition;
         private int     readPosition;
-        private int     byteCount;
         private object  lockObject;
 
         /// <summary>
@@ -19,7 +18,7 @@ namespace VolumeWatcher.Sandbox
         /// <param name="size">Max buffer size in bytes</param>
         public CircularBuffer(int size)
         {
-            buffer = new byte[size];
+            buffer = new T[size];
             lockObject = new object();
         }
 
@@ -30,14 +29,14 @@ namespace VolumeWatcher.Sandbox
         /// <param name="offset">Offset into data</param>
         /// <param name="count">Number of bytes to write</param>
         /// <returns>number of bytes written</returns>
-        public int Write(byte[] data, int offset, int count)
+        public int Write(T[] data, int offset, int count)
         {
             lock (lockObject)
             {
                 int bytesWritten = 0;
-                if (count > buffer.Length - this.byteCount)
+                if (count > buffer.Length - this.Count)
                 {
-                    count = buffer.Length - this.byteCount;
+                    count = buffer.Length - this.Count;
                     //throw new ArgumentException("Not enough space in buffer");
                 }
                 // write to end
@@ -54,7 +53,7 @@ namespace VolumeWatcher.Sandbox
                     writePosition += (count - bytesWritten);
                     bytesWritten = count;
                 }
-                this.byteCount += bytesWritten;
+                this.Count += bytesWritten;
                 return bytesWritten;
             }
         }
@@ -66,13 +65,13 @@ namespace VolumeWatcher.Sandbox
         /// <param name="offset">Offset into read buffer</param>
         /// <param name="count">Bytes to read</param>
         /// <returns>Number of bytes actually read</returns>
-        public int Read(byte[] data, int offset, int count)
+        public int Read(T[] data, int offset, int count)
         {
             lock (lockObject)
             {
-                if (count > byteCount)
+                if (count > this.Count)
                 {
-                    count = byteCount;
+                    count = this.Count;
                 }
                 int bytesRead = 0;
                 int readToEnd = Math.Min(buffer.Length - readPosition, count);
@@ -90,7 +89,7 @@ namespace VolumeWatcher.Sandbox
                     bytesRead = count;
                 }
 
-                byteCount -= bytesRead;
+                this.Count -= bytesRead;
                 //Debug.Assert(byteCount >= 0);
                 return bytesRead;
             }
@@ -107,17 +106,15 @@ namespace VolumeWatcher.Sandbox
         /// <summary>
         /// Number of bytes currently stored in the circular buffer
         /// </summary>
-        public int Count
-        {
-            get { return this.byteCount; }
-        }
+        public int Count { get; private set; }
+        
 
         /// <summary>
         /// Resets the buffer
         /// </summary>
         public void Reset()
         {
-            byteCount = 0;
+            this.Count = 0;
             readPosition = 0;
             writePosition = 0;
         }
@@ -128,13 +125,13 @@ namespace VolumeWatcher.Sandbox
         /// <param name="count">Bytes to advance</param>
         public void Advance(int count)
         {
-            if (count >= byteCount)
+            if (count >= this.Count)
             {
                 Reset();
             }
             else
             {
-                byteCount -= count;
+                this.Count   -= count;
                 readPosition += count;
                 readPosition %= MaxLength;
             }

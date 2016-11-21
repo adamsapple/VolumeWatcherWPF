@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,18 @@ namespace Audio.CoreAudio
         private event MMNotificationClientDefaultDeviceChangedDelegate   _OnDefaultDeviceChanged;
         private event MMNotificationClientPropertyValueChangedDelegate   _OnPropertyValueChanged;
 
-        public MMDeviceEnumerator()
+        private static MMDeviceEnumerator self = null;
+
+        public static MMDeviceEnumerator GetInstance()
+        {
+            if(self == null)
+            {
+                self = new MMDeviceEnumerator();
+            }
+            return self;
+        }
+
+        private MMDeviceEnumerator()
         {
             innerListener = new MMNotificationClient(this);
         }
@@ -83,23 +95,17 @@ namespace Audio.CoreAudio
 
         internal void FireOnDeviceStateChanged([MarshalAs(UnmanagedType.LPWStr)] string deviceId, EDeviceState newState)
         {
-            if (_OnDeviceStateChanged == null) return;
-
-            _OnDeviceStateChanged(deviceId, newState);
+            _OnDeviceStateChanged?.Invoke(deviceId, newState);
         }
 
         internal void FireOnDeviceAdded([MarshalAs(UnmanagedType.LPWStr)] string deviceId)
         {
-            if (_OnDeviceAdded == null) return;
-
-            _OnDeviceAdded(deviceId);
+            _OnDeviceAdded?.Invoke(deviceId);
         }
 
         internal void FireOnDeviceRemoved([MarshalAs(UnmanagedType.LPWStr)] string deviceId)
         {
-            if (_OnDeviceRemoved == null) return;
-
-            _OnDeviceRemoved(deviceId);
+            _OnDeviceRemoved?.Invoke(deviceId);
         }
 
         internal void FireOnDefaultDeviceChanged(
@@ -107,17 +113,14 @@ namespace Audio.CoreAudio
             [MarshalAs(UnmanagedType.I4)] ERole deviceRole,
             [MarshalAs(UnmanagedType.LPWStr)] string defaultDeviceId)
         {
-            if (_OnDefaultDeviceChanged == null) return;
-
-            _OnDefaultDeviceChanged(dataFlow, deviceRole, defaultDeviceId);
+            Debug.WriteLine($"new device:{defaultDeviceId}");
+            _OnDefaultDeviceChanged?.Invoke(dataFlow, deviceRole, defaultDeviceId);
         }
 
         internal void FireOnPropertyValueChanged(
             [MarshalAs(UnmanagedType.LPWStr)] string deviceId, PropertyKey propertyKey)
         {
-            if (_OnPropertyValueChanged == null) return;
-
-            _OnPropertyValueChanged(deviceId, propertyKey);
+            _OnPropertyValueChanged?.Invoke(deviceId, propertyKey);
         }
 
         /// <summary>

@@ -64,7 +64,7 @@ namespace VolumeWatcher.Audio
             // https://www.ipentec.com/document/document.aspx?page=csharp-shell-namespace-get-icon-from-file-path
 
             // get the speakers (1st render + multimedia) device
-            deviceEnumerator = new MMDeviceEnumerator();
+            deviceEnumerator = MMDeviceEnumerator.GetInstance();
 
             // set device state notification.
             deviceEnumerator.OnDefaultDeviceChanged += innerListener.OnDefaultDeviceChanged;

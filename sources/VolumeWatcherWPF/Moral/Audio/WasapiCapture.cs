@@ -15,9 +15,9 @@ using Audio.Wave;
 //
 
 
-namespace VolumeWatcher.Sandbox
+namespace Moral.Audio
 {
-    class WasapiCapture
+    class WasapiCapture :IDisposable
     {
 
         /*/
@@ -89,7 +89,7 @@ namespace VolumeWatcher.Sandbox
         /// <returns>The default audio capture device</returns>
         public static MMDevice GetDefaultCaptureDevice()
         {
-            MMDeviceEnumerator devices = new MMDeviceEnumerator();
+            MMDeviceEnumerator devices = MMDeviceEnumerator.GetInstance();
             return devices.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eConsole);
         }
 
@@ -205,7 +205,6 @@ namespace VolumeWatcher.Sandbox
                     frameEventWaitHandle.WaitOne(sleepMilliseconds);    // 待機
                     ReadNextPacket(capture);
                 }
-
                 client.Stop();
                 client.Reset();
                 Debug.WriteLine("[capture]Task stop detected.");
@@ -341,7 +340,7 @@ namespace VolumeWatcher.Sandbox
             Stop();
             if (audioClient != null)
             {
-                audioClient.Dispose();
+                //audioClient.Dispose();
                 audioClient = null;
             }
         }

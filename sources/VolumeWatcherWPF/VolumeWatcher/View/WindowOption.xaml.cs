@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -17,6 +19,7 @@ using LinqToXaml;
 using Audio.CoreAudio;
 using Moral;
 using Moral.Util;
+using VolumeWatcher.Audio;
 using VolumeWatcher.Model;
 using VolumeWatcher.ViewModel;
 
@@ -30,21 +33,25 @@ namespace VolumeWatcher.View
         private VolumeWatcherMain main = null;
         private VolumeWatcherModel model = null;
         private OptionWindowViewModel viewmodel = new OptionWindowViewModel();
+        private MicPlayer micPlayer = new MicPlayer();
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public WindowOption()
         {
-            main  = ((App)System.Windows.Application.Current).main;
+            main = ((App)System.Windows.Application.Current).main;
             model = main.model;
 
             this.DataContext = model;
             InitializeComponent();
 
             viewmodel.SetBinding(this, main);
-            RenderMeter.DataContext  = viewmodel;
+            RenderMeter.DataContext = viewmodel;
             CaptureMeter.DataContext = viewmodel;
+
+
+            micPlayer.OnStateChanged += MicPlayter_StateChanged;
 
             // 高速化に寄与するかな
             this.Descendants().OfType<Freezable>().ToList().Where(e => e.CanFreeze).ToList().ForEach(e => e.Freeze());
@@ -64,7 +71,7 @@ namespace VolumeWatcher.View
             }
 
             // 各Tabの大きさを一番大きいものにそろえる
-            var list = this.tabControl.Items.OfType<TabItem>().ToList().Select(el=> (FrameworkElement)el.Content).ToList();
+            var list = this.tabControl.Items.OfType<TabItem>().ToList().Select(el => (FrameworkElement)el.Content).ToList();
             var maxHeight = list.Max(el => el.ActualHeight);
             list.Where(el => (maxHeight > el.ActualHeight)).ToList()
                 .ForEach(el => el.Height = maxHeight);
@@ -111,7 +118,7 @@ namespace VolumeWatcher.View
                 chkIsStartUp.IsChecked = false;
             }
         }
-        
+
         /// <summary>
         /// ev:chkIsStartUp チェックON
         /// </summary>
@@ -166,6 +173,33 @@ namespace VolumeWatcher.View
             {
                 viewmodel.Stop();
             }
+        }
+
+        private void ToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            var toggle = (ToggleButton)sender;
+            var isChecked = (bool)toggle.IsChecked;
+
+            if (isChecked)
+            {
+                // 再生
+                micPlayer.Start();
+            }
+            else
+            {
+                // 停止
+                micPlayer.Stop();
+            }
+        }
+
+        void MicPlayter_StateChanged(bool IsRunning)
+        {
+            var dispatcher = System.Windows.Application.Current.Dispatcher;
+
+            dispatcher.BeginInvoke((Action)delegate ()
+            {
+                MicListenToggle.IsChecked = IsRunning;
+            });
         }
     }
 }

@@ -10,9 +10,9 @@ using Audio.CoreAudio;
 using Audio.CoreAudio.Interfaces;
 using Audio.Wave;
 
-namespace VolumeWatcher.Sandbox
+namespace Moral.Audio
 {
-    class WasapiRender
+    class WasapiRender : IDisposable
     {
         private AudioClient audioClient;
         private EAudioClientShareMode shareMode;
@@ -78,7 +78,7 @@ namespace VolumeWatcher.Sandbox
             {
                 throw new NotSupportedException("WASAPI supported only on Windows Vista and above");
             }
-            MMDeviceEnumerator enumerator = new MMDeviceEnumerator();
+            MMDeviceEnumerator enumerator = MMDeviceEnumerator.GetInstance();
             return enumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eConsole);
         }
 
@@ -373,7 +373,7 @@ namespace VolumeWatcher.Sandbox
             {
                 Stop();
 
-                audioClient.Dispose();
+                //audioClient.Dispose();
                 audioClient = null;
                 renderClient= null;
             }

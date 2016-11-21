@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Collections;
+
 using Audio.Wave;
+using Moral.Data;
 
-
-namespace VolumeWatcher.Sandbox
+namespace Moral.Audio
 {
     /// <summary>
     /// Provides a buffered store of samples
@@ -14,7 +15,7 @@ namespace VolumeWatcher.Sandbox
     /// </summary>
     public class BufferedWaveProvider : IWaveProvider
     {
-        private CircularBuffer circularBuffer;
+        private CircularBuffer<byte> circularBuffer;
         private WaveFormat waveFormat;
 
         /// <summary>
@@ -85,7 +86,7 @@ namespace VolumeWatcher.Sandbox
             // create buffer here to allow user to customise buffer length
             if (this.circularBuffer == null)
             {
-                this.circularBuffer = new CircularBuffer(this.BufferLength);
+                this.circularBuffer = new CircularBuffer<byte>(this.BufferLength);
             }
 
             int written = this.circularBuffer.Write(buffer, offset, count);
