@@ -104,7 +104,7 @@
                             <CheckBox x:Name="chkIsKeyHook" Content="キーボードでVolume操作を行う" IsChecked="{Binding IsKeyHook, Mode=TwoWay}" Checked="chkIsKeyHook_Changed" Unchecked="chkIsKeyHook_Changed"/>
                         </GroupBox.Header>
                         <StackPanel  Orientation="Vertical" IsEnabled="{Binding IsChecked, ElementName=chkIsKeyHook}" >
-                            <Label x:Name="label4" Content="[Alt]+[&lt;] =&gt; 音量+&#xA;[Alt]+[&gt;] =&gt; 音量-&#xA;[Alt]+[M] =&gt; Mute"/>
+                            <Label x:Name="label4" Content="[Alt]+[&lt;][&gt;] =&gt;音量+-&#xA;[Alt]+[M] =&gt; Mute&#xa;[Alt]+[K][L] =&gt;録音レベル+-&#xA;[Alt]+[J] =&gt; マイクMute"/>
                             <TextBox x:Name="txtKeyCode"  Text="-" Visibility="Collapsed"/>
                         </StackPanel>
                     </GroupBox>
