@@ -74,7 +74,7 @@ namespace VolumeWatcher.Audio
         {
             var newDevice = deviceEnumerator.GetDevice(defaultDeviceId);
             Stop();
-            Dispose();
+            //Dispose();
         }
 
         public void Start()
@@ -112,8 +112,8 @@ namespace VolumeWatcher.Audio
         public void Dispose()
         {
             Stop();
-            capture?.Dispose();
-            render?.Dispose();
+            //capture?.Dispose();
+            //render?.Dispose();
             capture = null;
             render  = null;
             Initialized = false;

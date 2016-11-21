@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
+
 using System.ComponentModel;
+
 using System.Windows.Media;
 using System.Windows.Data;
 
@@ -33,7 +36,7 @@ namespace VolumeWatcher.ViewModel.Converter
             var device = (MMDevice)value;
             try
             {
-                if (device.State != EDeviceState.Active)
+                if (device?.State != EDeviceState.Active)
                 {
                     return null;
                 }
@@ -49,6 +52,8 @@ namespace VolumeWatcher.ViewModel.Converter
             }
             catch (Exception e)
             {
+                Debug.WriteLine(e.StackTrace);
+
                 return null;
             }
         }

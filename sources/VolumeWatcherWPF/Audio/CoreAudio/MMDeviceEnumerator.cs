@@ -52,15 +52,15 @@ namespace Audio.CoreAudio
             //return result;
         }
 
-        private MMDevice CreateMMDevice(IMMDevice realDevice)
+        internal MMDevice CreateMMDevice(IMMDevice realDevice)
         {
             string id = MMDevice.GetID(realDevice);
             MMDevice result = null;
-            //MMDeviceDictionary.TryGetValue(id, out result);
+            MMDeviceDictionary.TryGetValue(id, out result);
             if (result == null) {
-                result = new MMDevice(realDevice);
-                //MMDeviceDictionary.Add(id, result);
                 Debug.WriteLine($"CreateMMDevice:{id}で新しいデバイスを作成");
+                result = new MMDevice(realDevice);
+                MMDeviceDictionary.Add(id, result);
             }
             
             return result;
@@ -72,7 +72,6 @@ namespace Audio.CoreAudio
             try
             {
                 Marshal.ThrowExceptionForHR(_realEnumerator.GetDefaultAudioEndpoint(dataFlow, role, out result));
-                
                 return CreateMMDevice(result);
             }
             catch (Exception e)

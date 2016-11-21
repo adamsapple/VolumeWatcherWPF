@@ -268,7 +268,10 @@ namespace Moral.Audio
                 }
                 catch (Exception e)
                 {
+                    Debug.WriteLine("[render]Task catch Exception.");
+                    Debug.WriteLine(e.StackTrace);
                     exception = e;
+
                 }
                 finally
                 {

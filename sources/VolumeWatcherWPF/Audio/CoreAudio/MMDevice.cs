@@ -6,6 +6,15 @@ using Audio.CoreAudio.Interfaces;
 
 namespace Audio.CoreAudio
 {
+
+    /// <summary>
+    /// 以下のメソッドはメインスレッド以外でCallするとInvalidCastExceptionとかでる
+    /// Activate
+    /// OpenPropertyStore
+    /// GetId
+    /// GetState
+    /// http://stackoverflow.com/questions/14020232/coreaudioapi-with-threading-invalidcastexception
+    /// </summary>
     public class MMDevice
     {
         private IMMDevice _RealDevice;

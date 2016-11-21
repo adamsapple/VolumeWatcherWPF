@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
+using System.Windows;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -102,12 +99,14 @@ namespace VolumeWatcher.Audio
                 volume.OnVolumeNotification -= innerListener.OnVolumeNotify;
             }
             // 今までDefaultだったデバイスを開放
-            volume?.Dispose(true);
-            device?.Dispose(true);
+            //volume?.Dispose(true);
+            //device?.Dispose(true);
+            volume = null;
+            device = null;
 
             // 新しくdefaultになったDeviceの参照を得る
             device = deviceEnumerator.GetDevice(deviceId);
-            if(device != null)
+            if (device != null)
             {
                 volume    = device.AudioEndpointVolume;
                 var meter = device.AudioMeterInformation;
@@ -286,22 +285,25 @@ namespace VolumeWatcher.Audio
                     return;
                 }
 
-                monitor.updateDevice(defaultDeviceId);
 
-                // if (monitor.listener == null)
-                // {
-                //    return;
-                //}
-                //
-                //monitor.listener.OnDeviceChanged(monitor.device);
-
-                if(_OnAudioDeviceChanged == null || _OnAudioDeviceChanged.GetInvocationList().Length == 0)
+                var dispatcher = Application.Current.Dispatcher;
+                //dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate () {
+                dispatcher.Invoke((Action)delegate ()
                 {
-                    return;
-                }
-                
-                Debug.WriteLine($"OnDefaultDeviceChanged flow={dataFlow} role={deviceRole} device={defaultDeviceId} list={(_OnAudioDeviceChanged?.GetInvocationList().Length ?? 0)}");
-                _OnAudioDeviceChanged(monitor.device);
+
+
+                    monitor.updateDevice(defaultDeviceId);
+
+                    // if (monitor.listener == null)
+                    // {
+                    //    return;
+                    //}
+                    //
+                    //monitor.listener.OnDeviceChanged(monitor.device);
+
+                    Debug.WriteLine($"OnDefaultDeviceChanged flow={dataFlow} role={deviceRole} device={defaultDeviceId} list={(_OnAudioDeviceChanged?.GetInvocationList().Length ?? 0)}");
+                    _OnAudioDeviceChanged?.Invoke(monitor.device);
+                });
             }
 
             /// <summary>

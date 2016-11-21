@@ -74,8 +74,6 @@ namespace VolumeWatcher
             trayComponent.IconSource = optionWindow.Icon;
 
             
-            //optionWindow.Show();
-
             // データバインディングが終了するまで待つ
             // 待ち方がわからないので遅延処理する、という愚策
             //Task.Run(async () => {
@@ -86,6 +84,7 @@ namespace VolumeWatcher
 
             //tester = new VolumeWatcher.Sandbox.RecorderTest();
             tester?.Start();
+            optionWindow.Show();
         }
 
         /// <summary>

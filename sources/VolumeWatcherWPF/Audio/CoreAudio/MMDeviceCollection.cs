@@ -25,9 +25,10 @@ namespace Audio.CoreAudio
 
         private MMDevice GetItem(uint index)
         {
-            IMMDevice device;
-            Marshal.ThrowExceptionForHR(_realDeviceCollection.Item(index, out device));
-            return new MMDevice(device);
+            IMMDevice idevice;
+            Marshal.ThrowExceptionForHR(_realDeviceCollection.Item(index, out idevice));
+            //return new MMDevice(device);
+            return MMDeviceEnumerator.GetInstance().CreateMMDevice(idevice);
         }
 
         public int Count
