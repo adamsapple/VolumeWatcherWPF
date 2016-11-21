@@ -206,6 +206,8 @@
     <Compile Include="VolumeWatcher\Sandbox\WasapiRender.cs" />
     <Compile Include="VolumeWatcher\ViewModel\Converter\EndpointVolumeToMuteConverter.cs" />
     <Compile Include="VolumeWatcher\ViewModel\Converter\EndpointVolumeToVolumeConverter.cs" />
+    <Compile Include="VolumeWatcher\ViewModel\Converter\MMDeviceToDescriptionConverter.cs" />
+    <Compile Include="VolumeWatcher\ViewModel\Converter\MMDeviceToDeviceFriendryName.cs" />
     <Compile Include="VolumeWatcher\ViewModel\Converter\MMDeviceToIconConverter.cs" />
     <Compile Include="VolumeWatcher\ViewModel\Converter\MMDeviceToNameConverter.cs" />
     <Compile Include="VolumeWatcher\ViewModel\Converter\ReadOnlyConverter.cs" />

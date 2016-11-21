@@ -28,6 +28,7 @@ namespace Audio.CoreAudio
 
 
             _RealDevice = realDevice;
+            _PropertyStore = GetProperty();
         }
 
         private PropertyStore GetProperty()
@@ -37,6 +38,15 @@ namespace Audio.CoreAudio
             return new PropertyStore(propstore);
         }
 
+        public object GetProperty(PropertyKey key)
+        {
+            if (_PropertyStore == null)
+            {
+                _PropertyStore = GetProperty();
+            }
+
+            return _PropertyStore[key].Value;
+        }
 
         private EDeviceState GetState()
         {
@@ -107,65 +117,11 @@ namespace Audio.CoreAudio
             }
         }
 
-        public string FriendlyName
-        {
-            get
-            {
-                if (_PropertyStore == null)
-                {
-                    _PropertyStore = GetProperty();
-                }
-                //var nameGuid = Program.settings.ShowHardwareName
-                //    ? PKEY.PKEY_Device_FriendlyName
-                //    : PKEY.PKEY_Device_DeviceDesc;
-
-                //if (_PropertyStore.Contains(nameGuid))
-                return (string)_PropertyStore[PropertyKeys.PKEY_DEVICE_INTERFACE_FRIENDLY_NAME].Value;
-                //return "Unknown";
-            }
-        }
-
-        public string DeviceFriendlyName
-        {
-            get
-            {
-                if (_PropertyStore == null)
-                {
-                    _PropertyStore = GetProperty();
-                }
-                //var nameGuid = Program.settings.ShowHardwareName
-                //    ? PKEY.PKEY_Device_FriendlyName
-                //    : PKEY.PKEY_Device_DeviceDesc;
-
-                //if (_PropertyStore.Contains(nameGuid))
-                return (string)_PropertyStore[PropertyKeys.PKEY_DEVICE_FRIENDLY_NAME].Value;
-                //return "Unknown";
-            }
-        }
-
-        public string IconPath
-        {
-            get
-            {
-                if (_PropertyStore == null)
-                {
-                    _PropertyStore = GetProperty();
-                }
-                // if (_PropertyStore.Contains(PKEY.PKEY_DeviceClass_IconPath))
-                return (string)_PropertyStore[PropertyKeys.PKEY_DEVICE_ICON].Value;
-                //return "Unknown";
-            }
-        }
-
-        public object GetProperty(PropertyKey key)
-        {
-            if (_PropertyStore == null)
-            {
-                _PropertyStore = GetProperty();
-            }
-
-            return _PropertyStore[key].Value;
-        }
+        public string FriendlyName       => (string)GetProperty(PropertyKeys.PKEY_DEVICE_INTERFACE_FRIENDLY_NAME);
+        public string DeviceFriendlyName => (string)GetProperty(PropertyKeys.PKEY_DEVICE_FRIENDLY_NAME);
+        public string DeviceDescription  => (string)GetProperty(PropertyKeys.PKEY_DEVICE_DESCRIPTION);
+        public string IconPath           => (string)GetProperty(PropertyKeys.PKEY_DEVICE_ICON);
+        
 
         internal void FireOnDeviceStateChanged(string deviceId, EDeviceState newState)
         {

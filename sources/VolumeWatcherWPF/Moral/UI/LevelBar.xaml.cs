@@ -38,7 +38,7 @@ namespace Moral.UI
         int min = 0;         // Minimum value for progress range
         int max = 100;       // Maximum value for progress range
         //int val = 0;         // Current progress
-        const int headHeight = 12;
+        //const int headHeight = 12;
 
         Brush _HeadColor = Brushes.White;
         Brush _BodyColor = Brushes.Purple;
@@ -84,14 +84,14 @@ namespace Moral.UI
             Rect rect = new Rect(0, 0, ActualWidth, ActualHeight);
             drawingContext.DrawRectangle(_BackColor, null, rect);
 
-            Rect rectHead = new Rect(rect.X, rect.Y, rect.Width, headHeight);
+            Rect rectHead = new Rect(rect.X, rect.Y, rect.Width, HeadSize);
             var percent = (float)(val - min) / (float)(max - min);
 
-            var temp = (int)Math.Ceiling(percent * (rect.Height - headHeight));
+            var temp = (int)Math.Ceiling(percent * (rect.Height - HeadSize));
             temp = Math.Max(0, temp);
             rect.Y = rect.Height - temp;
             rect.Height = temp;
-            rectHead.Y = rect.Y - headHeight;
+            rectHead.Y = rect.Y - HeadSize;
 
             //*/
             drawingContext.DrawRectangle(_HeadColor, null, rectHead);
@@ -154,6 +154,8 @@ namespace Moral.UI
                 this.InvalidateVisual();
             }
         }
+
+        public int HeadSize { get; set; } = 12;
 
         public Brush HeadColor
         {

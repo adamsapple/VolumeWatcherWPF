@@ -138,12 +138,12 @@ namespace VolumeWatcher.View
             {
                 dispatcher.Invoke((Action)delegate ()
                 {
-                    this.ToolTipText = model.StartupName + "\n(" + devname + ")";
+                    this.ToolTipText = string.Format("{0}\n({1})",model.StartupName, devname );
                 });
             }
             else
             {
-                this.ToolTipText = model.StartupName + "\n(" + devname + ")";
+                this.ToolTipText = string.Format("{0}\n({1})", model.StartupName, devname);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.ComponentModel;
 using System.Windows.Data;
 
@@ -11,10 +12,10 @@ namespace VolumeWatcher.ViewModel.Converter
     /// 
     /// </summary>
     [ValueConversion(typeof(MMDevice), typeof(string))]
-    class MMDeviceToNameConverter : ReadOnlyConverter
+    class MMDeviceToDeviceFriendryName : ReadOnlyConverter
     {
         /// <summary>
-        /// Convert MMDevice to name(string) 
+        /// Convert MMDevice to DeviceFriendlyName(string) 
         /// </summary>
         /// <param name="value">Enum value</param>
         /// <param name="targetType">target type</param>
@@ -31,7 +32,8 @@ namespace VolumeWatcher.ViewModel.Converter
 
             var device = (MMDevice)value;
 
-            return device.FriendlyName;
+            return device.DeviceFriendlyName;
         }
     }
 }
+

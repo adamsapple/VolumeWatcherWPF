@@ -55,43 +55,61 @@ namespace VolumeWatcher.Model
             get { return _Volume; }
             set { _Volume = value; SetProperty(ref _Volume, value); }
         }
-        private int _RecVolume;
-        public int RecVolume
-        {
-            get { return _RecVolume; }
-            set { _RecVolume = value; SetProperty(ref _RecVolume, value); }
-        }
         private bool _IsMute = false;
         public bool IsMute
         {
             get { return _IsMute; }
             set { _IsMute = value; SetProperty(ref _IsMute, value); }
         }
+
+        private int _RecVolume;
+        public int RecVolume
+        {
+            get { return _RecVolume; }
+            set { _RecVolume = value; SetProperty(ref _RecVolume, value); }
+        }
+        private bool _IsRecMute = false;
+        public bool IsRecMute
+        {
+            get { return _IsRecMute; }
+            set { _IsRecMute = value; SetProperty(ref _IsRecMute, value); }
+        }
+        /*
         private string _DeviceName = string.Empty;
         public string DeviceName
         {
             get { return _DeviceName; }
-            set { _DeviceName = value; SetProperty(ref _DeviceName, value); }
+            private set { _DeviceName = value; SetProperty(ref _DeviceName, value); }
         }
+        
         private string _IconPath = string.Empty;
         public string IconPath
         {
             get { return _IconPath; }
             set { _IconPath = value; SetProperty(ref _IconPath, value); }
         }
+        */
 
+        /*
         private AudioEndpointVolume _RenderVolume;
         public AudioEndpointVolume RenderVolume
         {
             get { return _RenderVolume; }
             set { _RenderVolume = value; SetProperty(ref _RenderVolume, value); }
         }
-
+        */
         private MMDevice _RenderDevice;
         public MMDevice RenderDevice
         {
             get { return _RenderDevice; }
             set { _RenderDevice = value; SetProperty(ref _RenderDevice, value); }
+        }
+
+        private MMDevice _CaptureDevice;
+        public MMDevice CaptureDevice
+        {
+            get { return _CaptureDevice; }
+            set { _CaptureDevice = value; SetProperty(ref _CaptureDevice, value); }
         }
 
         #endregion
@@ -149,8 +167,8 @@ namespace VolumeWatcher.Model
             //this.IconPath   = device.IconPath;
             //OnDeviceChanged(device);
             this.RenderDevice = device;
-            this.DeviceName = (string)device.GetProperty(PropertyKeys.PKEY_DEVICE_FRIENDLY_NAME);
-            this.IconPath = device.IconPath;
+            //this.DeviceName = (string)device.GetProperty(PropertyKeys.PKEY_DEVICE_FRIENDLY_NAME);
+            //this.IconPath = device.IconPath;
 
             // volumeとmuteは「OnVolumeChanged」を流用
             AudioEndpointVolume volume = device.AudioEndpointVolume;
@@ -164,13 +182,14 @@ namespace VolumeWatcher.Model
             //this.DeviceName = device.FriendlyName;
             //this.IconPath   = device.IconPath;
             //OnDeviceChanged(device);
+            this.CaptureDevice = device;
             //this.DeviceName = (string)device.GetProperty(PropertyKeys.PKEY_DEVICE_FRIENDLY_NAME);
             //this.IconPath = device.IconPath;
 
             // volumeとmuteは「OnVolumeChanged」を流用
             AudioEndpointVolume volume = device.AudioEndpointVolume;
             this.RecVolume = (int)Math.Round(volume.MasterVolumeLevelScalar * 100);
-            //this.IsMute = volume.Mute;
+            this.IsRecMute = volume.Mute;
         }
     }
 }

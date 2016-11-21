@@ -26,17 +26,22 @@ namespace VolumeWatcher.ViewModel
             private set { _CapturePeakValue = value; SetProperty(ref _CapturePeakValue, value); }
         }
 
-        private System.Timers.Timer StatusTimer = new System.Timers.Timer(40);
+        private System.Timers.Timer StatusTimer = new System.Timers.Timer(50);
 
         public void SetBinding(WindowOption window, VolumeWatcherMain main)
         {
-            var renderMeter  = main.VolumeMonitor1.AudioDevice?.AudioMeterInformation;
-            var captureMeter = main.CaptureMonitor.AudioDevice?.AudioMeterInformation;
-
             // ピークメータ表示処理の一例
             StatusTimer.Elapsed += (o, el) => {
-                RenderPeakValue  = (int)Math.Round((float)renderMeter?.PeakValue  * 100);
-                CapturePeakValue = (int)Math.Round((float)captureMeter?.PeakValue * 100);
+                var dispatcher = System.Windows.Application.Current.Dispatcher;
+
+                dispatcher.BeginInvoke((Action)delegate ()
+                {
+                    var renderMeter = main.VolumeMonitor1.AudioDevice?.AudioMeterInformation;
+                    var captureMeter = main.CaptureMonitor.AudioDevice?.AudioMeterInformation;
+
+                    RenderPeakValue = (int)Math.Round((float)renderMeter?.PeakValue * 100);
+                    CapturePeakValue = (int)Math.Round((float)captureMeter?.PeakValue * 100);
+                });
             };
         }
 
