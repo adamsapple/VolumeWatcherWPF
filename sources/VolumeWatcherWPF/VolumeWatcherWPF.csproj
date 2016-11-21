@@ -165,6 +165,7 @@
     <Compile Include="Moral\Util\NoActiveWindowExtension.cs" />
     <Compile Include="Moral\Util\Util.cs" />
     <Compile Include="Moral\Util\WindowsUtil.cs" />
+    <Compile Include="VolumeWatcher\Audio\EMicState.cs" />
     <Compile Include="VolumeWatcher\Audio\IVolumeChangeListener.cs" />
     <Compile Include="VolumeWatcher\Audio\MicPlayer.cs" />
     <Compile Include="VolumeWatcher\Audio\VolumeMonitor.cs" />

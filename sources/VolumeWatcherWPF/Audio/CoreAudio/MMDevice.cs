@@ -28,21 +28,32 @@ namespace Audio.CoreAudio
 
 
             _RealDevice = realDevice;
-            _PropertyStore = GetProperty();
+            GetProperty();
         }
 
-        private PropertyStore GetProperty()
+        internal static string GetID(IMMDevice realDevice)
         {
+            string result;
+            Marshal.ThrowExceptionForHR(realDevice.GetId(out result));
+            return result;
+        }
+
+        private void GetProperty()
+        {
+            if(_PropertyStore != null) {
+                return;
+            }
             IPropertyStore propstore;
             Marshal.ThrowExceptionForHR(_RealDevice.OpenPropertyStore(EStgmAccess.STGM_READ, out propstore));
-            return new PropertyStore(propstore);
+            _PropertyStore = new PropertyStore(propstore);
+            
         }
 
         public object GetProperty(PropertyKey key)
         {
             if (_PropertyStore == null)
             {
-                _PropertyStore = GetProperty();
+                GetProperty();
             }
 
             return _PropertyStore[key].Value;
@@ -149,7 +160,8 @@ namespace Audio.CoreAudio
 
         public virtual void Dispose(bool disposing)
         {
-            if(_RealDevice != null)
+            /*
+            if (_RealDevice != null)
             {
                 _AudioEndpointVolume?.Dispose(disposing);
                 _AudioMeterInformation?.Dispose(disposing);
@@ -157,6 +169,7 @@ namespace Audio.CoreAudio
                 _PropertyStore = null;
                 _RealDevice    = null;
             }
+            */
         }
 
         ~MMDevice()

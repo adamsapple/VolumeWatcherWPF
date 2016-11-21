@@ -192,13 +192,13 @@ namespace VolumeWatcher.View
             }
         }
 
-        void MicPlayter_StateChanged(bool IsRunning)
+        void MicPlayter_StateChanged(EMicState state)
         {
             var dispatcher = System.Windows.Application.Current.Dispatcher;
 
             dispatcher.BeginInvoke((Action)delegate ()
             {
-                MicListenToggle.IsChecked = IsRunning;
+                MicListenToggle.IsChecked = (state == EMicState.Start);
             });
         }
     }

@@ -163,33 +163,23 @@ namespace VolumeWatcher.Model
         public void SetDeviceInfo(MMDevice device)
         {
             // デバイス情報を取得し格納する
-            //this.DeviceName = device.FriendlyName;
-            //this.IconPath   = device.IconPath;
-            //OnDeviceChanged(device);
             this.RenderDevice = device;
-            //this.DeviceName = (string)device.GetProperty(PropertyKeys.PKEY_DEVICE_FRIENDLY_NAME);
-            //this.IconPath = device.IconPath;
-
+            
             // volumeとmuteは「OnVolumeChanged」を流用
-            AudioEndpointVolume volume = device.AudioEndpointVolume;
-            this.Volume = (int)Math.Round(volume.MasterVolumeLevelScalar * 100);
-            this.IsMute = volume.Mute;
+            AudioEndpointVolume volume = device?.AudioEndpointVolume;
+            this.Volume = (int)Math.Round((volume?.MasterVolumeLevelScalar??0) * 100);
+            this.IsMute = volume?.Mute??false;
         }
 
         public void SetRecDeviceInfo(MMDevice device)
         {
             // デバイス情報を取得し格納する
-            //this.DeviceName = device.FriendlyName;
-            //this.IconPath   = device.IconPath;
-            //OnDeviceChanged(device);
             this.CaptureDevice = device;
-            //this.DeviceName = (string)device.GetProperty(PropertyKeys.PKEY_DEVICE_FRIENDLY_NAME);
-            //this.IconPath = device.IconPath;
 
             // volumeとmuteは「OnVolumeChanged」を流用
-            AudioEndpointVolume volume = device.AudioEndpointVolume;
-            this.RecVolume = (int)Math.Round(volume.MasterVolumeLevelScalar * 100);
-            this.IsRecMute = volume.Mute;
+            AudioEndpointVolume volume = device?.AudioEndpointVolume;
+            this.RecVolume = (int)Math.Round((volume?.MasterVolumeLevelScalar??0) * 100);
+            this.IsRecMute = volume?.Mute??false;
         }
     }
 }

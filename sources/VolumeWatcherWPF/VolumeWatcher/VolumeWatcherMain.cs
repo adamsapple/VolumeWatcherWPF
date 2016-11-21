@@ -45,10 +45,10 @@ namespace VolumeWatcher
             app.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;  // Exitを明示的にCallすることでアプリケーションが終了するように設定
 
             // VolumeMonitor初期化
-            VolumeMonitor1 = new VolumeMonitor(EDataFlow.eRender, ERole.eMultimedia);
+            VolumeMonitor1 = new VolumeMonitor(EDataFlow.eRender, ERole.eConsole);
             VolumeMonitor1.initDevice();
 
-            CaptureMonitor = new VolumeMonitor(EDataFlow.eCapture, ERole.eMultimedia);
+            CaptureMonitor = new VolumeMonitor(EDataFlow.eCapture, ERole.eConsole);
             CaptureMonitor.initDevice();
 
             // Model初期化

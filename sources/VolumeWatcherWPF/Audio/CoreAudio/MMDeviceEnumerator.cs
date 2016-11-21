@@ -28,6 +28,8 @@ namespace Audio.CoreAudio
 
         private static MMDeviceEnumerator self = null;
 
+        private Dictionary<string, MMDevice> MMDeviceDictionary = new Dictionary<string, MMDevice>();
+
         public static MMDeviceEnumerator GetInstance()
         {
             if(self == null)
@@ -50,13 +52,28 @@ namespace Audio.CoreAudio
             //return result;
         }
 
+        private MMDevice CreateMMDevice(IMMDevice realDevice)
+        {
+            string id = MMDevice.GetID(realDevice);
+            MMDevice result = null;
+            //MMDeviceDictionary.TryGetValue(id, out result);
+            if (result == null) {
+                result = new MMDevice(realDevice);
+                //MMDeviceDictionary.Add(id, result);
+                Debug.WriteLine($"CreateMMDevice:{id}で新しいデバイスを作成");
+            }
+            
+            return result;
+        }
+
         public MMDevice GetDefaultAudioEndpoint(EDataFlow dataFlow, ERole role)
         {
             IMMDevice result;
             try
             {
                 Marshal.ThrowExceptionForHR(_realEnumerator.GetDefaultAudioEndpoint(dataFlow, role, out result));
-                return new MMDevice(result);
+                
+                return CreateMMDevice(result);
             }
             catch (Exception e)
             {
@@ -66,9 +83,14 @@ namespace Audio.CoreAudio
 
         public MMDevice GetDevice(string deviceId)
         {
+            if(deviceId == null)
+            {
+                return null;
+            }
+
             IMMDevice result;
             Marshal.ThrowExceptionForHR(_realEnumerator.GetDevice(deviceId, out result));
-            return new MMDevice(result);
+            return CreateMMDevice(result);
             //return result;
         }
 
@@ -95,6 +117,7 @@ namespace Audio.CoreAudio
 
         internal void FireOnDeviceStateChanged([MarshalAs(UnmanagedType.LPWStr)] string deviceId, EDeviceState newState)
         {
+            //Debug.WriteLine("FireOnDeviceStateChanged");
             _OnDeviceStateChanged?.Invoke(deviceId, newState);
         }
 
@@ -113,7 +136,7 @@ namespace Audio.CoreAudio
             [MarshalAs(UnmanagedType.I4)] ERole deviceRole,
             [MarshalAs(UnmanagedType.LPWStr)] string defaultDeviceId)
         {
-            Debug.WriteLine($"new device:{defaultDeviceId}");
+            //Debug.WriteLine($"OnDefaultDeviceChanged flow={dataFlow} role={deviceRole} device={defaultDeviceId} list={(_OnDefaultDeviceChanged?.GetInvocationList().Length??0)}");
             _OnDefaultDeviceChanged?.Invoke(dataFlow, deviceRole, defaultDeviceId);
         }
 

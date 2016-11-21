@@ -17,7 +17,7 @@ namespace VolumeWatcher.Audio
     class MicPlayer :IDisposable
     {
         
-        public delegate void MicPlayerStateChangedDelegate(bool IsRunning);
+        public delegate void MicPlayerStateChangedDelegate(EMicState state);
 
 
         MMDeviceEnumerator deviceEnumerator;
@@ -45,6 +45,13 @@ namespace VolumeWatcher.Audio
             var deviceCapture = deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eConsole);
             var deviceRender = deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eConsole);
             var shareMode = EAudioClientShareMode.Shared;
+
+            if(deviceCapture==null || deviceRender == null)
+            {
+                OnStateChanged?.Invoke(EMicState.InitializeFailed);
+                return;
+            }
+
             capture = new WasapiCapture(deviceCapture);                   // Captureデバイスの準備
             render = new WasapiRender(deviceRender, shareMode, true, 0);  // Renderデバイスの準備
 
@@ -54,6 +61,9 @@ namespace VolumeWatcher.Audio
             Debug.WriteLine(string.Format("render  format:{0}", render.WaveFormat));
 
             deviceEnumerator.OnDefaultDeviceChanged += DeviceChanged;
+
+            Initialized = true;
+            OnStateChanged?.Invoke(EMicState.Initialized);
         }
 
 
@@ -76,10 +86,15 @@ namespace VolumeWatcher.Audio
 
             Initialize();
 
+            if (!Initialized)
+            {
+                return;
+            }
+
             capture.Start();
             render.Play();
 
-            OnStateChanged?.Invoke(true);
+            OnStateChanged?.Invoke(EMicState.Start);
         }
 
         public void Stop()
@@ -91,7 +106,7 @@ namespace VolumeWatcher.Audio
 
             render.Stop();
             capture.Stop();
-            OnStateChanged?.Invoke(false);
+            OnStateChanged?.Invoke(EMicState.Stop);
         }
 
         public void Dispose()
@@ -101,6 +116,7 @@ namespace VolumeWatcher.Audio
             render?.Dispose();
             capture = null;
             render  = null;
+            Initialized = false;
         }
     }
 }

@@ -31,15 +31,26 @@ namespace VolumeWatcher.ViewModel.Converter
             }
 
             var device = (MMDevice)value;
-            var isLarge = false;
-            if (parameter != null)
+            try
             {
-                isLarge = ((string)parameter).ToUpper().Equals("LARGE");
-            }
-            
-            ImageSource img = WindowsUtil.GetIconFromEXEDLL2(device.IconPath, isLarge).ToImageSource();
+                if (device.State != EDeviceState.Active)
+                {
+                    return null;
+                }
+                var isLarge = false;
+                if (parameter != null)
+                {
+                    isLarge = ((string)parameter).ToUpper().Equals("LARGE");
+                }
 
-            return img;
+                ImageSource img = WindowsUtil.GetIconFromEXEDLL2(device.IconPath, isLarge).ToImageSource();
+
+                return img;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
     }
 }

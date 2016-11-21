@@ -71,6 +71,10 @@ namespace VolumeWatcher.Audio
             
             // get default device.
             device = deviceEnumerator.GetDefaultAudioEndpoint(DataFlow, Role);
+            if(device == null)
+            {
+                return;
+            }
             volume = device.AudioEndpointVolume;
 
             // set volume state notification.
@@ -93,8 +97,10 @@ namespace VolumeWatcher.Audio
             }
 
             // defaultでなくなったDeviceの参照を切る
-            volume.OnVolumeNotification -= innerListener.OnVolumeNotify;
-
+            if(volume != null)
+            {
+                volume.OnVolumeNotification -= innerListener.OnVolumeNotify;
+            }
             // 今までDefaultだったデバイスを開放
             volume?.Dispose(true);
             device?.Dispose(true);
@@ -293,7 +299,8 @@ namespace VolumeWatcher.Audio
                 {
                     return;
                 }
-
+                
+                Debug.WriteLine($"OnDefaultDeviceChanged flow={dataFlow} role={deviceRole} device={defaultDeviceId} list={(_OnAudioDeviceChanged?.GetInvocationList().Length ?? 0)}");
                 _OnAudioDeviceChanged(monitor.device);
             }
 

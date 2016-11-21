@@ -39,8 +39,8 @@ namespace VolumeWatcher.ViewModel
                     var renderMeter = main.VolumeMonitor1.AudioDevice?.AudioMeterInformation;
                     var captureMeter = main.CaptureMonitor.AudioDevice?.AudioMeterInformation;
 
-                    RenderPeakValue = (int)Math.Round((float)renderMeter?.PeakValue * 100);
-                    CapturePeakValue = (int)Math.Round((float)captureMeter?.PeakValue * 100);
+                    RenderPeakValue  = (int)Math.Round((renderMeter?.PeakValue??0) * 100);
+                    CapturePeakValue = (int)Math.Round((captureMeter?.PeakValue??0) * 100);
                 });
             };
         }
