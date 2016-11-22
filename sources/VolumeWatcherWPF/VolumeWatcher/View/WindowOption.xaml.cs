@@ -207,5 +207,30 @@ namespace VolumeWatcher.View
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
             e.Handled = true;
         }
+
+        private void DockPanel_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            float add = 0.01f * (e.Delta > 0 ? 1 : -1);
+            var monitor = ((sender == VolPanel)?main.VolumeMonitor1 : main.CaptureMonitor);
+            var volume = monitor.AudioDevice?.AudioEndpointVolume;
+            if (volume == null)
+            {
+                return;
+            }
+            volume.MasterVolumeLevelScalar += add;
+        }
+
+        private void DockPanel_MouseEnter(object sender, MouseEventArgs e)
+        {
+            var element = (Panel)sender;
+            var brush   = new SolidColorBrush(Color.FromRgb(218, 241, 255)); //FFDAF1FF AliceBlue LightSkyBlue
+            element.Background = brush;
+        }
+
+        private void DockPanel_MouseLeave(object sender, MouseEventArgs e)
+        {
+            var element = (Panel)sender;
+            element.Background = Brushes.Transparent;
+        }
     }
 }
