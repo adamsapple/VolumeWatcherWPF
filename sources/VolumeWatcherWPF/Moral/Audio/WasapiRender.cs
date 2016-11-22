@@ -33,7 +33,7 @@ namespace Moral.Audio
         public bool IsRunning => (playTask != null);
 
         public EPlaybackState PlaybackState { get; private set; }
-        //public event EventHandler<StoppedEventArgs> PlaybackStopped;
+        public event EventHandler<WasapiStopEventArgs> StoppedEvent;
 
         /// <summary>
         /// WASAPI Out using default audio endpoint
@@ -262,23 +262,49 @@ namespace Moral.Audio
                             FillBuffer(playbackProvider, numFramesAvailable);
                         }
                     }
-                    client.Stop();
-                    client.Reset();
-                    Debug.WriteLine("[render]Task stop detected.");
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine("[render]Task catch Exception.");
+                    Debug.WriteLine(e.Message);
+                    Debug.WriteLine(e.Source);
                     Debug.WriteLine(e.StackTrace);
                     exception = e;
-
                 }
                 finally
                 {
-                    //RaisePlaybackStopped(exception);
+                    client.Stop();
+                    client.Reset();
+                    Debug.WriteLine("[render]Task stop detected.");
+                    RaisePlaybackStopped(exception);
                 }
             });
             Debug.WriteLine("[render]Task started");
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
+        private void RaisePlaybackStopped(Exception e)
+        {
+            
+            
+            var handler = StoppedEvent;
+            if (handler == null)
+            {
+                return;
+            }
+            this.playTask = null;
+            if (this.syncContext == null)
+            {
+                handler(this, new WasapiStopEventArgs(e));
+            }
+            else
+            {
+                syncContext.Post(state => handler(this, new WasapiStopEventArgs(e)), null);
+            }
         }
 
         /// <summary>
@@ -380,6 +406,11 @@ namespace Moral.Audio
                 audioClient = null;
                 renderClient= null;
             }
+        }
+
+        ~WasapiRender()
+        {
+            Dispose();
         }
 
         #endregion

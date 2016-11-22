@@ -56,11 +56,11 @@ namespace Audio.CoreAudio
         {
             string id = MMDevice.GetID(realDevice);
             MMDevice result = null;
-            MMDeviceDictionary.TryGetValue(id, out result);
+            //MMDeviceDictionary.TryGetValue(id, out result);
             if (result == null) {
                 Debug.WriteLine($"CreateMMDevice:{id}で新しいデバイスを作成");
                 result = new MMDevice(realDevice);
-                MMDeviceDictionary.Add(id, result);
+                //MMDeviceDictionary.Add(id, result);
             }
             
             return result;

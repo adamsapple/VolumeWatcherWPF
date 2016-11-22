@@ -28,12 +28,13 @@ namespace VolumeWatcher.ViewModel.Converter
         public override object Convert(object value, Type targetType, object parameter,
                               System.Globalization.CultureInfo culture)
         {
-            if (value == null)
+            var device = value as MMDevice;
+
+            if (device == null)
             {
                 return null;
             }
 
-            var device = (MMDevice)value;
             try
             {
                 if (device?.State != EDeviceState.Active)

@@ -249,25 +249,27 @@ namespace Audio.CoreAudio
         /// </summary>
         public void Dispose()
         {
-            /*
             if (_realAudioClient == null)
             {
                 return;
             }
-
+            /*
+            _AudioRenderClient?.Dispose();
+            _AudioCaptureClient?.Dispose();
+            */
             mixFormat = null;
-            //_AudioRenderClient?.Dispose();
             _AudioRenderClient = null;
-            //_AudioCaptureClient?.Dispose();
             _AudioCaptureClient = null;
-            
             Marshal.ReleaseComObject(_realAudioClient);
             _realAudioClient = null;
-
             GC.SuppressFinalize(this);
-            */
         }
 
         #endregion
+
+        ~AudioClient()
+        {
+            Dispose();
+        }
     }
 }

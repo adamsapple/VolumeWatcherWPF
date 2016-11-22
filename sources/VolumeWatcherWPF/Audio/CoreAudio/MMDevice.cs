@@ -137,10 +137,10 @@ namespace Audio.CoreAudio
             }
         }
 
-        public string FriendlyName       => (string)GetProperty(PropertyKeys.PKEY_DEVICE_INTERFACE_FRIENDLY_NAME);
-        public string DeviceFriendlyName => (string)GetProperty(PropertyKeys.PKEY_DEVICE_FRIENDLY_NAME);
-        public string DeviceDescription  => (string)GetProperty(PropertyKeys.PKEY_DEVICE_DESCRIPTION);
-        public string IconPath           => (string)GetProperty(PropertyKeys.PKEY_DEVICE_ICON);
+        public string FriendlyName       => GetProperty(PropertyKeys.PKEY_DEVICE_INTERFACE_FRIENDLY_NAME) as string;
+        public string DeviceFriendlyName => GetProperty(PropertyKeys.PKEY_DEVICE_FRIENDLY_NAME) as string;
+        public string DeviceDescription  => GetProperty(PropertyKeys.PKEY_DEVICE_DESCRIPTION) as string;
+        public string IconPath           => GetProperty(PropertyKeys.PKEY_DEVICE_ICON) as string;
         
 
         internal void FireOnDeviceStateChanged(string deviceId, EDeviceState newState)

@@ -31,9 +31,9 @@ namespace VolumeWatcher.ViewModel.Converter
                 return string.Empty;
             }
 
-            var device = (MMDevice)value;
+            var device = value as MMDevice;
 
-            return device.DeviceDescription;
+            return device?.DeviceDescription;
         }
     }
 }

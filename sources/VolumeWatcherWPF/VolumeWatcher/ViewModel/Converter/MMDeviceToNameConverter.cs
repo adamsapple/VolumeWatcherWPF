@@ -29,9 +29,9 @@ namespace VolumeWatcher.ViewModel.Converter
                 return string.Empty;
             }
 
-            var device = (MMDevice)value;
+            var device = value as MMDevice;
 
-            return device.FriendlyName;
+            return device?.FriendlyName;
         }
     }
 }

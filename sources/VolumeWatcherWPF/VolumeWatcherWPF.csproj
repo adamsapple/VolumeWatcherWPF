@@ -159,6 +159,7 @@
     <Compile Include="Audio\Util\HResult.cs" />
     <Compile Include="Audio\Wave\WaveStream.cs" />
     <Compile Include="Moral\AssemblyInfo.cs" />
+    <Compile Include="Moral\Audio\WasapiStopEventArgs.cs" />
     <Compile Include="Moral\Etc\KeyboardHook5.cs" />
     <Compile Include="Moral\Util\Ease.cs" />
     <Compile Include="Moral\Util\IconUtil.cs" />

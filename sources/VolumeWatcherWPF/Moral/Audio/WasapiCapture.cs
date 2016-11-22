@@ -61,7 +61,7 @@ namespace Moral.Audio
         /// <summary>
         /// Indicates that all recorded data has now been received.
         /// </summary>
-        //public event EventHandler<StoppedEventArgs> RecordingStopped;
+        public event EventHandler<WasapiStopEventArgs> StoppedEvent;
 
         /// <summary>
         /// Initialises a new instance of the WASAPI capture class
@@ -184,32 +184,54 @@ namespace Moral.Audio
             Debug.WriteLine("[capture]Task starting...");
             this.stop = false;
             captureTask = Task.Run( () => {
+                Exception exception = null;
                 var client = audioClient;
 
-                int bufferFrameCount = client.BufferSize;
-                // Calculate the actual duration of the allocated buffer.
-                long actualDuration = (long)((double)REFTIMES_PER_SEC *
-                                 bufferFrameCount / WaveFormat.SampleRate);
-                int sleepMilliseconds = (int)(actualDuration / REFTIMES_PER_MILLISEC / 2);
-
-                Debug.WriteLine(string.Format("num Buffer Frames: {0}", client.BufferSize));
-                Debug.WriteLine(string.Format("sleep: {0} ms", sleepMilliseconds));
-
-
-                AudioCaptureClient capture = client.AudioCaptureClient;
-                client.Start();
-
-                while (!this.stop)
+                try
                 {
-                    //Task.Delay(sleepMilliseconds);        // 待機
-                    frameEventWaitHandle.WaitOne(sleepMilliseconds);    // 待機
-                    ReadNextPacket(capture);
+                    int bufferFrameCount = client.BufferSize;
+                    // Calculate the actual duration of the allocated buffer.
+                    long actualDuration = (long)((double)REFTIMES_PER_SEC *
+                                     bufferFrameCount / WaveFormat.SampleRate);
+                    int sleepMilliseconds = (int)(actualDuration / REFTIMES_PER_MILLISEC / 2);
+
+                    Debug.WriteLine(string.Format("num Buffer Frames: {0}", client.BufferSize));
+                    Debug.WriteLine(string.Format("sleep: {0} ms", sleepMilliseconds));
+
+
+                    AudioCaptureClient capture = client.AudioCaptureClient;
+                    client.Start();
+
+                    while (!this.stop)
+                    {
+                        //Task.Delay(sleepMilliseconds);        // 待機
+                        frameEventWaitHandle.WaitOne(sleepMilliseconds);    // 待機
+                        ReadNextPacket(capture);
+                    }
                 }
-                client.Stop();
-                client.Reset();
-                Debug.WriteLine("[capture]Task stop detected.");
+                catch (Exception e)
+                {
+                    exception = e;
+                }
+                finally
+                {
+                    client.Stop();
+                    client.Reset();
+                    Debug.WriteLine("[capture]Task stop detected.");
+                    RaiseRecordingStopped(exception);
+                }
             });
             Debug.WriteLine("[capture]Task started");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="exception"></param>
+        private void RaiseRecordingStopped(Exception exception)
+        {
+            this.captureTask = null;
+            StoppedEvent?.Invoke(this, new WasapiStopEventArgs(exception));
         }
 
         /// <summary>
@@ -232,7 +254,7 @@ namespace Moral.Audio
             Debug.WriteLine("[capture]Task Done.");
             this.stop = false;
         }
-        
+
         /*
         private void CaptureThread(AudioClient client)
         {
@@ -277,17 +299,9 @@ namespace Moral.Audio
                 ReadNextPacket(capture);
             }
         }
-
-        private void RaiseRecordingStopped(Exception exception)
-        {
-            //var handler = RecordingStopped;
-            //if (handler != null)
-            //{
-            //    handler(this, new StoppedEventArgs(exception));
-            //}
-        }
         */
 
+        
         private void ReadNextPacket(AudioCaptureClient capture)
         {
             EAudioClientBufferFlags flags;
@@ -343,6 +357,11 @@ namespace Moral.Audio
                 //audioClient.Dispose();
                 audioClient = null;
             }
+        }
+
+        ~WasapiCapture()
+        {
+            Dispose();
         }
 
         #endregion
