@@ -70,7 +70,20 @@ namespace VolumeWatcher.Model
         public bool IsMute
         {
             get { return _IsMute; }
-            set { _IsMute = value; SetProperty(ref _IsMute, value); }
+            set {
+                _IsMute = value;
+                SetProperty(ref _IsMute, value);
+                var volume = this.RenderDevice?.AudioEndpointVolume;
+                if (volume == null)
+                {
+                    return;
+                }
+                if(volume.Mute == _IsMute)
+                {
+                    return;
+                }
+                volume.Mute = _IsMute;
+            }
         }
 
         private int _RecVolume;
@@ -83,7 +96,21 @@ namespace VolumeWatcher.Model
         public bool IsRecMute
         {
             get { return _IsRecMute; }
-            set { _IsRecMute = value; SetProperty(ref _IsRecMute, value); }
+            set
+            {
+                _IsRecMute = value;
+                SetProperty(ref _IsRecMute, value);
+                var volume = this.CaptureDevice?.AudioEndpointVolume;
+                if (volume == null)
+                {
+                    return;
+                }
+                if (volume.Mute == _IsRecMute)
+                {
+                    return;
+                }
+                volume.Mute = _IsRecMute;
+            }
         }
         /*
         private string _DeviceName = string.Empty;

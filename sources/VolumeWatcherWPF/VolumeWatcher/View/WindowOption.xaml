@@ -29,52 +29,22 @@
         <vmc:MMDeviceToNameConverter        x:Key="Device2NameConverter"/>
         <vmc:MMDeviceToDescriptionConverter x:Key="Device2DescriptionConverter"/>
         <vmc:MMDeviceToIconConverter        x:Key="Device2IconConverter"/>
+        <vmc:BoolToBrushConverter           x:Key="Bool2BrushConverter"/>
         <moral:AssemblyInfo                 x:Key="assemblyInfo" />
     </Window.Resources>
     <DockPanel>
         <StatusBar Height="25" DockPanel.Dock="Bottom">
             <!-- 右側に配置 -->
             <!--<StatusBarItem DockPanel.Dock="Right" Margin="-4,0,0,0">%</StatusBarItem>-->
-            <StatusBarItem DockPanel.Dock="Right" Content="{Binding Volume, Mode=OneWay}" MinWidth="40" HorizontalContentAlignment="Right" x:Name="lblVolume" ContentStringFormat="0\%" Padding="0,3,3,3"/>
+            <StatusBarItem DockPanel.Dock="Right" Content="{Binding Volume, Mode=OneWay}"    Foreground="{Binding IsMute, Converter={StaticResource Bool2BrushConverter}}" MinWidth="40" HorizontalContentAlignment="Right" x:Name="lblVolume" ContentStringFormat="0\%" Padding="0,3,3,3"/>
             <StatusBarItem DockPanel.Dock="Right" Content="Vol:"/>
             <Separator  DockPanel.Dock="Right" Background="#FFDADADA"/>
-            <StatusBarItem DockPanel.Dock="Right" Content="{Binding RecVolume, Mode=OneWay}" MinWidth="40" HorizontalContentAlignment="Right" ContentStringFormat="0\%" Padding="0,3,3,3"/>
+            <StatusBarItem DockPanel.Dock="Right" Content="{Binding RecVolume, Mode=OneWay}" Foreground="{Binding IsRecMute, Converter={StaticResource Bool2BrushConverter}}" MinWidth="40" HorizontalContentAlignment="Right" ContentStringFormat="0\%" Padding="0,3,3,3"/>
             <StatusBarItem DockPanel.Dock="Right" Content="Rec:"/>
             <!-- <Separator DockPanel.Dock="Right"/> -->
             <StatusBarItem />
         </StatusBar>
         <TabControl x:Name="tabControl" DockPanel.Dock="Top" TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,0,2,0" SelectionChanged="tabControl_SelectionChanged" BorderThickness="1,0,0,0" BorderBrush="#FFDADADA" Background="Transparent" >
-            <TabControl.Resources>
-                <Style TargetType="{x:Type Grid}">
-                    <Setter Property="Background" Value="Transparent"/>
-                </Style>
-                <Style TargetType="TabItem">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="TabItem">
-                                <Grid Name="Panel" Margin="0">
-                                    <ContentPresenter
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Center"
-                                        ContentSource="Header"
-                                        Margin="8,10"/>
-                                </Grid>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsSelected" Value="False">
-                                        <Setter TargetName="Panel" Property="Background" Value="Transparent" />
-                                    </Trigger>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="Panel" Property="Background" Value="#FFDAF1FF" />
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Panel" Property="Background" Value="LightSkyBlue" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TabControl.Resources>
             <TabItem Header="設定" Padding="6,2" Margin="0">
                 <StackPanel Margin="10" >
                     <CheckBox x:Name="chkIsStartUp" Content="StartUpに登録する" IsChecked="false" Checked="chkIsStartUp_Checked" HorizontalAlignment="Left" />
@@ -125,7 +95,8 @@
                             <Label Content="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2NameConverter}}" HorizontalAlignment="Left" />
                         </StackPanel>
                         <DockPanel ScrollViewer.VerticalScrollBarVisibility="Disabled" LastChildFill="False" Margin="0">
-                            <StackPanel DockPanel.Dock="Right" >
+                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" >
+                                <ToggleButton  IsChecked="{Binding IsMute, Mode=TwoWay}" Content="MUTE" Margin="4,0" VerticalAlignment="Bottom" FontSize="8" />
                                 <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}">
                                     <UI:LevelBar x:Name="RenderMeter" DockPanel.Dock="Right" Height="60" Width="8" Value="{Binding RenderPeakValue, Mode=OneWay}" HorizontalAlignment="Center" HeadSize="0" >
                                         <UI:LevelBar.BarColor>
@@ -151,7 +122,8 @@
                             <Label Content="{Binding CaptureDevice, Mode=OneWay, Converter={StaticResource Device2NameConverter}}" HorizontalAlignment="Left" />
                         </StackPanel>
                         <DockPanel ScrollViewer.VerticalScrollBarVisibility="Disabled" LastChildFill="False" Margin="0">
-                            <StackPanel DockPanel.Dock="Right" >
+                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" >
+                                <ToggleButton  IsChecked="{Binding IsRecMute, Mode=TwoWay}" Content="MUTE" Margin="4,0" VerticalAlignment="Bottom" FontSize="8" />
                                 <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}">
                                     <UI:LevelBar x:Name="CaptureMeter" DockPanel.Dock="Left" Height="60" Width="8" Value="{Binding CapturePeakValue, Mode=OneWay}" HeadSize="0" >
                                         <UI:LevelBar.BarColor>
@@ -167,29 +139,7 @@
                         </DockPanel>
                     </DockPanel>
                     <!--</StackPanel>-->
-
-                    <ToggleButton x:Name="MicListenToggle" IsChecked="False" Content="Listen to Device" Margin="20,0,0,20" Width="120" Click="ToggleButton_Click" Background="AliceBlue" Height="32" VerticalAlignment="Bottom" >
-                        <ToggleButton.Template>
-                            <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                <Border Name="Border" CornerRadius="0" Background="{TemplateBinding Background}" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" BorderThickness="1,1,1,1" >
-                                    <ContentPresenter Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <!--
-                                    <Trigger Property="IsChecked" Value="False">
-                                        <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}" />
-                                    </Trigger>
-                                    -->
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="Border" Property="Background" Value="#FFDAF1FF" />
-                                    </Trigger>
-                                    <Trigger Property="IsChecked" Value="True">
-                                        <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </ToggleButton.Template>
-                    </ToggleButton>
+                    <ToggleButton x:Name="MicListenToggle" IsChecked="False" Content="Listen to Device" Margin="20,0,0,20" Width="100" Click="ToggleButton_Click" Height="32" VerticalAlignment="Bottom" />
                 </DockPanel>
             </TabItem>
             <TabItem Header="About">

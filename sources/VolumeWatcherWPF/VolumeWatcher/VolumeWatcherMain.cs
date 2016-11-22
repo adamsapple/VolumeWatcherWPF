@@ -83,8 +83,11 @@ namespace VolumeWatcher
             State = 1;
 
             //tester = new VolumeWatcher.Sandbox.RecorderTest();
+#if DEBUG
             tester?.Start();
+
             optionWindow.Show();
+#endif
         }
 
         /// <summary>
@@ -94,10 +97,10 @@ namespace VolumeWatcher
         public void OnExit(ExitEventArgs e)
         {
             State = 2;
-
+#if DEBUG
             tester?.Stop();
             tester?.Dispose();
-
+#endif
             model.SaveSettings();
             optionWindow.Close();
             volumeWindow.Close();

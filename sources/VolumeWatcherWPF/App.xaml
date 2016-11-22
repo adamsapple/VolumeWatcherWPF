@@ -8,5 +8,10 @@
     <Application.Resources>
         <!--<prop:Settings x:Key="sett" />-->
         <!--<FontFamily x:Key="Digifont">./resources/FFFFORWA.TTF#FFF Forward</FontFamily>-->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="VolumeWatcher/Style/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

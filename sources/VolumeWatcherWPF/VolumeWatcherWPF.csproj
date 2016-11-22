@@ -181,6 +181,7 @@
     <Compile Include="VolumeWatcher\Sandbox\ReSampler.cs" />
     <Compile Include="Moral\Audio\WasapiCapture.cs" />
     <Compile Include="Moral\Audio\WasapiRender.cs" />
+    <Compile Include="VolumeWatcher\ViewModel\Converter\BoolToBrushConverter.cs" />
     <Compile Include="VolumeWatcher\ViewModel\Converter\MMDeviceToDescriptionConverter.cs" />
     <Compile Include="VolumeWatcher\ViewModel\Converter\MMDeviceToDeviceFriendryName.cs" />
     <Compile Include="VolumeWatcher\ViewModel\Converter\MMDeviceToIconConverter.cs" />
@@ -242,6 +243,18 @@
     <Page Include="Moral\UI\LevelBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="VolumeWatcher\Style\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VolumeWatcher\Style\TabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VolumeWatcher\Style\ToggleButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="VolumeWatcher\UI\MainContextMenu.xaml">
       <Generator>MSBuild:Compile</Generator>
