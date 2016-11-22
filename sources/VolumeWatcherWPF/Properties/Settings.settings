@@ -20,5 +20,8 @@
     <Setting Name="OptionWindow_Top" Type="System.Double" Scope="User">
       <Value Profile="(Default)">-1</Value>
     </Setting>
+    <Setting Name="GitURL" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://github.com/adamsapple/VolumeWatcherWPF/</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

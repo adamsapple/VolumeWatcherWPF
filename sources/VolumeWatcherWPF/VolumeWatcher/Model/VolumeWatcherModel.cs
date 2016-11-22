@@ -14,6 +14,22 @@ namespace VolumeWatcher.Model
 {
     class VolumeWatcherModel : ModelBase
     {
+
+        #region アプリケーション設定
+        public string StartupName
+        {
+            get { return _StartupName; }
+            private set { _StartupName = value; SetProperty(ref _StartupName, value); }
+        }
+
+        public string _GitURL;
+        public string GitURL
+        {
+            get { return _GitURL; }
+            private set { _GitURL = value; SetProperty(ref _GitURL, value); }
+        }
+        #endregion
+
         #region 設定情報
         //
         // 設定情報
@@ -37,11 +53,6 @@ namespace VolumeWatcher.Model
             set { _IsKeyHook = value; SetProperty(ref _IsKeyHook, value); }
         }
         private string _StartupName = string.Empty;
-        public string StartupName
-        {
-            get { return _StartupName; }
-            private set { _StartupName = value; SetProperty(ref _StartupName, value); }
-        }
 
         #endregion
 
@@ -138,6 +149,7 @@ namespace VolumeWatcher.Model
             var setting = Properties.Settings.Default;
             // save情報を設定に反映
             this.StartupName       = setting.startup_name;
+            this.GitURL            = setting.GitURL;
             this.Opacity           = setting.window_opacity;
             this.WindowPosition    = setting.window_position2;
             this.IsKeyHook         = setting.enable_volume_key;

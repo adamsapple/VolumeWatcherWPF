@@ -91,5 +91,14 @@ namespace VolumeWatcher.Properties {
                 this["OptionWindow_Top"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://github.com/adamsapple/VolumeWatcherWPF/")]
+        public string GitURL {
+            get {
+                return ((string)(this["GitURL"]));
+            }
+        }
     }
 }
