@@ -42,6 +42,19 @@ namespace VolumeWatcher.Properties {
             }
         }
 
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        public System.Version Version
+        {
+            get
+            {
+                return new System.Version((string)this["AssemblyVersion"]);
+            }
+            set
+            {
+                this["AssemblyVersion"] = value.ToString();
+            }
+        }
+
         /*
         public void SaveVolumeWindowPosition(int index = 0)
         {

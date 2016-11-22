@@ -147,21 +147,44 @@ namespace VolumeWatcher.Model
         public void LoadSettings()
         {
             var setting = Properties.Settings.Default;
-            // save情報を設定に反映
-            this.StartupName       = setting.startup_name;
-            this.GitURL            = setting.GitURL;
-            this.Opacity           = setting.window_opacity;
-            this.WindowPosition    = setting.window_position2;
-            this.IsKeyHook         = setting.enable_volume_key;
 
-            this.OptionWindow_Left = setting.OptionWindow_Left;
-            this.OptionWindow_Top  = setting.OptionWindow_Top;
+            //
+            // Configのアップグレード(旧verのコンフィグから情報を引き継ぐ)
+            //
+            {
+                // Configに書き込まれたAssemblyVersionを比較し、
+                //  今回起動したApplicationを差異があれば、コンフィグのUpgradeを行う。
+                var assemblyVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+                if (!setting.Version.Equals(assemblyVersion))
+                {
+                    setting.Upgrade();
+                    setting.Version = assemblyVersion;
+                    setting.Save();
+                }
+            }
+
+            //
+            // save情報を設定に反映
+            //
+            {
+                this.StartupName = setting.startup_name;
+                this.GitURL = setting.GitURL;
+                this.Opacity = setting.window_opacity;
+                this.WindowPosition = setting.window_position2;
+                this.IsKeyHook = setting.enable_volume_key;
+
+                this.OptionWindow_Left = setting.OptionWindow_Left;
+                this.OptionWindow_Top = setting.OptionWindow_Top;
+            }
         }
 
         public void SaveSettings()
         {
             var setting = Properties.Settings.Default;
+
+            //
             // save情報を更新
+            //
             setting.window_opacity      = this.Opacity;
             setting.window_position2    = this.WindowPosition;
             setting.enable_volume_key   = this.IsKeyHook;
