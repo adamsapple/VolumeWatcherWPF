@@ -43,8 +43,11 @@
             <!-- <Separator DockPanel.Dock="Right"/> -->
             <StatusBarItem />
         </StatusBar>
-        <TabControl x:Name="tabControl" DockPanel.Dock="Top" TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,0,2,0" SelectionChanged="tabControl_SelectionChanged" BorderThickness="1,0,0,0" BorderBrush="#FFDADADA">
+        <TabControl x:Name="tabControl" DockPanel.Dock="Top" TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,0,2,0" SelectionChanged="tabControl_SelectionChanged" BorderThickness="1,0,0,0" BorderBrush="#FFDADADA" Background="Transparent" >
             <TabControl.Resources>
+                <Style TargetType="{x:Type Grid}">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Style>
                 <Style TargetType="TabItem">
                     <Setter Property="Template">
                         <Setter.Value>
