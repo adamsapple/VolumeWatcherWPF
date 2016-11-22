@@ -84,7 +84,7 @@ namespace VolumeWatcher
 
             //tester = new VolumeWatcher.Sandbox.RecorderTest();
             tester?.Start();
-            //optionWindow.Show();
+            optionWindow.Show();
         }
 
         /// <summary>

@@ -164,7 +164,27 @@
                         </DockPanel>
                     </DockPanel>
                     <!--</StackPanel>-->
-                    <ToggleButton x:Name="MicListenToggle" IsChecked="False" Content="Listen to Device" Margin="10,0,0,10" Width="100" Height="30" HorizontalAlignment="Left" Click="ToggleButton_Click"/>
+
+                    <ToggleButton x:Name="MicListenToggle" IsChecked="False" Content="Listen to Device" Margin="20,19,0,20" Width="120" Click="ToggleButton_Click" Background="#FFFBFBFB" >
+                        <ToggleButton.Template>
+                            <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                <Border Name="Border" CornerRadius="0" Background="{TemplateBinding Background}" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" BorderThickness="1,1,1,1" >
+                                    <ContentPresenter Margin="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <!--<Trigger Property="IsChecked" Value="False">
+                                        <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}" />
+                                    </Trigger>-->
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="#FFDAF1FF" />
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </ToggleButton.Template>
+                    </ToggleButton>
                 </DockPanel>
             </TabItem>
             <TabItem Header="About">
