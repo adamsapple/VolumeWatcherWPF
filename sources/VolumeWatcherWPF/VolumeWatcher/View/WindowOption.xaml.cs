@@ -175,7 +175,12 @@ namespace VolumeWatcher.View
             }
         }
 
-        private void ToggleButton_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ListenToDevice_Click(object sender, RoutedEventArgs e)
         {
             var toggle = (ToggleButton)sender;
             var isChecked = (bool)toggle.IsChecked;
@@ -218,19 +223,6 @@ namespace VolumeWatcher.View
                 return;
             }
             volume.MasterVolumeLevelScalar += add;
-        }
-
-        private void DockPanel_MouseEnter(object sender, MouseEventArgs e)
-        {
-            var element = (Panel)sender;
-            var brush   = new SolidColorBrush(Color.FromRgb(218, 241, 255)); //FFDAF1FF AliceBlue LightSkyBlue
-            element.Background = brush;
-        }
-
-        private void DockPanel_MouseLeave(object sender, MouseEventArgs e)
-        {
-            var element = (Panel)sender;
-            element.Background = Brushes.Transparent;
         }
     }
 }

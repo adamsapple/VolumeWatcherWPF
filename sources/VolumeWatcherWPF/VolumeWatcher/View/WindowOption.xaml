@@ -31,6 +31,39 @@
         <vmc:MMDeviceToIconConverter        x:Key="Device2IconConverter"/>
         <vmc:BoolToBrushConverter           x:Key="Bool2BrushConverter"/>
         <moral:AssemblyInfo                 x:Key="assemblyInfo" />
+        
+        <Style x:Key="VolumePanel" TargetType="DockPanel">
+            <Style.Setters>
+                <Setter Property="Background" Value="Transparent" />
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <!--<Setter Property="Background" Value="#FFDAF1FF" />-->
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(DockPanel.Background).(SolidColorBrush.Color)" 
+                                                To="#FFDAF1FF" Duration="0:0:0.1" />
+                                <!--<ColorAnimation.EasingFunction>
+                                    <SineEase EasingMode="EaseOut" />
+                                </ColorAnimation.EasingFunction>-->
+                                <!--<DoubleAnimation Storyboard.TargetProperty="(DockPanel.Opacity)" To="0" Duration="0:0:0.1" />-->
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(DockPanel.Background).(SolidColorBrush.Color)" 
+                                                To="Transparent" Duration="0:0:0.7" />
+                                <!--<DoubleAnimation Storyboard.TargetProperty="(DockPanel.Opacity)" To="0" Duration="0:0:0.1" />-->
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+                
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <DockPanel>
         <StatusBar Height="25" DockPanel.Dock="Bottom">
@@ -85,7 +118,7 @@
             <TabItem Header="状態" x:Name="tiStatus">
                 <DockPanel Margin="10" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderOptions.EdgeMode="Aliased" LastChildFill="False">
                     <!--<StackPanel>-->
-                    <DockPanel x:Name="VolPanel" DockPanel.Dock="Top" Margin="0,4" MouseWheel="DockPanel_MouseWheel" MouseEnter="DockPanel_MouseEnter" MouseLeave="DockPanel_MouseLeave">
+                    <DockPanel x:Name="VolPanel" DockPanel.Dock="Top" Style="{StaticResource VolumePanel}" Margin="0,4" MouseWheel="DockPanel_MouseWheel">
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Width="30" Margin="4,0,0,0">Play</TextBlock>
                         <Border Margin="0" BorderThickness="1" BorderBrush="#FF00AEFF" RenderOptions.BitmapScalingMode="NearestNeighbor" HorizontalAlignment="Center" VerticalAlignment="Center" >
                             <Image Width="32" Height="32" Source="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
@@ -112,7 +145,7 @@
                         </DockPanel>
                     </DockPanel>
                     <Border  DockPanel.Dock="Top" BorderThickness="0,1,0,0" BorderBrush="#FFDADADA" />
-                    <DockPanel x:Name="RecPanel" DockPanel.Dock="Top" Margin="0,4" MouseWheel="DockPanel_MouseWheel"  MouseEnter="DockPanel_MouseEnter" MouseLeave="DockPanel_MouseLeave" >
+                    <DockPanel x:Name="RecPanel" DockPanel.Dock="Top" Style="{StaticResource VolumePanel}" Margin="0,4" MouseWheel="DockPanel_MouseWheel" >
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Width="30" Margin="4,0,0,0">Rec</TextBlock>
                         <Border Margin="0" BorderThickness="1" BorderBrush="#FF00AEFF" RenderOptions.BitmapScalingMode="NearestNeighbor" HorizontalAlignment="Center" VerticalAlignment="Center" >
                             <Image Width="32" Height="32" Source="{Binding CaptureDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
@@ -139,7 +172,7 @@
                         </DockPanel>
                     </DockPanel>
                     <!--</StackPanel>-->
-                    <ToggleButton x:Name="MicListenToggle" IsChecked="False" Content="Listen to Device" Margin="20,0,0,20" Width="100" Click="ToggleButton_Click" Height="32" VerticalAlignment="Bottom" />
+                    <ToggleButton x:Name="MicListenToggle" IsChecked="False" Content="Listen to Device" Margin="20,0,0,20" Width="100" Click="ListenToDevice_Click" Height="32" VerticalAlignment="Bottom" />
                 </DockPanel>
             </TabItem>
             <TabItem Header="About">
