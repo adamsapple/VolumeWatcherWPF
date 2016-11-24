@@ -124,7 +124,7 @@
             <TabItem Header="状態" x:Name="tiStatus">
                 <DockPanel Margin="10" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderOptions.EdgeMode="Aliased" LastChildFill="False">
                     <!--<StackPanel>-->
-                    <DockPanel x:Name="VolPanel" DockPanel.Dock="Top" Style="{StaticResource VolumePanel}" Margin="0,4" MouseWheel="DockPanel_MouseWheel">
+                    <DockPanel x:Name="VolPanel" DockPanel.Dock="Top" Style="{StaticResource VolumePanel}" Margin="0,4" MouseWheel="DockPanel_MouseWheel" ToolTip="MouseWheelで音量を調整">
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Width="30" Margin="4,0,0,0">Play</TextBlock>
                         <Border Margin="0" BorderThickness="1" BorderBrush="#FF00AEFF" RenderOptions.BitmapScalingMode="NearestNeighbor" HorizontalAlignment="Center" VerticalAlignment="Center" >
                             <Image Width="32" Height="32" Source="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
@@ -151,7 +151,7 @@
                         </DockPanel>
                     </DockPanel>
                     <Border  DockPanel.Dock="Top" BorderThickness="0,1,0,0" BorderBrush="#FFDADADA" />
-                    <DockPanel x:Name="RecPanel" DockPanel.Dock="Top" Style="{StaticResource VolumePanel}" Margin="0,4" MouseWheel="DockPanel_MouseWheel" >
+                    <DockPanel x:Name="RecPanel" DockPanel.Dock="Top" Style="{StaticResource VolumePanel}" Margin="0,4" MouseWheel="DockPanel_MouseWheel"  ToolTip="MouseWheelで録音レベルを調整">
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Width="30" Margin="4,0,0,0">Rec</TextBlock>
                         <Border Margin="0" BorderThickness="1" BorderBrush="#FF00AEFF" RenderOptions.BitmapScalingMode="NearestNeighbor" HorizontalAlignment="Center" VerticalAlignment="Center" >
                             <Image Width="32" Height="32" Source="{Binding CaptureDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
@@ -186,7 +186,36 @@
                     <Image x:Name="image"  Height="100" Margin="0,16"  Width="100" DockPanel.Dock="Top" VerticalAlignment="Top" Source="/VolumeWatcher;component/icon-app.ico" />
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Product, Source={StaticResource assemblyInfo}}" />
                     <TextBlock HorizontalAlignment="Center" Text="{Binding ProductVersion, Source={StaticResource assemblyInfo}, StringFormat=Ver: \{0\}}"  />
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding BuildDateTime, Source={StaticResource assemblyInfo}, StringFormat=Build: \{0\}}" Margin="0,10,0,0" />
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding BuildDateTime, Source={StaticResource assemblyInfo}, StringFormat=Build: \{0\}}" Margin="0,10,0,0" >
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Resources>
+                                    <Storyboard x:Key="EnterAnimation">
+                                        <ColorAnimation Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)" 
+                                                    To="Black" Duration="0:0:1.5" BeginTime="0:0:0.5"  FillBehavior="HoldEnd"/>
+                                    </Storyboard>
+                                    <Storyboard x:Key="Exitnimation">
+                                        <ColorAnimation Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)" 
+                                                    To="Transparent" Duration="0:0:0.5" FillBehavior="Stop"/>
+                                    </Storyboard>
+                                </Style.Resources>
+                                <Setter Property="Foreground" Value="Transparent" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <!--<Setter Property="Foreground" Value="Black" />-->
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard Storyboard="{StaticResource EnterAnimation}"/>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard Storyboard="{StaticResource Exitnimation}"/>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                    <!--<EventTrigger RoutedEvent="MouseEnter"></EventTrigger>-->
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
                     <!--<TextBlock x:Name="txtVersion" TextWrapping="Wrap" HorizontalAlignment="Center" Text="{DynamicResource AsmInfo_Version}" />-->
                     <Label HorizontalAlignment="Center">
                         <Hyperlink NavigateUri="{Binding GitURL, Mode=OneWay}" RequestNavigate="Hyperlink_RequestNavigate">
