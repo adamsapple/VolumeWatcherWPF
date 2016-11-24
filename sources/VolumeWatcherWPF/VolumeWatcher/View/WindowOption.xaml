@@ -33,8 +33,14 @@
         <moral:AssemblyInfo                 x:Key="assemblyInfo" />
         
         <Style x:Key="VolumePanel" TargetType="DockPanel">
+            <Style.Resources>
+                <Color x:Key="PanelBaseColor"      A="0" R="255" G="255" B="255" />
+                <Color x:Key="PanelMouseOverColor" A="255" R="218" G="241" B="255" />
+                <SolidColorBrush x:Key="PanelBaseColorBrush" Color="{StaticResource PanelBaseColor}"/>
+                <SolidColorBrush x:Key="PanelMouseOverColorBrush" Color="{StaticResource PanelMouseOverColor}" />
+            </Style.Resources>
             <Style.Setters>
-                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Background" Value="{StaticResource PanelBaseColorBrush}" />
             </Style.Setters>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -43,7 +49,7 @@
                         <BeginStoryboard>
                             <Storyboard>
                                 <ColorAnimation Storyboard.TargetProperty="(DockPanel.Background).(SolidColorBrush.Color)" 
-                                                To="#FFDAF1FF" Duration="0:0:0.1" />
+                                                To="{StaticResource PanelMouseOverColor}" Duration="0:0:0.1" />
                                 <!--<ColorAnimation.EasingFunction>
                                     <SineEase EasingMode="EaseOut" />
                                 </ColorAnimation.EasingFunction>-->
@@ -55,7 +61,7 @@
                         <BeginStoryboard>
                             <Storyboard>
                                 <ColorAnimation Storyboard.TargetProperty="(DockPanel.Background).(SolidColorBrush.Color)" 
-                                                To="Transparent" Duration="0:0:0.7" />
+                                                To="{StaticResource PanelBaseColor}" Duration="0:0:0.7" />
                                 <!--<DoubleAnimation Storyboard.TargetProperty="(DockPanel.Opacity)" To="0" Duration="0:0:0.1" />-->
                             </Storyboard>
                         </BeginStoryboard>
