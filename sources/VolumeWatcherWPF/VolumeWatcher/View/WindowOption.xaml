@@ -140,8 +140,8 @@
                                     <UI:LevelBar x:Name="RenderMeter" DockPanel.Dock="Right" Height="60" Width="8" Value="{Binding RenderPeakValue, Mode=OneWay}" HorizontalAlignment="Center" HeadSize="0" >
                                         <UI:LevelBar.BarColor>
                                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                <GradientStop Color="#FF00342B" Offset="0.95"/>
-                                                <GradientStop Color="#FF3FFFD3"/>
+                                                <GradientStop Color="#FF336ED4" Offset="0.95"/>
+                                                <GradientStop Color="#FF02FFC4"/>
                                             </LinearGradientBrush>
                                         </UI:LevelBar.BarColor>
                                     </UI:LevelBar>
@@ -167,8 +167,8 @@
                                     <UI:LevelBar x:Name="CaptureMeter" DockPanel.Dock="Left" Height="60" Width="8" Value="{Binding CapturePeakValue, Mode=OneWay}" HeadSize="0" >
                                         <UI:LevelBar.BarColor>
                                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                <GradientStop Color="#FF3E0025" Offset="0.95"/>
-                                                <GradientStop Color="#FFFF0BBC" Offset="0.004"/>
+                                                <GradientStop Color="#FFA20062" Offset="0.95"/>
+                                                <GradientStop Color="#FFFF8DE0" Offset="0.004"/>
                                             </LinearGradientBrush>
                                         </UI:LevelBar.BarColor>
                                     </UI:LevelBar>
@@ -186,7 +186,7 @@
                     <Image x:Name="image"  Height="100" Margin="0,16"  Width="100" DockPanel.Dock="Top" VerticalAlignment="Top" Source="/VolumeWatcher;component/icon-app.ico" />
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Product, Source={StaticResource assemblyInfo}}" />
                     <TextBlock HorizontalAlignment="Center" Text="{Binding ProductVersion, Source={StaticResource assemblyInfo}, StringFormat=Ver: \{0\}}"  />
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding BuildDateTime, Source={StaticResource assemblyInfo}, StringFormat=Build: \{0\}}" Margin="0,10,0,0" >
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding BuildDateTime, Source={StaticResource assemblyInfo}, StringFormat=Build: \{0\}}"  Padding="5,10,5,0" >
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
                                 <Style.Resources>
