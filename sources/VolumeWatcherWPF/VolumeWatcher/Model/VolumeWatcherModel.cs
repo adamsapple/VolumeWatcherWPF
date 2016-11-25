@@ -92,6 +92,7 @@ namespace VolumeWatcher.Model
             get { return _RecVolume; }
             set { _RecVolume = value; SetProperty(ref _RecVolume, value); }
         }
+
         private bool _IsRecMute = false;
         public bool IsRecMute
         {

@@ -46,7 +46,19 @@ namespace VolumeWatcher.View
 
         public float MaxOpacity { get; set; }     = 0f;
         public bool  IsMute { get; set; }         = false;
-        public bool IsBindInitialized { get; set; } = false;
+        private bool isBindInitialized = false;
+        public bool IsBindInitialized {
+            get {
+                return isBindInitialized;
+            }
+            set {
+                if(isBindInitialized == false && value == true)
+                {
+                    ViewMode = EVolumeViewMode.Render;
+                }
+                isBindInitialized = true;
+            }
+        }
         public bool IsSizeCalculated { get; private set; } = false;
         private EWindowPosition _WindowPosition = EWindowPosition.UNKNOWN;
         public EWindowPosition WindowPosition
@@ -59,6 +71,29 @@ namespace VolumeWatcher.View
             {
                 _WindowPosition = value;
                 this.SetWindowPosition(WindowPosition);
+            }
+        }
+
+        private EVolumeViewMode viewMode = EVolumeViewMode.Render;
+        public EVolumeViewMode ViewMode
+        {
+            get
+            {
+                return viewMode;
+            }
+            set
+            {
+                viewMode = value;
+                if (viewMode == EVolumeViewMode.Render)
+                {
+                    CapturePanel.Visibility = Visibility.Collapsed;
+                    RenderPanel.Visibility  = Visibility.Visible;
+                }
+                else
+                {
+                    RenderPanel.Visibility  = Visibility.Collapsed;
+                    CapturePanel.Visibility = Visibility.Visible;
+                }
             }
         }
 

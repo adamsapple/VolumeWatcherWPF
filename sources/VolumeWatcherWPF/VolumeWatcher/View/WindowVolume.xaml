@@ -16,15 +16,38 @@
     <Window.Resources>
         <!--<vm:VolumeWindowViewModel x:Name="myViewModel" x:Key="myViewModel"/>-->
         <vmc:MMDeviceToIconConverter x:Key="Device2IconConverter"/>
+        <vmc:MuteToBrushConverter x:Key="Mute2BrushConverter"/>
     </Window.Resources>
     <DockPanel>
-        <StackPanel  DockPanel.Dock="Bottom">
-            <Label x:Name="labelVolume" Content="{Binding Value, ElementName=barVolume, Mode=OneWay}" HorizontalContentAlignment="Center" Foreground="White" VerticalContentAlignment="Stretch" RenderOptions.EdgeMode="Aliased"/>
-            <Border Margin="6,0,6,6" BorderThickness="1" BorderBrush="#FF00AEFF" RenderOptions.EdgeMode="Aliased" >
-                <!--<Image x:Name="imgDevIcon" Height="32" Width="32" Stretch="UniformToFill"  />-->
-                <Image Width="32" Height="32" Stretch="UniformToFill" Source="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
-            </Border>
-        </StackPanel>
-        <UI:LevelBar x:Name="barVolume" Value="{Binding Volume, Mode=OneWay}" Width="12" HeadColor="White" BarColor="#FF8500B8" RenderOptions.EdgeMode="Aliased" Margin="0,16,0,0" BackColor="#FF5F5F5F" />
+        <DockPanel x:Name="RenderPanel" Visibility="Visible">
+            <StackPanel  DockPanel.Dock="Bottom">
+                <Label x:Name="labelVolume" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" RenderOptions.EdgeMode="Aliased"
+                       Content="{Binding Value, ElementName=barVolume, Mode=OneWay}"
+                       Foreground="{Binding IsMute, Mode=OneWay, Converter={StaticResource Mute2BrushConverter}, ConverterParameter=#FFFFFFFF}" />
+                <Border Margin="6,0,6,6" BorderThickness="1" BorderBrush="#FF00AEFF" RenderOptions.EdgeMode="Aliased" >
+                    <!--<Image x:Name="imgDevIcon" Height="32" Width="32" Stretch="UniformToFill"  />-->
+                    <Image Width="32" Height="32" Stretch="UniformToFill" Source="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
+                </Border>
+            </StackPanel>
+            <UI:LevelBar x:Name="barVolume" Width="12" Margin="0,16,0,0" BackColor="#FF5F5F5F" RenderOptions.EdgeMode="Aliased"
+                         Value="{Binding Volume, Mode=OneWay}" 
+                         HeadColor="White" BarColor="{Binding IsMute, Mode=OneWay, Converter={StaticResource Mute2BrushConverter}, ConverterParameter=#FF86FF7A}" />
+            <!--<UI:LevelBar x:Name="barRecVolume" Visibility="Collapsed" Value="{Binding RecVolume, Mode=OneWay}" Width="12" HeadColor="White" BarColor="#FF8500B8" RenderOptions.EdgeMode="Aliased" Margin="0,16,0,0" BackColor="#FF5F5F5F" />-->
+        </DockPanel>
+        <DockPanel x:Name="CapturePanel" Visibility="Collapsed">
+            <StackPanel  DockPanel.Dock="Bottom">
+                <Label x:Name="labelRecVolume" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" RenderOptions.EdgeMode="Aliased"
+                       Content="{Binding Value, ElementName=barRecVolume, Mode=OneWay}"
+                       Foreground="{Binding IsRecMute, Mode=OneWay, Converter={StaticResource Mute2BrushConverter}, ConverterParameter=#FFFFFFFF}" />
+                <Border Margin="6,0,6,6" BorderThickness="1" BorderBrush="#FF00AEFF" RenderOptions.EdgeMode="Aliased" >
+                    <!--<Image x:Name="imgDevIcon" Height="32" Width="32" Stretch="UniformToFill"  />-->
+                    <Image Width="32" Height="32" Stretch="UniformToFill" Source="{Binding CaptureDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
+                </Border>
+            </StackPanel>
+            <UI:LevelBar x:Name="barRecVolume" Width="12" Margin="0,16,0,0" BackColor="#FF5F5F5F" RenderOptions.EdgeMode="Aliased"
+                         Value="{Binding RecVolume, Mode=OneWay}"
+                         HeadColor="White" BarColor="{Binding IsRecMute, Mode=OneWay, Converter={StaticResource Mute2BrushConverter}, ConverterParameter=#FFFF7AC2}" />
+            <!--<UI:LevelBar x:Name="barRecVolume" Visibility="Collapsed" Value="{Binding RecVolume, Mode=OneWay}" Width="12" HeadColor="White" BarColor="#FF8500B8" RenderOptions.EdgeMode="Aliased" Margin="0,16,0,0" BackColor="#FF5F5F5F" />-->
+        </DockPanel>
     </DockPanel>
 </Window>

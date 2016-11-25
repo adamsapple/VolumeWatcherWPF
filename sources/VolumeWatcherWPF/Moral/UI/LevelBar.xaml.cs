@@ -41,7 +41,7 @@ namespace Moral.UI
         //const int headHeight = 12;
 
         Brush _HeadColor = Brushes.White;
-        Brush _BodyColor = Brushes.Purple;
+        //Brush _BodyColor = Brushes.Purple;
         Brush _BackColor = Brushes.Gray;
 
         public event ValueChangedDelegate OnValueChanged;
@@ -62,6 +62,12 @@ namespace Moral.UI
             typeof(int),
             typeof(LevelBar),
             new FrameworkPropertyMetadata(0, new PropertyChangedCallback(_OnValueChanged)));
+
+        public static readonly DependencyProperty BarColorProperty = DependencyProperty.Register(
+            "BarColor",
+            typeof(Brush),
+            typeof(LevelBar),
+            new FrameworkPropertyMetadata(Brushes.Purple, new PropertyChangedCallback(_OnValueChanged)));
 
         public static void _OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
@@ -95,7 +101,7 @@ namespace Moral.UI
 
             //*/
             drawingContext.DrawRectangle(_HeadColor, null, rectHead);
-            drawingContext.DrawRectangle(_BodyColor, null, rect);
+            drawingContext.DrawRectangle( BarColor, null, rect);
             /*/
             this.rectHead.Height = rectHead.Height;
             this.rectBody.Height = rect.Height;
@@ -171,8 +177,20 @@ namespace Moral.UI
             }
         }
 
+        
         public Brush BarColor
         {
+        get
+            {
+                //return val;
+                return (Brush)this.GetValue(BarColorProperty);
+            }
+            set
+            {
+                this.SetValue(BarColorProperty, value);
+                this.InvalidateVisual();
+            }
+            /*
             get
             {
                 return _BodyColor;
@@ -183,6 +201,7 @@ namespace Moral.UI
 
                 this.InvalidateVisual();
             }
+            */
         }
 
         public Brush BackColor
