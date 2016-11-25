@@ -129,7 +129,7 @@
                         <Border Margin="0" BorderThickness="1" BorderBrush="#FF00AEFF" RenderOptions.BitmapScalingMode="NearestNeighbor" HorizontalAlignment="Center" VerticalAlignment="Center" >
                             <Image Width="32" Height="32" Source="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
                         </Border>
-                        <StackPanel MaxWidth="170" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                        <StackPanel MaxWidth="170" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130" >
                             <Label Content="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2DescriptionConverter}}" HorizontalAlignment="Left" />
                             <Label Content="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2NameConverter}}" HorizontalAlignment="Left" />
                         </StackPanel>
@@ -156,7 +156,7 @@
                         <Border Margin="0" BorderThickness="1" BorderBrush="#FF00AEFF" RenderOptions.BitmapScalingMode="NearestNeighbor" HorizontalAlignment="Center" VerticalAlignment="Center" >
                             <Image Width="32" Height="32" Source="{Binding CaptureDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
                         </Border>
-                        <StackPanel MaxWidth="170" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                        <StackPanel Width="130" HorizontalAlignment="Left" VerticalAlignment="Center" >
                             <Label Content="{Binding CaptureDevice, Mode=OneWay, Converter={StaticResource Device2DescriptionConverter}}" HorizontalAlignment="Left" />
                             <Label Content="{Binding CaptureDevice, Mode=OneWay, Converter={StaticResource Device2NameConverter}}" HorizontalAlignment="Left" />
                         </StackPanel>
@@ -178,7 +178,7 @@
                         </DockPanel>
                     </DockPanel>
                     <!--</StackPanel>-->
-                    <ToggleButton x:Name="MicListenToggle" IsChecked="False" Content="Listen to Device" Margin="20,0,0,20" Width="100" Click="ListenToDevice_Click" Height="32" VerticalAlignment="Bottom" />
+                    <ToggleButton x:Name="MicListenToggle" IsChecked="False" Content="Listen to Device" Margin="20,0,0,15" Click="ListenToDevice_Click" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Left" DockPanel.Dock="Bottom" />
                 </DockPanel>
             </TabItem>
             <TabItem Header="About">
