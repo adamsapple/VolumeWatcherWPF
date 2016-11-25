@@ -71,37 +71,67 @@ namespace VolumeWatcher.View
                 {
                     Key.OemComma, () => {
                         // 音量-
-                        main.VolumeMonitor1.AudioDevice.AudioEndpointVolume.MasterVolumeLevelScalar -= add;
+                        var device = main.VolumeMonitor1.AudioDevice;
+                        if(device == null || device.AudioEndpointVolume == null)
+                        {
+                            return;
+                        }
+                        device.AudioEndpointVolume.MasterVolumeLevelScalar -= add;
                     }
                 },
                 {
                     Key.OemPeriod, () => {
                         // 音量+
-                        main.VolumeMonitor1.AudioDevice.AudioEndpointVolume.MasterVolumeLevelScalar += add;
+                        var device = main.VolumeMonitor1.AudioDevice;
+                        if(device == null || device.AudioEndpointVolume == null)
+                        {
+                            return;
+                        }
+                        device.AudioEndpointVolume.MasterVolumeLevelScalar += add;
                     }
                 },
                 {
                     Key.M, () => {
                         // Mute
-                        main.VolumeMonitor1.AudioDevice.AudioEndpointVolume.Mute = !main.VolumeMonitor1.AudioDevice.AudioEndpointVolume.Mute;
+                        var device = main.VolumeMonitor1.AudioDevice;
+                        if(device == null || device.AudioEndpointVolume == null)
+                        {
+                            return;
+                        }
+                        device.AudioEndpointVolume.Mute = !device.AudioEndpointVolume.Mute;
                     }
                 },
                 {
                     Key.K, () => {
                         // 音量-
-                        main.CaptureMonitor.AudioDevice.AudioEndpointVolume.MasterVolumeLevelScalar -= add;
+                        var device = main.CaptureMonitor.AudioDevice;
+                        if(device == null || device.AudioEndpointVolume == null)
+                        {
+                            return;
+                        }
+                        device.AudioEndpointVolume.MasterVolumeLevelScalar -= add;
                     }
                 },
                 {
                     Key.L, () => {
                         // 音量+
-                        main.CaptureMonitor.AudioDevice.AudioEndpointVolume.MasterVolumeLevelScalar += add;
+                        var device = main.CaptureMonitor.AudioDevice;
+                        if(device == null || device.AudioEndpointVolume == null)
+                        {
+                            return;
+                        }
+                        device.AudioEndpointVolume.MasterVolumeLevelScalar += add;
                     }
                 },
                 {
                     Key.J, () => {
                         // Mute
-                        main.CaptureMonitor.AudioDevice.AudioEndpointVolume.Mute = !main.CaptureMonitor.AudioDevice.AudioEndpointVolume.Mute;
+                        var device = main.CaptureMonitor.AudioDevice;
+                        if(device == null || device.AudioEndpointVolume == null)
+                        {
+                            return;
+                        }
+                        device.AudioEndpointVolume.Mute = !device.AudioEndpointVolume.Mute;
                     }
                 }
             };
