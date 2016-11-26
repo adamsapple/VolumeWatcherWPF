@@ -105,6 +105,8 @@ namespace VolumeWatcher
             optionWindow.Close();
             volumeWindow.Close();
             VolumeMonitor1.releaseDevice();
+            CaptureMonitor.releaseDevice();
+            trayComponent.Dispose();
         }
     }
 }

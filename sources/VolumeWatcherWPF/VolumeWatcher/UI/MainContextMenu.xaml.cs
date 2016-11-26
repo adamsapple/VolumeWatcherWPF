@@ -29,6 +29,10 @@ namespace VolumeWatcher.UI
         {
             var main = ((App)Application.Current).main;
             main.optionWindow.Show();
+            if (!main.optionWindow.Focus())
+            {
+                main.optionWindow.Activate();
+            }
         }
 
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
