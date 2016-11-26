@@ -27,7 +27,7 @@ namespace VolumeWatcher.ViewModel
         private static readonly DependencyProperty WindowPositionProperty =
            DependencyProperty.Register("WindowPosition", typeof(EWindowPosition), typeof(WindowVolume),
                                    new FrameworkPropertyMetadata(EWindowPosition.UNKNOWN, new PropertyChangedCallback((sender, e) => {
-                                       var self = (WindowVolume)sender;
+                                       var self  = (WindowVolume)sender;
                                        var value = (EWindowPosition)e.NewValue;
                                        self.WindowPosition = value;
                                        self.ShowVolume();
@@ -46,11 +46,10 @@ namespace VolumeWatcher.ViewModel
            DependencyProperty.Register("IsMute", typeof(bool), typeof(WindowVolume),
                                    new FrameworkPropertyMetadata(false, new PropertyChangedCallback((sender, e) => {
                                        var self = (WindowVolume)sender;
-                                       var value = (bool)e.NewValue;
-                                       //var old = (bool)e.OldValue;
-                                       self.ViewMode = EVolumeViewMode.Render;
+                                       //var value = (bool)e.NewValue;
+                                       //var old   = (bool)e.OldValue;
                                        //self.IsMute = value;
-                                       //self.UpdateControls();
+                                       self.ViewMode = EVolumeViewMode.Render;
                                        self.ShowVolume();
                                    })));
 
@@ -77,12 +76,11 @@ namespace VolumeWatcher.ViewModel
         private static readonly DependencyProperty IsRecMuteProperty =
            DependencyProperty.Register("IsRecMute", typeof(bool), typeof(WindowVolume),
                                    new FrameworkPropertyMetadata(false, new PropertyChangedCallback((sender, e) => {
-                                       var self = (WindowVolume)sender;
+                                       var self  = (WindowVolume)sender;
                                        //var value = (bool)e.NewValue;
-                                       //var old = (bool)e.OldValue;
+                                       //var old   = (bool)e.OldValue;
+                                       //self.IsRecMute = value;
                                        self.ViewMode = EVolumeViewMode.Capture;
-                                       //self.IsMute = value;
-                                       //self.UpdateControls();
                                        self.ShowVolume();
                                    })));
 
@@ -93,7 +91,7 @@ namespace VolumeWatcher.ViewModel
                                        //var value = (MMDevice)e.NewValue;
                                        self.ViewMode = EVolumeViewMode.Capture;
                                        self.ShowVolume();
-                                       self.IsBindInitialized = true;
+                                       //self.IsBindInitialized = true;           // 最後のプロパティで行う
                                    })));
         
         /// <summary>
@@ -120,6 +118,8 @@ namespace VolumeWatcher.ViewModel
             view.SetBinding(IsRecMuteProperty, new Binding("IsRecMute") { Mode = BindingMode.OneWay });
             // binding設定:RenderDeviceProperty
             view.SetBinding(CaptureDeviceProperty, new Binding("CaptureDevice") { Mode = BindingMode.OneWay });
+
+            ((WindowVolume)view).IsBindInitialized = true;           // 
         }
     }
 }

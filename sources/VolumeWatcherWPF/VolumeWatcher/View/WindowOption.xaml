@@ -29,7 +29,7 @@
         <vmc:MMDeviceToNameConverter        x:Key="Device2NameConverter"/>
         <vmc:MMDeviceToDescriptionConverter x:Key="Device2DescriptionConverter"/>
         <vmc:MMDeviceToIconConverter        x:Key="Device2IconConverter"/>
-        <vmc:BoolToBrushConverter           x:Key="Bool2BrushConverter"/>
+        <vmc:MuteToBrushConverter           x:Key="Mute2BrushConverter"/>
         <moral:AssemblyInfo                 x:Key="assemblyInfo" />
         
         <Style x:Key="VolumePanel" TargetType="DockPanel">
@@ -75,10 +75,10 @@
         <StatusBar Height="25" DockPanel.Dock="Bottom">
             <!-- 右側に配置 -->
             <!--<StatusBarItem DockPanel.Dock="Right" Margin="-4,0,0,0">%</StatusBarItem>-->
-            <StatusBarItem DockPanel.Dock="Right" Content="{Binding Volume, Mode=OneWay}"    Foreground="{Binding IsMute, Converter={StaticResource Bool2BrushConverter}}" MinWidth="40" HorizontalContentAlignment="Right" x:Name="lblVolume" ContentStringFormat="0\%" Padding="0,3,3,3"/>
+            <StatusBarItem DockPanel.Dock="Right" Content="{Binding Volume, Mode=OneWay}"    Foreground="{Binding IsMute, Converter={StaticResource Mute2BrushConverter}, ConverterParameter=#FF000000}" MinWidth="40" HorizontalContentAlignment="Right" x:Name="lblVolume" ContentStringFormat="0\%" Padding="0,3,3,3"/>
             <StatusBarItem DockPanel.Dock="Right" Content="Vol:"/>
-            <Separator  DockPanel.Dock="Right" Background="#FFDADADA"/>
-            <StatusBarItem DockPanel.Dock="Right" Content="{Binding RecVolume, Mode=OneWay}" Foreground="{Binding IsRecMute, Converter={StaticResource Bool2BrushConverter}}" MinWidth="40" HorizontalContentAlignment="Right" ContentStringFormat="0\%" Padding="0,3,3,3"/>
+            <Separator  DockPanel.Dock="Right" Background="#30808080"/>
+            <StatusBarItem DockPanel.Dock="Right" Content="{Binding RecVolume, Mode=OneWay}" Foreground="{Binding IsRecMute, Converter={StaticResource Mute2BrushConverter}, ConverterParameter=#FF000000}" MinWidth="40" HorizontalContentAlignment="Right" ContentStringFormat="0\%" Padding="0,3,3,3"/>
             <StatusBarItem DockPanel.Dock="Right" Content="Rec:"/>
             <!-- <Separator DockPanel.Dock="Right"/> -->
             <StatusBarItem />

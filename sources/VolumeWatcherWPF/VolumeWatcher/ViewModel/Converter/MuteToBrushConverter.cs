@@ -36,19 +36,29 @@ namespace VolumeWatcher.ViewModel.Converter
             else
             {
                 var argbStr = (string)parameter;
-                var a = Byte.Parse(argbStr.Substring(1, 2), System.Globalization.NumberStyles.AllowHexSpecifier);
-                var r = Byte.Parse(argbStr.Substring(3, 2), System.Globalization.NumberStyles.AllowHexSpecifier);
-                var g = Byte.Parse(argbStr.Substring(5, 2), System.Globalization.NumberStyles.AllowHexSpecifier);
-                var b = Byte.Parse(argbStr.Substring(7, 2), System.Globalization.NumberStyles.AllowHexSpecifier);
-
-                var color = Color.FromArgb(a, r, g, b);
+                
+                var color = argbStr.GetColorFromARGBString();
                 result = new SolidColorBrush(color);
-
             }
 
             //Debug.WriteLine(result);
 
             return result;
+        }
+    }
+
+    static class StringExtention
+    {
+        public static Color GetColorFromARGBString(this string str) {
+
+            var a = Byte.Parse(str.Substring(1, 2), System.Globalization.NumberStyles.AllowHexSpecifier);
+            var r = Byte.Parse(str.Substring(3, 2), System.Globalization.NumberStyles.AllowHexSpecifier);
+            var g = Byte.Parse(str.Substring(5, 2), System.Globalization.NumberStyles.AllowHexSpecifier);
+            var b = Byte.Parse(str.Substring(7, 2), System.Globalization.NumberStyles.AllowHexSpecifier);
+
+            var color = Color.FromArgb(a, r, g, b);
+            
+            return color;
         }
     }
 }

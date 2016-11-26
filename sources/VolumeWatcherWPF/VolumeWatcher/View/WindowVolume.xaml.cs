@@ -41,12 +41,10 @@ namespace VolumeWatcher.View
         private Timer timer               = new Timer();
         private Stopwatch stopwatch       = new Stopwatch();
 
-        private Brush VolumeColor = Brushes.DarkViolet;
-        private Brush MuteColor   = Brushes.DarkGray;
-
         public float MaxOpacity { get; set; }     = 0f;
         public bool  IsMute { get; set; }         = false;
         private bool isBindInitialized = false;
+        /// <summary>Bindが完了しているかどうか</summary>
         public bool IsBindInitialized {
             get {
                 return isBindInitialized;
@@ -60,7 +58,9 @@ namespace VolumeWatcher.View
             }
         }
         public bool IsSizeCalculated { get; private set; } = false;
+
         private EWindowPosition _WindowPosition = EWindowPosition.UNKNOWN;
+        /// <summary>表示位置のプロパティ</summary>
         public EWindowPosition WindowPosition
         {
             get
@@ -75,6 +75,7 @@ namespace VolumeWatcher.View
         }
 
         private EVolumeViewMode viewMode = EVolumeViewMode.Render;
+        /// <summary>Render/CaptureどちらのVolumeを表示するかのプロパティ</summary>
         public EVolumeViewMode ViewMode
         {
             get
@@ -110,8 +111,6 @@ namespace VolumeWatcher.View
             InitializeComponent();
             viewmodel.SetBinding(this);
 
-            
-
             // タイマーの生成
             timer.Interval = 33;
             timer.Elapsed += OnTimer;
@@ -127,28 +126,20 @@ namespace VolumeWatcher.View
             this.NoActiveWindow();
         }
 
-        /*
         /// <summary>
-        /// 
+        /// Closeイベント
         /// </summary>
-        /// <param name="iconpath"></param>
-        public void SetDeviceIcon(string iconpath)
-        {
-            ImageSource img = WindowsUtil.GetIconFromEXEDLL2(iconpath).ToImageSource();
-            imgDevIcon.Source = img;
-        }
-        */
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             timer.Stop();           // タイマーイベント発行を停止
             stopwatch.Stop();       // 時間計測処理を停止
         }
 
-        public void UpdateControls()
-        {
-            UpdateVolumeFont(IsMute);
-        }
-
+        /// <summary>
+        /// Showのオーバーライド
+        /// </summary>
         public new void Show()
         {
             base.Show();
@@ -156,15 +147,8 @@ namespace VolumeWatcher.View
         }
 
         /// <summary>
-        /// Mute状態に応じたStyleの変更
+        /// 
         /// </summary>
-        /// <param name="mute">mute</param>
-        void UpdateVolumeFont(bool mute)
-        {
-            labelVolume.Foreground = mute ? MuteColor : Brushes.White;  // 文字色変更
-            barVolume.BarColor     = mute ? MuteColor : VolumeColor;    // Bar色変更
-        }
-
         void CheckWindowPosition()
         {
             if (IsSizeCalculated) return;

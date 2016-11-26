@@ -30,8 +30,8 @@ namespace VolumeWatcher.View
     /// </summary>
     public partial class WindowOption : Window
     {
-        private VolumeWatcherMain main = null;
-        private VolumeWatcherModel model = null;
+        private VolumeWatcherMain     main      = null;
+        private VolumeWatcherModel    model     = null;
         private OptionWindowViewModel viewmodel = new OptionWindowViewModel();
         private MicPlayer micPlayer = new MicPlayer();
 
@@ -47,9 +47,8 @@ namespace VolumeWatcher.View
             InitializeComponent();
 
             viewmodel.SetBinding(this, main);
-            RenderMeter.DataContext = viewmodel;
+            RenderMeter.DataContext  = viewmodel;
             CaptureMeter.DataContext = viewmodel;
-
 
             micPlayer.OnStateChanged += MicPlayter_StateChanged;
 
@@ -161,6 +160,12 @@ namespace VolumeWatcher.View
             main.trayComponent.EnableKeyHook = (bool)((CheckBox)sender).IsChecked;
         }
 
+        /// <summary>
+        /// 選択Tabが変更になった際のイベント。
+        /// 「状態」では、ピークメータ更新用タイマーを動作させ、それ以外の時は止める。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var ti = ((TabControl)sender).SelectedItem as TabItem;
@@ -197,6 +202,10 @@ namespace VolumeWatcher.View
             }
         }
 
+        /// <summary>
+        /// マイク音再生プレイヤーのイベント
+        /// </summary>
+        /// <param name="state"></param>
         void MicPlayter_StateChanged(EMicState state)
         {
             var dispatcher = System.Windows.Application.Current.Dispatcher;
@@ -207,12 +216,23 @@ namespace VolumeWatcher.View
             });
         }
 
+        /// <summary>
+        /// ハイパーリンククリック時のイベント
+        /// ブラウザで所定URL(e.Uri.AbsoluteUri)に遷移
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
             e.Handled = true;
         }
 
+        /// <summary>
+        /// 特定のパネルでマウスホイールを操作した場合は、対象のVolumeを上下させる
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DockPanel_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             float add = 0.01f * (e.Delta > 0 ? 1 : -1);

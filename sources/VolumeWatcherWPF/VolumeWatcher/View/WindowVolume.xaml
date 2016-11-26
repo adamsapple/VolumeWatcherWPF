@@ -29,7 +29,7 @@
                     <Image Width="32" Height="32" Stretch="UniformToFill" Source="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
                 </Border>
             </StackPanel>
-            <UI:LevelBar x:Name="barVolume" Width="12" Margin="0,16,0,0" BackColor="#FF5F5F5F" RenderOptions.EdgeMode="Aliased"
+            <UI:LevelBar x:Name="barVolume" Width="12" Margin="0,16,0,0" BackColor="#FF5F5F5F" HeadSize="10" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Aliased"
                          Value="{Binding Volume, Mode=OneWay}" 
                          HeadColor="White" BarColor="{Binding IsMute, Mode=OneWay, Converter={StaticResource Mute2BrushConverter}, ConverterParameter=#FF86FF7A}" />
             <!--<UI:LevelBar x:Name="barRecVolume" Visibility="Collapsed" Value="{Binding RecVolume, Mode=OneWay}" Width="12" HeadColor="White" BarColor="#FF8500B8" RenderOptions.EdgeMode="Aliased" Margin="0,16,0,0" BackColor="#FF5F5F5F" />-->
@@ -44,7 +44,7 @@
                     <Image Width="32" Height="32" Stretch="UniformToFill" Source="{Binding CaptureDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
                 </Border>
             </StackPanel>
-            <UI:LevelBar x:Name="barRecVolume" Width="12" Margin="0,16,0,0" BackColor="#FF5F5F5F" RenderOptions.EdgeMode="Aliased"
+            <UI:LevelBar x:Name="barRecVolume" Width="12" Margin="0,16,0,0" BackColor="#FF5F5F5F" HeadSize="10" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Aliased"
                          Value="{Binding RecVolume, Mode=OneWay}"
                          HeadColor="White" BarColor="{Binding IsRecMute, Mode=OneWay, Converter={StaticResource Mute2BrushConverter}, ConverterParameter=#FFFF7AC2}" />
             <!--<UI:LevelBar x:Name="barRecVolume" Visibility="Collapsed" Value="{Binding RecVolume, Mode=OneWay}" Width="12" HeadColor="White" BarColor="#FF8500B8" RenderOptions.EdgeMode="Aliased" Margin="0,16,0,0" BackColor="#FF5F5F5F" />-->
