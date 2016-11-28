@@ -42,9 +42,13 @@ namespace VolumeWatcher.View
         private Stopwatch stopwatch       = new Stopwatch();
 
         public float MaxOpacity { get; set; }     = 0f;
-        public bool  IsMute { get; set; }         = false;
         private bool isBindInitialized = false;
-        /// <summary>Bindが完了しているかどうか</summary>
+        /// <summary>
+        /// Bindが完了しているかどうか.
+        /// 初期同期処理の最中は、
+        /// ・表示しない
+        /// ・ViewModeがころころ変わってしまうのを抑制。
+        /// </summary>
         public bool IsBindInitialized {
             get {
                 return isBindInitialized;
@@ -52,6 +56,7 @@ namespace VolumeWatcher.View
             set {
                 if(isBindInitialized == false && value == true)
                 {
+
                     ViewMode = EVolumeViewMode.Render;
                 }
                 isBindInitialized = true;
@@ -84,6 +89,10 @@ namespace VolumeWatcher.View
             }
             set
             {
+                if (value == EVolumeViewMode.NotChange)
+                {
+                    return;
+                }
                 viewMode = value;
                 if (viewMode == EVolumeViewMode.Render)
                 {
@@ -163,13 +172,15 @@ namespace VolumeWatcher.View
         /// 
         /// </summary>
         /// <param name="vol"></param>
-        public void ShowVolume()
+        public void ShowVolume(EVolumeViewMode viewmode = EVolumeViewMode.NotChange)
         {
             // バインディングが未完了の場合は表示しない
             if (!IsBindInitialized) return;
             // ウィンドウのActual～の計算が未完了の場合は表示しない
             //if (!IsSizeCalculated && !CheckWindowPosition()) return;
-            
+
+            this.ViewMode = viewmode;
+
             if (timer.Enabled)
             {
                 // 既に実行中

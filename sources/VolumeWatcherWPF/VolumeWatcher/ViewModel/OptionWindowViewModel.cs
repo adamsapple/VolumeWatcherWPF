@@ -38,19 +38,21 @@ namespace VolumeWatcher.ViewModel
                 {
                     var renderMeter = main.VolumeMonitor1.AudioDevice?.AudioMeterInformation;
                     var captureMeter = main.CaptureMonitor.AudioDevice?.AudioMeterInformation;
-
-                    RenderPeakValue  = (int)Math.Round((renderMeter?.PeakValue??0) * 100);
-                    CapturePeakValue = (int)Math.Round((captureMeter?.PeakValue??0) * 100);
+                    if (StatusTimer.Enabled)
+                    {
+                        RenderPeakValue  = (int)Math.Round((renderMeter?.PeakValue ?? 0) * 100);
+                        CapturePeakValue = (int)Math.Round((captureMeter?.PeakValue?? 0) * 100);
+                    }
                 });
             };
         }
 
-        public void Start()
+        public void StartPeakMeter()
         {
             StatusTimer.Start();
         }
 
-        public void Stop()
+        public void StopPeakMeter()
         {
             StatusTimer.Stop();
             RenderPeakValue  = 0;

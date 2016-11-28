@@ -38,8 +38,7 @@ namespace VolumeWatcher.ViewModel
                                    new FrameworkPropertyMetadata(0, new PropertyChangedCallback((sender, e) =>
                                    {
                                        var self = (WindowVolume)sender;
-                                       self.ViewMode = EVolumeViewMode.Render;
-                                       self.ShowVolume();
+                                       self.ShowVolume(EVolumeViewMode.Render);
                                    })));
 
         private static readonly DependencyProperty IsMuteProperty =
@@ -49,8 +48,7 @@ namespace VolumeWatcher.ViewModel
                                        //var value = (bool)e.NewValue;
                                        //var old   = (bool)e.OldValue;
                                        //self.IsMute = value;
-                                       self.ViewMode = EVolumeViewMode.Render;
-                                       self.ShowVolume();
+                                       self.ShowVolume(EVolumeViewMode.Render);
                                    })));
 
         private static readonly DependencyProperty RenderDeviceProperty =
@@ -58,8 +56,7 @@ namespace VolumeWatcher.ViewModel
                                    new FrameworkPropertyMetadata(null, new PropertyChangedCallback((sender, e) => {
                                        var self = (WindowVolume)sender;
                                        //var value = (MMDevice)e.NewValue;
-                                       self.ViewMode = EVolumeViewMode.Render;
-                                       self.ShowVolume();
+                                       self.ShowVolume(EVolumeViewMode.Render);
                                    })));
 
 
@@ -69,8 +66,7 @@ namespace VolumeWatcher.ViewModel
                                     new FrameworkPropertyMetadata(0, new PropertyChangedCallback((sender, e) =>
                                     {
                                         var self = (WindowVolume)sender;
-                                        self.ViewMode = EVolumeViewMode.Capture;
-                                        self.ShowVolume();
+                                        self.ShowVolume(EVolumeViewMode.Capture);
                                     })));
         
         private static readonly DependencyProperty IsRecMuteProperty =
@@ -80,8 +76,7 @@ namespace VolumeWatcher.ViewModel
                                        //var value = (bool)e.NewValue;
                                        //var old   = (bool)e.OldValue;
                                        //self.IsRecMute = value;
-                                       self.ViewMode = EVolumeViewMode.Capture;
-                                       self.ShowVolume();
+                                       self.ShowVolume(EVolumeViewMode.Capture);
                                    })));
 
         private static readonly DependencyProperty CaptureDeviceProperty =
@@ -89,8 +84,7 @@ namespace VolumeWatcher.ViewModel
                                    new FrameworkPropertyMetadata(null, new PropertyChangedCallback((sender, e) => {
                                        var self = (WindowVolume)sender;
                                        //var value = (MMDevice)e.NewValue;
-                                       self.ViewMode = EVolumeViewMode.Capture;
-                                       self.ShowVolume();
+                                       self.ShowVolume(EVolumeViewMode.Capture);
                                        //self.IsBindInitialized = true;           // 最後のプロパティで行う
                                    })));
         

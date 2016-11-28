@@ -40,15 +40,16 @@ namespace VolumeWatcher.View
         /// </summary>
         public WindowOption()
         {
-            main = ((App)System.Windows.Application.Current).main;
+            main  = ((App)System.Windows.Application.Current).main;
             model = main.model;
 
-            this.DataContext = model;
             InitializeComponent();
 
             viewmodel.SetBinding(this, main);
-            RenderMeter.DataContext  = viewmodel;
-            CaptureMeter.DataContext = viewmodel;
+
+            RenderMeter.DataContext  = viewmodel;       // peakmeterはviewmodelを参照
+            CaptureMeter.DataContext = viewmodel;       // peakmeterはviewmodelを参照
+            this.DataContext         = model;           // それ以外はmodelを参照
 
             micPlayer.OnStateChanged += MicPlayter_StateChanged;
 
@@ -86,8 +87,8 @@ namespace VolumeWatcher.View
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Hide();
+            viewmodel.StopPeakMeter();            // Meterタイマーを停止しておく。
             e.Cancel = true;
-            viewmodel.Stop();                     // Meterタイマーを停止しておく。
             //switch (e.CloseReason)
             //{
             //    case CloseReason.UserClosing:   // ユーザーインターフェイスによる
@@ -172,11 +173,11 @@ namespace VolumeWatcher.View
 
             if (ti == tiStatus)
             {
-                viewmodel.Start();
+                viewmodel.StartPeakMeter();
             }
             else
             {
-                viewmodel.Stop();
+                viewmodel.StopPeakMeter();
             }
         }
 
