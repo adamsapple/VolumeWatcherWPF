@@ -19,6 +19,7 @@ using LinqToXaml;
 using Audio.CoreAudio;
 using Moral;
 using Moral.Util;
+using Moral.Linq;
 using VolumeWatcher.Audio;
 using VolumeWatcher.Model;
 using VolumeWatcher.ViewModel;
@@ -71,12 +72,11 @@ namespace VolumeWatcher.View
             }
 
             // 各Tabの大きさを一番大きいものにそろえる
-            var list = this.tabControl.Items.OfType<TabItem>().ToList().Select(el => (FrameworkElement)el.Content).ToList();
-            var maxHeight = list.Max(el => el.ActualHeight);
-            list.Where(el => (maxHeight > el.ActualHeight)).ToList()
-                .ForEach(el => el.Height = maxHeight);
-            //Dispatcher.BeginInvoke((Action)delegate () {
-            //});
+            { 
+                var list = this.tabControl.Items.OfType<TabItem>().Select(el => (FrameworkElement)el.Content);
+                var maxHeight = list.Max(el => el.ActualHeight);
+                list.Where(el => maxHeight > el.ActualHeight).ForEach(el => el.Height = maxHeight);
+            }
         }
 
         /// <summary>

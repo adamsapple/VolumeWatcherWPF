@@ -162,6 +162,7 @@
     <Compile Include="Moral\Audio\WasapiStopEventArgs.cs" />
     <Compile Include="Moral\Effect\UStretchEffect.cs" />
     <Compile Include="Moral\Etc\KeyboardHook5.cs" />
+    <Compile Include="Moral\Linq\LinqExtention.cs" />
     <Compile Include="Moral\Util\Ease.cs" />
     <Compile Include="Moral\Util\IconUtil.cs" />
     <Compile Include="Moral\Util\MoniterPower.cs" />
