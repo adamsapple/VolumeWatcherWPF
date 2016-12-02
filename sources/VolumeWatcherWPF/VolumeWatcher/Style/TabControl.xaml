@@ -44,7 +44,7 @@
     <Style TargetType="{x:Type TabItem}">
         <Style.Resources>
             <Color x:Key="TabBaseColor"      A="0" R="255" G="255" B="255" />
-            <Color x:Key="TabMouseOverColor" A="255" R="218" G="241" B="255" />
+            <Color x:Key="TabMouseOverColor" A="220" R="218" G="241" B="255" />
             <Color x:Key="TabSelectColor"    A="255" R="135" G="206" B="250" />
             <SolidColorBrush x:Key="TabBaseColorBrush" Color="{StaticResource TabBaseColor}"/>
             <SolidColorBrush x:Key="TabMouseOverColorBrush" Color="{StaticResource TabMouseOverColor}" />
@@ -65,12 +65,21 @@
                             </Storyboard>
                         </ControlTemplate.Resources>-->
                         <Grid x:Name="Panel" Margin="0">
-                            <ContentPresenter
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter Grid.Column="0"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"
                                         ContentSource="Header"
                                         Margin="8,10"
                                         />
+                            <!--<Rectangle Grid.Column="1"
+                                Width="5" Height="5" Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, Path=Background}" HorizontalAlignment="Right" Margin="0,0,-5,0" />-->
+                            <Polygon Grid.Column="1" Margin="0,0,-5,0"
+                                Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, Path=Background}"
+                                Points="0,0, 5,5, 0,10, 0,0" HorizontalAlignment="Right" VerticalAlignment="Center" />
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="False">

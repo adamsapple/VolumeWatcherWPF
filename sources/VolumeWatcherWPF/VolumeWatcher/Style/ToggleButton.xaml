@@ -4,7 +4,7 @@
     <Style TargetType="{x:Type ToggleButton}">
         <Style.Resources>
             <Color x:Key="ToggleBaseColor"      A="0" R="240" G="248" B="255" />
-            <Color x:Key="ToggleMouseOverColor" A="255" R="218" G="241" B="255" />
+            <Color x:Key="ToggleMouseOverColor" A="220" R="218" G="241" B="255" />
             <Color x:Key="ToggleCheckedColor"   A="255" R="135" G="206" B="250" />
 
             <SolidColorBrush x:Key="ToggleBaseColorBrush"      Color="{StaticResource ToggleBaseColor}"/>

@@ -35,7 +35,7 @@
         <Style x:Key="VolumePanel" TargetType="DockPanel">
             <Style.Resources>
                 <Color x:Key="PanelBaseColor"      A="0" R="255" G="255" B="255" />
-                <Color x:Key="PanelMouseOverColor" A="255" R="218" G="241" B="255" />
+                <Color x:Key="PanelMouseOverColor" A="220" R="218" G="241" B="255" />
                 <SolidColorBrush x:Key="PanelBaseColorBrush" Color="{StaticResource PanelBaseColor}"/>
                 <SolidColorBrush x:Key="PanelMouseOverColorBrush" Color="{StaticResource PanelMouseOverColor}" />
             </Style.Resources>
@@ -83,9 +83,9 @@
             <!-- <Separator DockPanel.Dock="Right"/> -->
             <StatusBarItem />
         </StatusBar>
-        <TabControl x:Name="tabControl" DockPanel.Dock="Top" TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,0,2,0" SelectionChanged="tabControl_SelectionChanged" BorderThickness="1,0,0,0" BorderBrush="#FFDADADA" Background="Transparent" >
+        <TabControl x:Name="tabControl" DockPanel.Dock="Top" TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0" SelectionChanged="tabControl_SelectionChanged" BorderThickness="1,0,0,0" BorderBrush="#FFDADADA" Background="Transparent" >
             <TabItem Header="設定" Padding="6,2" Margin="0">
-                <StackPanel Margin="10" >
+                <StackPanel Margin="8" >
                     <CheckBox x:Name="chkIsStartUp" Content="StartUpに登録する" IsChecked="false" Checked="chkIsStartUp_Checked" HorizontalAlignment="Left" />
                     <GroupBox x:Name="groupVolumeWindowPositon" Header="GroupBox"  VerticalAlignment="Top" Padding="0" Margin="0,5">
                         <Grid ShowGridLines="false" x:Name="groupVolumeWindowPositon2">
@@ -122,10 +122,10 @@
                 </StackPanel>
             </TabItem>
             <TabItem Header="状態" x:Name="tiStatus">
-                <DockPanel Margin="10" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderOptions.EdgeMode="Aliased" LastChildFill="False">
+                <DockPanel Margin="8" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderOptions.EdgeMode="Aliased" LastChildFill="False">
                     <!--<StackPanel>-->
                     <DockPanel x:Name="VolPanel" DockPanel.Dock="Top" Style="{StaticResource VolumePanel}" Margin="0,4" MouseWheel="DockPanel_MouseWheel" ToolTip="MouseWheelで音量を調整">
-                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Width="30" Margin="0">Play</TextBlock>
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Width="30" Margin="4,0,0,0">Play</TextBlock>
                         <Border Margin="0" BorderThickness="1" BorderBrush="#FF00AEFF" RenderOptions.BitmapScalingMode="NearestNeighbor" HorizontalAlignment="Center" VerticalAlignment="Center" >
                             <Image Width="32" Height="32" Source="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
                         </Border>
@@ -152,7 +152,7 @@
                     </DockPanel>
                     <Border  DockPanel.Dock="Top" BorderThickness="0,1,0,0" BorderBrush="#FFDADADA" />
                     <DockPanel x:Name="RecPanel" DockPanel.Dock="Top" Style="{StaticResource VolumePanel}" Margin="0,4" MouseWheel="DockPanel_MouseWheel"  ToolTip="MouseWheelで録音レベルを調整">
-                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Width="30" Margin="0">Rec</TextBlock>
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Width="30" Margin="4,0,0,0">Rec</TextBlock>
                         <Border Margin="0" BorderThickness="1" BorderBrush="#FF00AEFF" RenderOptions.BitmapScalingMode="NearestNeighbor" HorizontalAlignment="Center" VerticalAlignment="Center" >
                             <Image Width="32" Height="32" Source="{Binding CaptureDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
                         </Border>
@@ -182,7 +182,7 @@
                 </DockPanel>
             </TabItem>
             <TabItem Header="About">
-                <StackPanel Margin="10" VerticalAlignment="Top">
+                <StackPanel Margin="8" VerticalAlignment="Top">
                     <Image x:Name="image"  Height="100" Margin="0,16"  Width="100" DockPanel.Dock="Top" VerticalAlignment="Top" Source="/VolumeWatcher;component/icon-app.ico" />
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Product, Source={StaticResource assemblyInfo}}" />
                     <TextBlock HorizontalAlignment="Center" Text="{Binding ProductVersion, Source={StaticResource assemblyInfo}, StringFormat=Ver: \{0\}}"  />
