@@ -164,6 +164,8 @@
     <Compile Include="Moral\Etc\KeyboardHook5.cs" />
     <Compile Include="Moral\Util\Ease.cs" />
     <Compile Include="Moral\Util\IconUtil.cs" />
+    <Compile Include="Moral\Util\MoniterPower.cs" />
+    <Compile Include="Moral\Util\NativeMethods.cs" />
     <Compile Include="Moral\Util\NoActiveWindowExtension.cs" />
     <Compile Include="Moral\Util\Util.cs" />
     <Compile Include="Moral\Util\WindowsUtil.cs" />
