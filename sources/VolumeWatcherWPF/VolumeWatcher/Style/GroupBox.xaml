@@ -1,8 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:VolumeWatcher.Style">
-    <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
+    
     <Style TargetType="{x:Type GroupBox}">
+        <Style.Resources>
+            <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
+        </Style.Resources>
         <Setter Property="BorderBrush" Value="#D5DFE5"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Template">
@@ -43,5 +46,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-
 </ResourceDictionary>
