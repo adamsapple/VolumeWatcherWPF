@@ -84,7 +84,7 @@
             <StatusBarItem />
         </StatusBar>
         <TabControl x:Name="tabControl" DockPanel.Dock="Top" TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0" SelectionChanged="tabControl_SelectionChanged" BorderThickness="1,0,0,0" BorderBrush="#FFDADADA" Background="Transparent" >
-            <TabItem Header="設定" Padding="6,2" Margin="0">
+            <TabItem Header="設定" >
                 <StackPanel Margin="8" >
                     <CheckBox x:Name="chkIsStartUp" Content="StartUpに登録する" IsChecked="false" Checked="chkIsStartUp_Checked" HorizontalAlignment="Left" />
                     <GroupBox x:Name="groupVolumeWindowPositon" Header="GroupBox"  VerticalAlignment="Top" Padding="0" Margin="0,5">

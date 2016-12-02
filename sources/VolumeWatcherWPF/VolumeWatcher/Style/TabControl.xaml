@@ -20,7 +20,7 @@
                             <TabPanel x:Name="HeaderPanel"
                               Grid.Column="0"
                               Panel.ZIndex="1"
-                              Margin="2,4,0,0"
+                              Margin="1,4,0,0"
                               IsItemsHost="True"
                               KeyboardNavigation.TabIndex="1"
                               Background="Transparent" 
@@ -66,15 +66,16 @@
                         </ControlTemplate.Resources>-->
                         <Grid x:Name="Panel" Margin="0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="0*" />
                             </Grid.ColumnDefinitions>
-                            <ContentPresenter Grid.Column="0"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Center"
-                                        ContentSource="Header"
-                                        Margin="8,10"
-                                        />
+                            <StackPanel Grid.Column="0" Margin="8,10" HorizontalAlignment="Center" >
+                                <ContentPresenter 
+                                              HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center"
+                                              ContentSource="Header"/>
+                            </StackPanel>
+                            
                             <!--<Rectangle Grid.Column="1"
                                 Width="5" Height="5" Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, Path=Background}" HorizontalAlignment="Right" Margin="0,0,-5,0" />-->
                             <Polygon Grid.Column="1" Margin="0,0,-5,0"
