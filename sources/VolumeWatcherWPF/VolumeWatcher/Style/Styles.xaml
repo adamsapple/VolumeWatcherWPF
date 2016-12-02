@@ -5,5 +5,6 @@
         <ResourceDictionary Source="ToggleButton.xaml" />
         <ResourceDictionary Source="TabControl.xaml" />
         <ResourceDictionary Source="GroupBox.xaml" />
+        <!--<ResourceDictionary Source="Button.xaml" />-->
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

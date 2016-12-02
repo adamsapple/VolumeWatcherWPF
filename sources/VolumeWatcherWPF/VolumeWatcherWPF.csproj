@@ -160,6 +160,7 @@
     <Compile Include="Audio\Wave\WaveStream.cs" />
     <Compile Include="Moral\AssemblyInfo.cs" />
     <Compile Include="Moral\Audio\WasapiStopEventArgs.cs" />
+    <Compile Include="Moral\Effect\UStretchEffect.cs" />
     <Compile Include="Moral\Etc\KeyboardHook5.cs" />
     <Compile Include="Moral\Util\Ease.cs" />
     <Compile Include="Moral\Util\IconUtil.cs" />
@@ -208,6 +209,7 @@
       <DependentUpon>WindowVolume.xaml</DependentUpon>
     </Compile>
     <Compile Include="VolumeWatcher\VolumeWatcherMain.cs" />
+    <Resource Include="resources\UStretchEffect.ps" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -244,6 +246,10 @@
     <Page Include="Moral\UI\LevelBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="VolumeWatcher\Style\Button.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="VolumeWatcher\Style\GroupBox.xaml">
       <SubType>Designer</SubType>
