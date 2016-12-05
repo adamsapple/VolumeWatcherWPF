@@ -69,7 +69,7 @@
                                 <ColumnDefinition Width="1*" />
                                 <ColumnDefinition Width="0*" />
                             </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Margin="8,10" HorizontalAlignment="Center" >
+                            <StackPanel Grid.Column="0" Margin="8,10" HorizontalAlignment="Left" >
                                 <ContentPresenter 
                                               HorizontalAlignment="Stretch"
                                               VerticalAlignment="Center"

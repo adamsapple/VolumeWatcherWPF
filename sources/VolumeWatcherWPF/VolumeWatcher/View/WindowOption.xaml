@@ -30,6 +30,7 @@
         <vmc:MMDeviceToDescriptionConverter x:Key="Device2DescriptionConverter"/>
         <vmc:MMDeviceToIconConverter        x:Key="Device2IconConverter"/>
         <vmc:MuteToBrushConverter           x:Key="Mute2BrushConverter"/>
+        <vmc:BoolToNotBoolConverter         x:Key="Bool2NotBoolConverter"/>
         <moral:AssemblyInfo                 x:Key="assemblyInfo" />
 
         <Style x:Key="VolumePanel" TargetType="DockPanel">
@@ -70,6 +71,41 @@
 
             </Style.Triggers>
         </Style>
+        <ControlTemplate x:Key="MuteToggleButtonTemplate" TargetType="{x:Type ToggleButton}">
+            <Border Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,1,1,1" >
+                <ContentPresenter Name="Content" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsChecked" Value="False">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <TextBlock FontSize="18" FontFamily="Segoe UI Symbol" Text="&#x1F507;" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <TextBlock FontSize="18" FontFamily="Segoe UI Symbol" Text="&#x1F50a;" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="{x:Null}">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <TextBlock FontSize="18" FontFamily="Segoe UI Symbol" Text="🔈" />
+                            <!--<Path Style="{StaticResource SpeakerVol0Icon}"/>-->
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <!--
+                <TextBlock FontSize="28" FontFamily="Segoe UI Symbol" Text="&#x1F507;" />
+                            <TextBlock FontSize="28" FontFamily="Segoe UI Symbol" Text="🔈" />
+                            <TextBlock FontSize="28" FontFamily="Segoe UI Symbol" Text="🔉" />
+                            <TextBlock FontSize="28" FontFamily="Segoe UI Symbol" Text="🔊" />
+                -->
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
     </Window.Resources>
     <DockPanel>
         <StatusBar Height="25" DockPanel.Dock="Bottom" Background="#FFFAFAFA">
@@ -147,7 +183,11 @@
                         </StackPanel>
                         <DockPanel ScrollViewer.VerticalScrollBarVisibility="Disabled" LastChildFill="False" Margin="0">
                             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="0,4,4,4" >
-                                <ToggleButton  IsChecked="{Binding IsMute, Mode=TwoWay}" Content="MUTE" Margin="4,0" VerticalAlignment="Bottom" FontSize="8" />
+                                <ToggleButton IsChecked="{Binding IsMute, Mode=TwoWay}" Margin="4,0" VerticalAlignment="Bottom" Padding="0" Width="24" Height="24" >
+                                    <ToggleButton.Content>
+                                        <TextBlock FontSize="16" FontFamily="Segoe UI Symbol" Text="&#x1F507;" Margin="-2,-4,0,0" />
+                                    </ToggleButton.Content>
+                                </ToggleButton>
                                 <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}">
                                     <UI:LevelBar x:Name="RenderMeter" DockPanel.Dock="Right" Height="60" Width="8" Value="{Binding RenderPeakValue, Mode=OneWay}" HorizontalAlignment="Center" HeadSize="0" >
                                         <UI:LevelBar.BarColor>
@@ -174,7 +214,11 @@
                         </StackPanel>
                         <DockPanel ScrollViewer.VerticalScrollBarVisibility="Disabled" LastChildFill="False" Margin="0">
                             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="0,4,4,4" >
-                                <ToggleButton  IsChecked="{Binding IsRecMute, Mode=TwoWay}" Content="MUTE" Margin="4,0" VerticalAlignment="Bottom" FontSize="8" />
+                                <ToggleButton IsChecked="{Binding IsRecMute, Mode=TwoWay}" Margin="4,0" VerticalAlignment="Bottom" Padding="0" Width="24" Height="24" >
+                                    <ToggleButton.Content>
+                                        <TextBlock FontSize="16" FontFamily="Segoe UI Symbol" Text="&#x1F507;" Margin="-2,-4,0,0" />
+                                    </ToggleButton.Content>
+                                </ToggleButton>
                                 <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}">
                                     <UI:LevelBar x:Name="CaptureMeter" DockPanel.Dock="Left" Height="60" Width="8" Value="{Binding CapturePeakValue, Mode=OneWay}" HeadSize="0" >
                                         <UI:LevelBar.BarColor>
