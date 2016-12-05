@@ -55,7 +55,8 @@ namespace VolumeWatcher.View
             micPlayer.OnStateChanged += MicPlayter_StateChanged;
 
             // 高速化に寄与するかな
-            this.Descendants().OfType<Freezable>().ToList().Where(e => e.CanFreeze).ToList().ForEach(e => e.Freeze());
+            //this.Descendants().OfType<Freezable>().ToList().Where(e => e.CanFreeze).ToList().ForEach(e => e.Freeze());
+            this.Descendants().OfType<Freezable>().Where(e => e.CanFreeze).ForEach(e => e.Freeze());
         }
 
         /// <summary>
