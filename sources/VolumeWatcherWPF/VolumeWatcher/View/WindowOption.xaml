@@ -31,7 +31,7 @@
         <vmc:MMDeviceToIconConverter        x:Key="Device2IconConverter"/>
         <vmc:MuteToBrushConverter           x:Key="Mute2BrushConverter"/>
         <moral:AssemblyInfo                 x:Key="assemblyInfo" />
-        
+
         <Style x:Key="VolumePanel" TargetType="DockPanel">
             <Style.Resources>
                 <Color x:Key="PanelBaseColor"      A="0" R="255" G="255" B="255" />
@@ -67,7 +67,7 @@
                         </BeginStoryboard>
                     </Trigger.ExitActions>
                 </Trigger>
-                
+
             </Style.Triggers>
         </Style>
     </Window.Resources>
@@ -84,7 +84,14 @@
             <StatusBarItem />
         </StatusBar>
         <TabControl x:Name="tabControl" DockPanel.Dock="Top" TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0" SelectionChanged="tabControl_SelectionChanged" BorderThickness="1,0,0,0" BorderBrush="#FFDADADA" Background="Transparent" >
-            <TabItem Header="設定" >
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <!--<TextBlock FontFamily="Segoe UI Symbol" Text="&#xE115;"/>-->
+                        <Path Style="{StaticResource SettingIcon}" />
+                        <TextBlock Text="設定"/>
+                    </StackPanel>
+                </TabItem.Header>
                 <StackPanel Margin="8" >
                     <CheckBox x:Name="chkIsStartUp" Content="StartUpに登録する" IsChecked="false" Checked="chkIsStartUp_Checked" HorizontalAlignment="Left" />
                     <GroupBox x:Name="groupVolumeWindowPositon" Header="GroupBox"  VerticalAlignment="Top" Padding="0" Margin="0,5">
@@ -121,7 +128,13 @@
                     </GroupBox>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="状態" x:Name="tiStatus">
+            <TabItem x:Name="tiStatus">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Path Style="{StaticResource SatusIcon}" />
+                        <TextBlock Text="状態"/>
+                    </StackPanel>
+                </TabItem.Header>
                 <DockPanel Margin="8" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderOptions.EdgeMode="Aliased" LastChildFill="False">
                     <DockPanel x:Name="VolPanel" DockPanel.Dock="Top" Style="{StaticResource VolumePanel}" Margin="0,4" MouseWheel="DockPanel_MouseWheel" ToolTip="MouseWheelで音量を調整">
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Width="30" Margin="4,0,0,0">Play</TextBlock>
@@ -182,7 +195,13 @@
             <!--<TabItem Header="実験">
                 <Button Content="this is test."/>
             </TabItem>-->
-            <TabItem Header="About">
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Path Style="{StaticResource AboutIcon}" />
+                        <TextBlock Text="About"/>
+                    </StackPanel>
+                </TabItem.Header>
                 <StackPanel Margin="8" VerticalAlignment="Top">
                     <Image x:Name="image"  Height="100" Margin="0,16"  Width="100" DockPanel.Dock="Top" VerticalAlignment="Top" Source="/VolumeWatcher;component/icon-app.ico" />
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Product, Source={StaticResource assemblyInfo}}" />

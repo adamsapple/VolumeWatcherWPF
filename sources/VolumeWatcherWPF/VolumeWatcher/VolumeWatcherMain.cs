@@ -31,10 +31,11 @@ namespace VolumeWatcher
         public VolumeMonitor VolumeMonitor1;               // CoreAudio連携(デバイスの状態変更を監視し通知)
         public VolumeMonitor CaptureMonitor;               // CoreAudio連携(デバイスの状態変更を監視し通知)
 
-        public int State = 0;
+        //public int State = 0;
+#if DEBUG
 
         private VolumeWatcher.Sandbox.ISandBox tester = null;
-
+#endif
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -81,7 +82,7 @@ namespace VolumeWatcher
             //    await Task.Delay(200);
             //    State = 1;
             //});
-            State = 1;
+            //State = 1;
 
             //tester = new VolumeWatcher.Sandbox.RecorderTest();
 #if DEBUG
@@ -97,7 +98,7 @@ namespace VolumeWatcher
         /// <param name="e"></param>
         public void OnExit(ExitEventArgs e)
         {
-            State = 2;
+            //State = 2;
 #if DEBUG
             tester?.Stop();
             tester?.Dispose();
