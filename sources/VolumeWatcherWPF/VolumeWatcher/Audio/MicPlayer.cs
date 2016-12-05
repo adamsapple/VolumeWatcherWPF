@@ -88,7 +88,7 @@ namespace VolumeWatcher.Audio
 
             var dispatcher = Application.Current.Dispatcher;
             //dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate () {
-            dispatcher.Invoke((Action)delegate ()
+            dispatcher.BeginInvoke((Action)delegate ()
             {
                 if (!Initialized)
                 {

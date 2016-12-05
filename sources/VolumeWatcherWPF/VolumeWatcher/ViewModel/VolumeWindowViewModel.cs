@@ -104,16 +104,14 @@ namespace VolumeWatcher.ViewModel
             view.SetBinding(IsMuteProperty, new Binding("IsMute") { Mode = BindingMode.OneWay });
             // binding設定:RenderDeviceProperty
             view.SetBinding(RenderDeviceProperty, new Binding("RenderDevice") { Mode = BindingMode.OneWay });
-            
             // binding設定:Volume
             view.SetBinding(RecVolumeProperty, new Binding("RecVolume") { Mode = BindingMode.OneWay });
-            
             // binding設定:IsMute
             view.SetBinding(IsRecMuteProperty, new Binding("IsRecMute") { Mode = BindingMode.OneWay });
             // binding設定:RenderDeviceProperty
             view.SetBinding(CaptureDeviceProperty, new Binding("CaptureDevice") { Mode = BindingMode.OneWay });
 
-            ((WindowVolume)view).IsBindInitialized = true;           // 
+            ((WindowVolume)view).IsBindInitialized = true;           // ここにかけば良いのだ、と後で気づく
         }
     }
 }

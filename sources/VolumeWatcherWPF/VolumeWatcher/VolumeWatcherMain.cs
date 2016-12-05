@@ -71,9 +71,10 @@ namespace VolumeWatcher
             
 
             trayComponent.Initialize();
-            trayComponent.IconSource = optionWindow.Icon;
+            //trayComponent.IconSource = optionWindow.Icon;
+            trayComponent.DefaultIcon = optionWindow.Icon;
 
-            
+
             // データバインディングが終了するまで待つ
             // 待ち方がわからないので遅延処理する、という愚策
             //Task.Run(async () => {

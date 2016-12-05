@@ -29,6 +29,22 @@ namespace VolumeWatcher.View
         private KeyboardHook keyboardHook1;
         private Dictionary<System.Windows.Input.Key, Action> KeyShortcuts;
 
+        private ImageSource defaultIcon  = null;
+        public ImageSource DefaultIcon {
+            get
+            {
+                return defaultIcon;
+            }
+            set
+            {
+                defaultIcon = value;
+                if(this.IconSource == null)
+                {
+                    this.IconSource = defaultIcon;
+                }
+            }
+        }
+
         /// <summary>
         /// コンストラクタ。
         /// </summary>
@@ -162,19 +178,7 @@ namespace VolumeWatcher.View
         /// </summary>
         public void UpdateTrayText(string devname)
         {
-            var dispatcher = System.Windows.Application.Current.Dispatcher;
-
-            if (!dispatcher.CheckAccess())
-            {
-                dispatcher.Invoke((Action)delegate ()
-                {
-                    this.ToolTipText = string.Format("{0}\n({1})",model.StartupName, devname );
-                });
-            }
-            else
-            {
-                this.ToolTipText = string.Format("{0}\n({1})", model.StartupName, devname);
-            }
+            this.ToolTipText = string.Format("{0}\n({1})", model.StartupName, devname);
         }
 
         /// <summary>

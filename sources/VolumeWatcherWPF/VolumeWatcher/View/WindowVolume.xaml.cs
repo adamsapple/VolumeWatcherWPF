@@ -38,8 +38,9 @@ namespace VolumeWatcher.View
         private Ease ease = new Ease();
         private int easeoffs = 0;
 
-        private Timer timer               = new Timer();
         private Stopwatch stopwatch       = new Stopwatch();
+        private readonly long OPACITY_ANIMATION_RENDER_INTERVAL = 33 * 10000;
+        private DispatcherTimer OpacityAnimationTimer = new DispatcherTimer(DispatcherPriority.Normal);
 
         public float MaxOpacity { get; set; }     = 0f;
         private bool isBindInitialized = false;
@@ -56,13 +57,13 @@ namespace VolumeWatcher.View
             set {
                 if(isBindInitialized == false && value == true)
                 {
-
                     ViewMode = EVolumeViewMode.Render;
                 }
                 isBindInitialized = true;
             }
         }
-        public bool IsSizeCalculated { get; private set; } = false;
+
+        internal bool IsSizeCalculated { get; private set; } = false;
 
         private EWindowPosition _WindowPosition = EWindowPosition.UNKNOWN;
         /// <summary>表示位置のプロパティ</summary>
@@ -121,8 +122,8 @@ namespace VolumeWatcher.View
             viewmodel.SetBinding(this);
 
             // タイマーの生成
-            timer.Interval = 33;
-            timer.Elapsed += OnTimer;
+            OpacityAnimationTimer.Interval= new TimeSpan( OPACITY_ANIMATION_RENDER_INTERVAL );
+            OpacityAnimationTimer.Tick += OnOpacityAnimation;
 
             // Stopwatch
             stopwatch.Reset();
@@ -142,8 +143,8 @@ namespace VolumeWatcher.View
         /// <param name="e"></param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            timer.Stop();           // タイマーイベント発行を停止
-            stopwatch.Stop();       // 時間計測処理を停止
+            OpacityAnimationTimer.Stop(); // タイマーイベント発行を停止
+            stopwatch.Stop();             // 時間計測処理を停止
         }
 
         /// <summary>
@@ -181,10 +182,11 @@ namespace VolumeWatcher.View
 
             this.ViewMode = viewmode;
 
-            if (timer.Enabled)
+            //if (timer.Enabled)
+            if(OpacityAnimationTimer.IsEnabled)
             {
                 // 既に実行中
-                var ms = stopwatch.ElapsedMilliseconds;
+                var ms      = stopwatch.ElapsedMilliseconds;
                 double rate = ease.getFrameRate(ms);
                 if (rate >= 1.0)
                 {
@@ -195,10 +197,10 @@ namespace VolumeWatcher.View
             else
             {
                 // 停止中(volumeウィンドウは消えているはず)
-                easeoffs = 0;
+                easeoffs     = 0;
                 this.Opacity = 0;
                 Show();
-                timer.Start();
+                OpacityAnimationTimer.Start();
                 stopwatch.Reset();
                 stopwatch.Start();
             }
@@ -209,41 +211,37 @@ namespace VolumeWatcher.View
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void OnTimer(object sender, ElapsedEventArgs e)
+        void OnOpacityAnimation(object sender, EventArgs e)
         {
             var ms = stopwatch.ElapsedMilliseconds + easeoffs;
-            //Console.WriteLine("OnTimer:" + ms + "ms");
-            //this.Invoke((MethodInvoker)delegate ()
-            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Action)delegate () {
-                //
-                // stopwatchの経過時間ごとに処理を分岐
-                //
-                double rate = ease.getFrameRate(ms);
-                if (rate <= 1.0)
-                {
-                    // showアニメーション中:不透過度を0⇒1.0へ
-                    this.Opacity = rate * MaxOpacity;
-                }
-                else if (rate <= 2.0)
-                {
-                    // volume表示中:不透過度1.0
-                    if (this.Opacity != MaxOpacity) this.Opacity = MaxOpacity;
-                }
-                else if (rate < 3.0)
-                {
-                    // hideアニメーション中：不透過度を1.0⇒0.0へ
-                    rate -= 2.0;
-                    this.Opacity = (1.0 - rate) * MaxOpacity;
-                }
-                else
-                {
-                    // hide完了
-                    this.Opacity = 0.0;     // 不透過度0.0
-                    Hide();                 // Formを非表示
-                    timer.Stop();           // タイマーイベント発行を停止
-                    stopwatch.Stop();       // 時間計測処理を停止
-                }
-            });
+            //
+            // stopwatchの経過時間ごとに処理を分岐
+            //
+            double rate = ease.getFrameRate(ms);
+            if (rate <= 1.0)
+            {
+                // showアニメーション中:不透過度を0⇒1.0へ
+                this.Opacity = rate * MaxOpacity;
+            }
+            else if (rate <= 2.0)
+            {
+                // volume表示中:不透過度1.0
+                if (this.Opacity != MaxOpacity) this.Opacity = MaxOpacity;
+            }
+            else if (rate < 3.0)
+            {
+                // hideアニメーション中：不透過度を1.0⇒0.0へ
+                rate -= 2.0;
+                this.Opacity = (1.0 - rate) * MaxOpacity;
+            }
+            else
+            {
+                // hide完了
+                this.Opacity = 0.0;     // 不透過度0.0
+                Hide();                 // Formを非表示
+                OpacityAnimationTimer.Stop();           // タイマーイベント発行を停止
+                stopwatch.Stop();       // 時間計測処理を停止
+            }
         }
     }
 }

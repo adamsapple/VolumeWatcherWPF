@@ -26,24 +26,31 @@ namespace VolumeWatcher.ViewModel
             private set { _CapturePeakValue = value; SetProperty(ref _CapturePeakValue, value); }
         }
 
-        private System.Timers.Timer StatusTimer = new System.Timers.Timer(50);
+        /// <summary>
+        /// メータ更新間隔(単位:100ナノ秒)。= 1/10000ミリ秒。
+        /// 
+        /// </summary>
+        private readonly long PEAKMETER_RENDER_INTERVAL = 50 * 10000;
 
+        private DispatcherTimer StatusTimer = new DispatcherTimer(DispatcherPriority.Normal);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="main"></param>
         public void SetBinding(WindowOption window, VolumeWatcherMain main)
         {
-            // ピークメータ表示処理の一例
-            StatusTimer.Elapsed += (o, el) => {
-                var dispatcher = System.Windows.Application.Current.Dispatcher;
-
-                dispatcher.BeginInvoke((Action)delegate ()
+            // ピークメータ表示用タイマ
+            StatusTimer.Interval = new TimeSpan(PEAKMETER_RENDER_INTERVAL);
+            StatusTimer.Tick += (o, el) => {
+                var renderMeter  = main.VolumeMonitor1.AudioDevice?.AudioMeterInformation;
+                var captureMeter = main.CaptureMonitor.AudioDevice?.AudioMeterInformation;
+                if (StatusTimer.IsEnabled)
                 {
-                    var renderMeter = main.VolumeMonitor1.AudioDevice?.AudioMeterInformation;
-                    var captureMeter = main.CaptureMonitor.AudioDevice?.AudioMeterInformation;
-                    if (StatusTimer.Enabled)
-                    {
-                        RenderPeakValue  = (int)Math.Round((renderMeter?.PeakValue ?? 0) * 100);
-                        CapturePeakValue = (int)Math.Round((captureMeter?.PeakValue?? 0) * 100);
-                    }
-                });
+                    RenderPeakValue  = (int)Math.Round((renderMeter?.PeakValue  ?? 0) * 100);
+                    CapturePeakValue = (int)Math.Round((captureMeter?.PeakValue ?? 0) * 100);
+                }
             };
         }
 

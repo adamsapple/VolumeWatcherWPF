@@ -15,15 +15,26 @@ namespace VolumeWatcher.ViewModel
     {
         private static readonly DependencyProperty RenderDeviceProperty =
            DependencyProperty.Register("RenderDevice", typeof(MMDevice), typeof(TrayComponent),
-                                   new FrameworkPropertyMetadata(null, new PropertyChangedCallback((sender, e) => {
-                                       var self   = (TrayComponent)sender;
-                                       var device = (MMDevice)e.NewValue;
-                                       if (device != null)
-                                       {
-                                           self.SetDeviceIcon(device.IconPath);
-                                           self.UpdateTrayText(device.DeviceFriendlyName);
-                                       }
-                                   })));
+                new FrameworkPropertyMetadata(null, new PropertyChangedCallback((sender, e) => {
+                    var self   = (TrayComponent)sender;
+                    var device = (MMDevice)e.NewValue;
+
+                    var dispatcher = System.Windows.Application.Current.Dispatcher;
+                    dispatcher.BeginInvoke((Action)delegate ()
+                    {
+                        if (device != null)
+                        {
+                            self.SetDeviceIcon(device.IconPath);
+                            self.UpdateTrayText(device.DeviceFriendlyName);
+                        }
+                        else
+                        {
+                            self.IconSource = self.DefaultIcon;
+                            self.UpdateTrayText("デバイス未接続");
+                        }
+                    });
+
+                })));
 
         public void SetBinding(FrameworkElement view)
         {

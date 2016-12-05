@@ -14,10 +14,10 @@ namespace VolumeWatcher.ViewModel
         /// <summary>
         /// Convert Enum to bool 
         /// </summary>
-        /// <param name="value">Enum value</param>
-        /// <param name="targetType">target type</param>
-        /// <param name="parameter">parameter</param>
-        /// <param name="language">language</param>
+        /// <param name="value"></param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
         /// <returns>bool</returns>
         public object Convert(object value, Type targetType, object parameter,
                               System.Globalization.CultureInfo culture)
