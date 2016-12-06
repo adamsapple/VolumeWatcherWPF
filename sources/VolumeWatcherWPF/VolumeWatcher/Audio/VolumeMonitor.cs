@@ -125,7 +125,14 @@ namespace VolumeWatcher.Audio
             }
 
             //todo:
-            volume.OnVolumeNotification -= innerListener.OnVolumeNotify;
+            if (volume != null)
+            {
+                volume.OnVolumeNotification -= innerListener.OnVolumeNotify;
+            }
+
+            volume = null;
+            device = null;
+
             deviceEnumerator.OnDefaultDeviceChanged -= innerListener.OnDefaultDeviceChanged;
 
             //Marshal.ReleaseComObject(volume);             // 解放しない方が良いっぽい(解放した時点でPGカウンタが飛んだ)

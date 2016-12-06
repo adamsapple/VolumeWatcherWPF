@@ -183,11 +183,7 @@
                         </StackPanel>
                         <DockPanel ScrollViewer.VerticalScrollBarVisibility="Disabled" LastChildFill="False" Margin="0">
                             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="0,4,4,4" >
-                                <ToggleButton IsChecked="{Binding IsMute, Mode=TwoWay}" Margin="4,0" VerticalAlignment="Bottom" Padding="0" Width="24" Height="24" >
-                                    <ToggleButton.Content>
-                                        <TextBlock FontSize="16" FontFamily="Segoe UI Symbol" Text="&#x1F507;" Margin="-2,-4,0,0" />
-                                    </ToggleButton.Content>
-                                </ToggleButton>
+                                <ToggleButton IsChecked="{Binding IsMute, Mode=TwoWay}" Margin="4,0" VerticalAlignment="Bottom" Content="MUTE" FontSize="8" />
                                 <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}">
                                     <UI:LevelBar x:Name="RenderMeter" DockPanel.Dock="Right" Height="60" Width="8" Value="{Binding RenderPeakValue, Mode=OneWay}" HorizontalAlignment="Center" HeadSize="0" >
                                         <UI:LevelBar.BarColor>
@@ -214,11 +210,7 @@
                         </StackPanel>
                         <DockPanel ScrollViewer.VerticalScrollBarVisibility="Disabled" LastChildFill="False" Margin="0">
                             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="0,4,4,4" >
-                                <ToggleButton IsChecked="{Binding IsRecMute, Mode=TwoWay}" Margin="4,0" VerticalAlignment="Bottom" Padding="0" Width="24" Height="24" >
-                                    <ToggleButton.Content>
-                                        <TextBlock FontSize="16" FontFamily="Segoe UI Symbol" Text="&#x1F507;" Margin="-2,-4,0,0" />
-                                    </ToggleButton.Content>
-                                </ToggleButton>
+                                <ToggleButton IsChecked="{Binding IsRecMute, Mode=TwoWay}" Margin="4,0" VerticalAlignment="Bottom" Padding="0"  Content="MUTE" FontSize="8"  />
                                 <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}">
                                     <UI:LevelBar x:Name="CaptureMeter" DockPanel.Dock="Left" Height="60" Width="8" Value="{Binding CapturePeakValue, Mode=OneWay}" HeadSize="0" >
                                         <UI:LevelBar.BarColor>
@@ -237,7 +229,17 @@
                 </DockPanel>
             </TabItem>
             <!--<TabItem Header="実験">
-                <Button Content="this is test."/>
+                <TextBlock FontSize="100" FontFamily="Segoe UI Symbol" Text="&#x1F507;" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <Path Data="M141.89453,132.22626 C140.33203,134.24449 139.12759,136.52313 138.28125,139.06219 C137.43489,141.60126 137.01172,144.10777 137.01172,146.58173 C137.01172,149.96715 137.64648,153.14098 138.91602,156.10321 C140.18555,159.06546 141.9108,161.65335 144.0918,163.86688 C146.27278,166.08043 148.84439,167.83824 151.80664,169.14032 C154.76888,170.44241 157.9427,171.09344 161.32813,171.09344 C163.86719,171.09344 166.38997,170.63773 168.89648,169.72626 C171.40298,168.8148 173.66536,167.57782 175.68359,166.01532 z M161.32813,122.36298 C158.91927,122.36298 156.62434,122.70477 154.44336,123.38837 C152.26236,124.07196 150.16275,124.99969 148.14453,126.17157 L181.73828,159.86298 C182.97525,157.77965 183.91927,155.64749 184.57031,153.46649 C185.22134,151.28551 185.54688,148.99059 185.54688,146.58173 C185.54688,143.26141 184.91211,140.13641 183.64258,137.20673 C182.37305,134.27704 180.64778,131.72171 178.4668,129.54071 C176.2858,127.35973 173.73047,125.61819 170.80078,124.3161 C167.87109,123.01402 164.71353,122.36298 161.32813,122.36298 z M161.32813,113.47626 C165.88541,113.47626 170.18228,114.33889 174.21875,116.06415 C178.2552,117.78941 181.77083,120.14944 184.76563,123.14423 C187.76041,126.13902 190.12044,129.65465 191.8457,133.6911 C193.57095,137.72757 194.43359,142.02444 194.43359,146.58173 C194.43359,151.13902 193.57095,155.4359 191.8457,159.47235 C190.12044,163.50882 187.76041,167.02444 184.76563,170.01923 C181.77083,173.01402 178.2552,175.39032 174.21875,177.14813 C170.18228,178.90594 165.88541,179.78485 161.32813,179.78485 C156.77083,179.78485 152.47395,178.90594 148.4375,177.14813 C144.40103,175.39032 140.88541,173.01402 137.89063,170.01923 C134.89583,167.02444 132.51953,163.50882 130.76172,159.47235 C129.00391,155.4359 128.125,151.13902 128.125,146.58173 C128.125,142.02444 129.00391,137.72757 130.76172,133.6911 C132.51953,129.65465 134.89583,126.13902 137.89063,123.14423 C140.88541,120.14944 144.40103,117.78941 148.4375,116.06415 C152.47395,114.33889 156.77083,113.47626 161.32813,113.47626 z M109.375,83.007507 C110.54688,83.007507 111.49088,83.528351 112.20703,84.570007 C112.92317,85.611679 113.28125,87.076523 113.28125,88.964539 L113.28125,205.95673 C113.28125,207.84474 112.9069,209.30959 112.1582,210.35126 C111.4095,211.39293 110.41666,211.91376 109.17969,211.91376 C107.8125,211.91376 106.3802,211.29527 104.88281,210.05829 L86.914063,195.99579 C84.635414,194.23798 82.421875,192.51271 80.273438,190.82001 C78.125,189.1273 76.188148,187.61363 74.462891,186.27899 C72.737625,184.94435 70.768227,183.39813 68.554688,181.64032 L30.664063,181.64032 C29.036457,181.64032 28.222656,180.85907 28.222656,179.29657 L28.222656,115.33173 C28.222656,114.61559 28.45052,114.04592 28.90625,113.62274 C29.361977,113.19957 29.947914,112.98798 30.664063,112.98798 L69.042969,112.98798 L70.703125,111.71844 C71.744789,110.87209 73.111977,109.79787 74.804688,108.49579 C76.497391,107.19371 78.417969,105.69632 80.566406,104.0036 C82.714844,102.3109 84.928383,100.58563 87.207031,98.82782 C92.480469,94.726257 98.4375,90.071312 105.07813,84.862976 C106.57552,83.626007 108.00781,83.007507 109.375,83.007507 z" Fill="Black" HorizontalAlignment="Center" Height="128.906" Margin="51.756,0,49.51,0" RenderTransformOrigin="0.5,0.5" Stretch="Fill" VerticalAlignment="Center" Width="166.211">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="0.1" ScaleY="0.1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
             </TabItem>-->
             <TabItem>
                 <TabItem.Header>
