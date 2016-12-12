@@ -22,15 +22,18 @@ namespace VolumeWatcher
         /// </summary>
         public App()
         {
+            //
             //二重起動をチェックする
-            //(プロセス名から判断するので、同名別アプリケーションがあった場合は意図しない動きになるかも)
-            //if (System.Diagnostics.Process.GetProcessesByName(
-            //      System.Diagnostics.Process.GetCurrentProcess().ProcessName).Length > 1)
-            //{
+            // ※プロセス名から判断するので、同名別アプリケーションがあった場合は意図しない動きになるかも
+            
+            //このアプリケーションのプロセス名を取得
+            string processName = System.Diagnostics.Process.GetCurrentProcess().ProcessName; 
+            if (System.Diagnostics.Process.GetProcessesByName(processName).Length > 1)
+            {
                 //すでに起動していると判断して終了
-                //Application.Current.Shutdown();
-            //    return;
-            //}
+                this.Shutdown();        //Application.Current.Shutdown();
+                return;
+            }
 
             main = new VolumeWatcherMain();
         }
@@ -42,7 +45,7 @@ namespace VolumeWatcher
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            main.Initialize();
+            main?.Initialize();
         }
 
         /// <summary>
@@ -52,7 +55,7 @@ namespace VolumeWatcher
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
-            main.OnExit(e);
+            main?.OnExit(e);
         }
     }
 }
