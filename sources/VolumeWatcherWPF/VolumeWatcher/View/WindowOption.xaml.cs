@@ -34,7 +34,6 @@ namespace VolumeWatcher.View
         private VolumeWatcherMain     main      = null;
         private VolumeWatcherModel    model     = null;
         private OptionWindowViewModel viewmodel = new OptionWindowViewModel();
-        private bool isHeightCalc = false;
         private MicPlayer micPlayer = new MicPlayer();
 
         /// <summary>
@@ -67,10 +66,40 @@ namespace VolumeWatcher.View
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            //
             // ウィンドウ位置が保存されてない場合は初期位置(中央)に
+            //
             if (this.Left < 0 && this.Top < 0)
             {
                 WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            }
+
+            //
+            // Tabの高さを自動計算(最大値)で統一する処理
+            //
+            { 
+                var list = this.tabControl.Items.OfType<TabItem>().Select(el => el.Content as FrameworkElement);
+
+                //var list2 = this.tabControl.Items.OfType<TabItem>().ForEach(el =>
+                //{
+                //    //el.IsSelected = true;
+                //    var content = el.Content as FrameworkElement;
+                //    if (!content.IsMeasureValid)
+                //    {
+                //        content.Measure(new Size(int.MaxValue, int.MaxValue));
+                //    }
+                //    Debug.WriteLine($"item.actualheight={content.ActualHeight},  content={content.DesiredSize.Height}");
+                //});
+
+                var maxHeight = list.Max( el => {
+                        //el.ActualHeight;
+                        el.Measure(new Size(int.MaxValue, int.MaxValue));
+                        return el.DesiredSize.Height;
+                    });
+                list.Where(el => maxHeight > el.ActualHeight).ForEach(el => el.Height = maxHeight);
+
+                // 初期表示タブを選択
+                ((TabItem)tabControl.Items[0]).IsSelected = true;
             }
         }
 
@@ -95,41 +124,6 @@ namespace VolumeWatcher.View
         public new void Show()
         {
             base.Show();
-
-            if (!isHeightCalc)
-            {
-                // 各Tabの大きさを一番大きいものにそろえる
-                var dispatcher = this.Dispatcher;
-                dispatcher.BeginInvoke((Action)delegate ()
-                {
-                    var list = this.tabControl.Items.OfType<TabItem>().Select(el => el.Content as FrameworkElement);
-
-                    //var list2 = this.tabControl.Items.OfType<TabItem>().ForEach(el =>
-                    //{
-                    //    //el.IsSelected = true;
-                    //    var content = el.Content as FrameworkElement;
-                    //    if (!content.IsMeasureValid)
-                    //    {
-                    //        content.Measure(new Size(int.MaxValue, int.MaxValue));
-                    //    }
-                    //    Debug.WriteLine($"item.actualheight={content.ActualHeight},  content={content.DesiredSize.Height}");
-                    //});
-
-                    var maxHeight = list.Max(el => {
-                        //el.ActualHeight;
-                        {
-                            el.Measure(new Size(int.MaxValue, int.MaxValue));
-                        }
-                        return el.DesiredSize.Height;
-                        });
-                    list.Where(el => maxHeight > el.ActualHeight).ForEach(el => el.Height = maxHeight);
-
-                    ((TabItem)tabControl.Items[0]).IsSelected = true;
-                });
-
-                isHeightCalc = true;
-            }
-
             tabControl_SelectionChanged(tabControl, null);      // タイマー再開の必要があれば行う。
         }
 
