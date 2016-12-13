@@ -18,7 +18,6 @@
         Icon="/VolumeWatcher;component/resources/icon-windw.ico" 
         Activated="Window_Activated"
         Closing="Window_Closing"
-        d:DesignHeight="311.609"
         Title="VolumeWatcher Options" Loaded="Window_Loaded">
     <!-- xmlns:system="clr-namespace:System;assembly=mscorlib" -->
     <Window.Resources>
@@ -192,7 +191,7 @@
                         <TextBlock Text="設定"/>
                     </StackPanel>
                 </TabItem.Header>
-                <StackPanel Margin="8" >
+                <StackPanel Margin="8" VerticalAlignment="Top" >
                     <CheckBox x:Name="chkIsStartUp" Content="StartUpに登録する" IsChecked="false" Checked="chkIsStartUp_Checked" HorizontalAlignment="Left" />
                     <GroupBox x:Name="groupVolumeWindowPositon" Header="GroupBox"  VerticalAlignment="Top" Padding="0" Margin="0,5">
                         <Grid ShowGridLines="false" x:Name="groupVolumeWindowPositon2">
@@ -217,7 +216,7 @@
                         <Label x:Name="label2" Content="{Binding Value, ElementName=sliderOpacity}" ContentStringFormat="P0"  HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0" Margin="0,5,5,0" Width="40"/>
                         <Slider x:Name="sliderOpacity"  VerticalAlignment="Top" Margin="2,4,0,0" Value="{Binding Opacity, Mode=TwoWay}" Minimum="0" Maximum="1" LargeChange="0.1" IsSnapToTickEnabled="True" SmallChange="0.01" TickFrequency="0.01"/>
                     </DockPanel>
-                    <GroupBox x:Name="groupBox1" VerticalAlignment="Top" Padding="0" Margin="0,8,0,0">
+                    <GroupBox x:Name="groupBox1" Padding="0" Margin="0,8,0,0">
                         <GroupBox.Header>
                             <CheckBox x:Name="chkIsKeyHook" Content="キーボードでVolume操作を行う" IsChecked="{Binding IsKeyHook, Mode=TwoWay}" Checked="chkIsKeyHook_Changed" Unchecked="chkIsKeyHook_Changed"/>
                         </GroupBox.Header>

@@ -90,12 +90,23 @@ namespace VolumeWatcher.View
                 //    }
                 //    Debug.WriteLine($"item.actualheight={content.ActualHeight},  content={content.DesiredSize.Height}");
                 //});
-
+                var ratio = 1.0;
                 var maxHeight = list.Max( el => {
-                        //el.ActualHeight;
-                        el.Measure(new Size(int.MaxValue, int.MaxValue));
-                        return el.DesiredSize.Height;
-                    });
+                    //el.ActualHeight;
+                    ((TabItem)el.Parent).IsSelected = true;
+                    el.Measure(new Size(int.MaxValue, int.MaxValue));
+                    //el.Measure(el.RenderSize);
+                    if (el.ActualHeight != 0)
+                    {
+                        ratio = el.ActualHeight / el.DesiredSize.Height;
+                        Debug.WriteLine($"ratio={ratio}");
+                    }
+
+                    Debug.WriteLine($"item actualheight={el.ActualHeight}, DesiredSize={el.DesiredSize.Height}, RenderSize={el.RenderSize.Height} ratedDesired={el.DesiredSize.Height * ratio}");
+
+                    return el.DesiredSize.Height * ratio;
+                });
+                Debug.WriteLine($"maxHeight={maxHeight}");
                 list.Where(el => maxHeight > el.ActualHeight).ForEach(el => el.Height = maxHeight);
 
                 // 初期表示タブを選択
