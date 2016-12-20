@@ -17,5 +17,5 @@ C#-WPFで作成。
 [Alt]+[M]  Mute On/Off
 
 ## Trello
-Torello使って開発してみてます。
+Torello使って開発してみてます。 
 https://trello.com/b/qy5aIeN1/volumewatcherwpf
