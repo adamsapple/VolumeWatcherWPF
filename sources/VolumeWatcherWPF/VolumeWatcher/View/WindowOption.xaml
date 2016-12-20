@@ -107,14 +107,21 @@
         </ControlTemplate>
     </Window.Resources>
     <DockPanel>
-        <StatusBar Height="25" DockPanel.Dock="Bottom" Background="#FFFAFAFA">
+        <StatusBar DockPanel.Dock="Bottom" Background="#FFFAFAFA">
             <!-- 右側に配置 -->
-            <!--<StatusBarItem DockPanel.Dock="Right" Margin="-4,0,0,0">%</StatusBarItem>-->
-            <StatusBarItem DockPanel.Dock="Right" Content="{Binding Volume, Mode=OneWay}"    Foreground="{Binding IsMute, Converter={StaticResource Mute2BrushConverter}, ConverterParameter=#FF000000}" MinWidth="40" HorizontalContentAlignment="Right" x:Name="lblVolume" ContentStringFormat="0\%" Padding="0,3,3,3"/>
-            <StatusBarItem DockPanel.Dock="Right" Content="Vol:"/>
+            <StatusBarItem DockPanel.Dock="Right" BorderThickness="0,0,0,2" BorderBrush="#FF86FF7A" Padding="3,3,3,0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Vol:" VerticalAlignment="Center" Foreground="{Binding Foreground, ElementName=lblVolume}"/>
+                    <Label Content="{Binding Volume, Mode=OneWay}"    Foreground="{Binding IsMute, Converter={StaticResource Mute2BrushConverter}, ConverterParameter=#FF000000}" MinWidth="40" HorizontalContentAlignment="Right" x:Name="lblVolume" ContentStringFormat="0\%" Padding="0"/>
+                </StackPanel>
+            </StatusBarItem>
             <Separator  DockPanel.Dock="Right" Background="#30808080"/>
-            <StatusBarItem DockPanel.Dock="Right" Content="{Binding RecVolume, Mode=OneWay}" Foreground="{Binding IsRecMute, Converter={StaticResource Mute2BrushConverter}, ConverterParameter=#FF000000}" MinWidth="40" HorizontalContentAlignment="Right" ContentStringFormat="0\%" Padding="0,3,3,3"/>
-            <StatusBarItem DockPanel.Dock="Right" Content="Rec:"/>
+            <StatusBarItem DockPanel.Dock="Right" BorderThickness="0,0,0,2" BorderBrush="#FFFF7AC2" Padding="3,3,3,0">
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="Rec:" VerticalAlignment="Center" Foreground="{Binding Foreground, ElementName=lblRecVolume}"/>
+                    <Label Content="{Binding RecVolume, Mode=OneWay}" Foreground="{Binding IsRecMute, Converter={StaticResource Mute2BrushConverter}, ConverterParameter=#FF000000}" MinWidth="40" HorizontalContentAlignment="Right"  x:Name="lblRecVolume" ContentStringFormat="0\%" Padding="0"/>
+                </StackPanel>
+            </StatusBarItem>
             <!-- <Separator DockPanel.Dock="Right"/> -->
             <StatusBarItem />
         </StatusBar>

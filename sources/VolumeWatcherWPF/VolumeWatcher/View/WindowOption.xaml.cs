@@ -104,6 +104,9 @@ namespace VolumeWatcher.View
 
                     Debug.WriteLine($"item actualheight={el.ActualHeight}, DesiredSize={el.DesiredSize.Height}, RenderSize={el.RenderSize.Height} ratedDesired={el.DesiredSize.Height * ratio}");
 
+                    var source = PresentationSource.FromVisual(el);
+                    Debug.WriteLine($"M11={source?.CompositionTarget?.TransformToDevice.M11}, M22={source?.CompositionTarget?.TransformToDevice.M22}");
+
                     return el.DesiredSize.Height * ratio;
                 });
                 Debug.WriteLine($"maxHeight={maxHeight}");

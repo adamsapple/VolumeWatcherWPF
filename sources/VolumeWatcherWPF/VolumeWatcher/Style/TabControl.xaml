@@ -6,13 +6,30 @@
     <SolidColorBrush Color="#FFDAF1FF"    x:Key="TabMouseOverColor"/>
     -->
     <Style TargetType="{x:Type TabControl}">
+        <Style.Resources>
+            <Storyboard  x:Key="FadeAndSlide"  FillBehavior="Stop">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPanel"
+                                               Storyboard.TargetProperty="Opacity">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1.0"/>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimation Storyboard.TargetName="ContentPanel"
+                                 Storyboard.TargetProperty="RenderTransform.(TranslateTransform.X)" 
+                                 Duration="0:0:0.2"
+                                 From="-10" To="0">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+        </Style.Resources>
         <Style.Setters>
             <Setter Property="OverridesDefaultStyle" Value="True" />
             <Setter Property="SnapsToDevicePixels" Value="True" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TabControl}">
-                        <Grid>
+                        <Grid ClipToBounds="True">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
@@ -33,9 +50,23 @@
                               KeyboardNavigation.DirectionalNavigation="Contained"
                               KeyboardNavigation.TabIndex="2"
                               BorderBrush="LightGray">
-                                <ContentPresenter x:Name="PART_SelectedContentHost" Margin="0,6" ContentSource="SelectedContent" />
+                                <StackPanel x:Name="ContentPanel"
+                                            Effect="{TemplateBinding Effect}">
+                                    <StackPanel.RenderTransform>
+                                        <TranslateTransform />
+                                    </StackPanel.RenderTransform>
+                                    <ContentPresenter x:Name="PART_SelectedContentHost" Margin="0,6" ContentSource="SelectedContent" />
+                                </StackPanel>
                             </Border>
                         </Grid>
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="SelectionChanged">
+                                <!--<BeginStoryboard Storyboard="{StaticResource ColorStory2}" />-->
+                                <!--<BeginStoryboard Storyboard="{StaticResource UStreatchOutIn}" x:Name="Begin"/>-->
+                                <BeginStoryboard Storyboard="{StaticResource FadeAndSlide}" x:Name="Begin"/>
+                                <!--<StopStoryboard BeginStoryboardName="Begin" />-->
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
