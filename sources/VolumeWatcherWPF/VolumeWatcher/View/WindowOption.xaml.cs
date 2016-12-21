@@ -230,7 +230,6 @@ namespace VolumeWatcher.View
             else
             {
                 // 停止
-                // Peakmeterが振れたままの状態⇒転送済みデータの再生を待ってから終了する。
                 Debug.WriteLine("stop start.");
 
                 Task.Run(() =>

@@ -52,6 +52,10 @@ namespace Moral.Audio
         /// </summary>
         public virtual WaveFormat WaveFormat { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool Silent { get; set; } = false;
 
         /// <summary>
         /// Indicates recorded data is available 
@@ -325,15 +329,15 @@ namespace Moral.Audio
                 }
 
                 // if not silence...
-                if ((flags & EAudioClientBufferFlags.Silent) != EAudioClientBufferFlags.Silent)
+                if ((flags & EAudioClientBufferFlags.Silent) != EAudioClientBufferFlags.Silent || Silent)
                 {
                     Marshal.Copy(buffer, recordBuffer, recordBufferOffset, bytesAvailable);
-                    waveProvider.AddSamples(recordBuffer, recordBufferOffset, bytesAvailable);
                 }
                 else
                 {
                     Array.Clear(recordBuffer, recordBufferOffset, bytesAvailable);
                 }
+                waveProvider.AddSamples(recordBuffer, recordBufferOffset, bytesAvailable);
                 recordBufferOffset += bytesAvailable;
                 capture.ReleaseBuffer(framesAvailable);
                 packetSize = capture.GetNextPacketSize();

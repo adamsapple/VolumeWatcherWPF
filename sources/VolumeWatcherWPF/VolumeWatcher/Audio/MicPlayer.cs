@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 
-using Audio.Wave;
 using Audio.CoreAudio;
 using Audio.CoreAudio.Interfaces;
 
 using Moral.Audio;
+
 
 namespace VolumeWatcher.Audio
 {
@@ -149,9 +147,10 @@ namespace VolumeWatcher.Audio
                 return;
             }
 
-            render.Stop();
             capture.Stop();
+            render.Stop();
             OnStateChanged?.Invoke(EMicState.Stop);
+
         }
 
         public void Dispose()
