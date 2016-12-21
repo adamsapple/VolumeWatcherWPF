@@ -12,13 +12,13 @@
         x:Class="VolumeWatcher.View.WindowOption"
         Left="{Binding OptionWindow_Left, Mode=TwoWay}"
         Top="{Binding OptionWindow_Top, Mode=TwoWay}"
-        Width="340"
         SizeToContent="Height"
         ResizeMode="NoResize" 
         Icon="/VolumeWatcher;component/resources/icon-windw.ico" 
         Activated="Window_Activated"
         Closing="Window_Closing"
-        Title="VolumeWatcher Options" Loaded="Window_Loaded">
+        Title="VolumeWatcher Options" Loaded="Window_Loaded"
+        Width="340">
     <!-- xmlns:system="clr-namespace:System;assembly=mscorlib" -->
     <Window.Resources>
         <!--<system:String x:Key="AsmInfo_ProductName">Product Name</system:String>
