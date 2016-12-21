@@ -14,4 +14,14 @@
         </StackPanel>
     </DockPanel>
     -->
+    <!--<ControlTemplate TargetType="{x:Type local:LevelBar}">
+        <DockPanel>
+            --><!--<Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"/>--><!--
+        </DockPanel>
+    </ControlTemplate>-->
+    <DockPanel>
+        <Border BorderThickness="{Binding ElementName=this, Path=BorderThickness}"
+                BorderBrush="{Binding ElementName=this, Path=BorderBrush}"
+                OpacityMask="{Binding ElementName=this, Path=OpacityMask}"/>
+    </DockPanel>
 </UserControl>

@@ -135,57 +135,61 @@
                 </TabItem.Header>
                 <DockPanel Margin="8" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderOptions.EdgeMode="Aliased" LastChildFill="False">
                     <DockPanel x:Name="VolPanel" DockPanel.Dock="Top" Style="{StaticResource VolumePanel}" Margin="0,4" MouseWheel="DockPanel_MouseWheel" ToolTip="MouseWheelで音量を調整">
-                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Width="30" Margin="4,0,0,0">Play</TextBlock>
-                        <Border Margin="0" BorderThickness="1" BorderBrush="#FF00AEFF" RenderOptions.BitmapScalingMode="NearestNeighbor" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                        <TextBlock DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Width="30" Margin="4,0,0,0">Play</TextBlock>
+                        <Border Margin="0" BorderThickness="1" BorderBrush="#FF00AEFF" RenderOptions.BitmapScalingMode="NearestNeighbor" HorizontalAlignment="Left" VerticalAlignment="Center" >
                             <Image Width="32" Height="32" Source="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
                         </Border>
-                        <StackPanel MaxWidth="130" HorizontalAlignment="Left" VerticalAlignment="Center" >
-                            <Label Content="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2DescriptionConverter}}" HorizontalAlignment="Left" />
-                            <Label Content="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2NameConverter}}" HorizontalAlignment="Left" />
+                        <StackPanel DockPanel.Dock="Left" VerticalAlignment="Center" ClipToBounds="True" MaxWidth="118">
+                            <!--<Label Content="asdfasdfasfasfkajlsfaslfkjlksjfalsjafaf" Padding="5,5,0,5" />-->
+                            <Label HorizontalAlignment="Left" Padding="5,5,0,5" Content="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2DescriptionConverter}}"  />
+                            <Label HorizontalAlignment="Left" Padding="5,5,0,5" Content="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2NameConverter}}" />
                         </StackPanel>
-                        <DockPanel ScrollViewer.VerticalScrollBarVisibility="Disabled" LastChildFill="False" Margin="0">
-                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="0,4,4,4" >
-                                <ToggleButton IsChecked="{Binding IsMute, Mode=TwoWay}" Margin="4,0" VerticalAlignment="Bottom" Content="MUTE" FontSize="8" />
-                                <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}">
-                                    <UI:LevelBar x:Name="RenderMeter" DockPanel.Dock="Right" Height="70" Width="8" Value="{Binding RenderPeakValue, Mode=OneWay}" HorizontalAlignment="Center" HeadSize="0" >
-                                        <UI:LevelBar.BarColor>
-                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                <GradientStop Color="#FF336ED4" Offset="0.95"/>
-                                                <GradientStop Color="#FF02FFC4"/>
-                                            </LinearGradientBrush>
-                                        </UI:LevelBar.BarColor>
-                                    </UI:LevelBar>
-                                </Border>
-                                <!--<Label Content="{Binding Value, ElementName=RenderMeter, Mode=OneWay }" ContentStringFormat="{}{0}%" HorizontalAlignment="Center" MinWidth="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>-->
-                            </StackPanel>
+                        <DockPanel DockPanel.Dock="Right" Margin="0,4,4,4" HorizontalAlignment="Right" LastChildFill="False" >
+                            <UI:LevelBar x:Name="RenderMeter"
+                                            DockPanel.Dock="Right"   
+                                            Height="70" Width="10" 
+                                            Value="{Binding RenderPeakValue, Mode=OneWay}"
+                                            HeadSize="0" BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" >
+                                <UI:LevelBar.BarColor>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF336ED4" Offset="0.95"/>
+                                        <GradientStop Color="#FF02FFC4"/>
+                                    </LinearGradientBrush>
+                                </UI:LevelBar.BarColor>
+                            </UI:LevelBar>
+                            <ToggleButton IsChecked="{Binding IsMute, Mode=TwoWay}"
+                                          DockPanel.Dock="Right"
+                                          Margin="4,0" VerticalAlignment="Bottom" Content="MUTE" FontSize="8" />
+                            <!--<Label Content="{Binding Value, ElementName=RenderMeter, Mode=OneWay }" ContentStringFormat="{}{0}%" HorizontalAlignment="Center" MinWidth="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>-->
                         </DockPanel>
                     </DockPanel>
                     <Border  DockPanel.Dock="Top" BorderThickness="0,1,0,0" BorderBrush="#FFDADADA" />
                     <DockPanel x:Name="RecPanel" DockPanel.Dock="Top" Style="{StaticResource VolumePanel}" Margin="0,4" MouseWheel="DockPanel_MouseWheel"  ToolTip="MouseWheelで録音レベルを調整">
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Width="30" Margin="4,0,0,0">Rec</TextBlock>
-                        <Border Margin="0" BorderThickness="1" BorderBrush="#FF00AEFF" RenderOptions.BitmapScalingMode="NearestNeighbor" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                        <Border Margin="0" BorderThickness="1" BorderBrush="#FF00AEFF" RenderOptions.BitmapScalingMode="NearestNeighbor" HorizontalAlignment="Left" VerticalAlignment="Center" >
                             <Image Width="32" Height="32" Source="{Binding CaptureDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
                         </Border>
-                        <StackPanel MaxWidth="130" HorizontalAlignment="Left" VerticalAlignment="Center" >
-                            <Label Content="{Binding CaptureDevice, Mode=OneWay, Converter={StaticResource Device2DescriptionConverter}}" HorizontalAlignment="Left" />
-                            <Label Content="{Binding CaptureDevice, Mode=OneWay, Converter={StaticResource Device2NameConverter}}" HorizontalAlignment="Left" />
+                        <StackPanel DockPanel.Dock="Left" VerticalAlignment="Center" ClipToBounds="True" MaxWidth="118">
+                            <Label HorizontalAlignment="Left" Padding="5,5,0,5" Content="{Binding CaptureDevice, Mode=OneWay, Converter={StaticResource Device2DescriptionConverter}}" />
+                            <Label HorizontalAlignment="Left" Padding="5,5,0,5" Content="{Binding CaptureDevice, Mode=OneWay, Converter={StaticResource Device2NameConverter}}" />
                         </StackPanel>
-                        <DockPanel ScrollViewer.VerticalScrollBarVisibility="Disabled" LastChildFill="False" Margin="0">
-                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="0,4,4,4" >
-                                <ToggleButton IsChecked="{Binding IsRecMute, Mode=TwoWay}" Margin="4,0" VerticalAlignment="Bottom" Padding="0"  Content="MUTE" FontSize="8"  />
-                                <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}">
-                                    <UI:LevelBar x:Name="CaptureMeter" DockPanel.Dock="Left" Height="70" Width="8" Value="{Binding CapturePeakValue, Mode=OneWay}" HeadSize="0" >
-                                        <UI:LevelBar.BarColor>
-                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                <GradientStop Color="#FFA20062" Offset="0.95"/>
-                                                <GradientStop Color="#FFFF8DE0" Offset="0.004"/>
-                                            </LinearGradientBrush>
-                                        </UI:LevelBar.BarColor>
-                                    </UI:LevelBar>
-                                </Border>
-                                <!--<Label Content="{Binding Value, ElementName=CaptureMeter, Mode=OneWay }" ContentStringFormat="{}{0}%" HorizontalAlignment="Center" MinWidth="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>-->
-                            </StackPanel>
+                        <DockPanel DockPanel.Dock="Right" Margin="0,4,4,4" HorizontalAlignment="Right" LastChildFill="False">
+                            <UI:LevelBar x:Name="CaptureMeter"
+                                            DockPanel.Dock="Right" 
+                                            Height="70" Width="10" 
+                                            Value="{Binding CapturePeakValue, Mode=OneWay}" 
+                                            HeadSize="0" BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" >
+                                <UI:LevelBar.BarColor>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FFA20062" Offset="0.95"/>
+                                        <GradientStop Color="#FFFF8DE0" Offset="0.004"/>
+                                    </LinearGradientBrush>
+                                </UI:LevelBar.BarColor>
+                            </UI:LevelBar>
+                            <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding IsRecMute, Mode=TwoWay}" Margin="4,0" VerticalAlignment="Bottom" Padding="0"  Content="MUTE" FontSize="8"  />
+                            <!--<Label Content="{Binding Value, ElementName=CaptureMeter, Mode=OneWay }" ContentStringFormat="{}{0}%" HorizontalAlignment="Center" MinWidth="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>-->
                         </DockPanel>
+
                     </DockPanel>
                     <ToggleButton x:Name="MicListenToggle" IsChecked="False" Content="Listen to Device" Margin="20,10,0,0" Click="ListenToDevice_Click" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left" DockPanel.Dock="Top" />
                 </DockPanel>

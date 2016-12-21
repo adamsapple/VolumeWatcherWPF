@@ -1,28 +1,21 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using LinqToXaml;
 
-using Audio.CoreAudio;
-using Moral;
 using Moral.Util;
 using Moral.Linq;
+
 using VolumeWatcher.Audio;
 using VolumeWatcher.Model;
 using VolumeWatcher.ViewModel;
+
 
 namespace VolumeWatcher.View
 {
@@ -237,7 +230,24 @@ namespace VolumeWatcher.View
             else
             {
                 // 停止
-                micPlayer.Stop();
+                // Peakmeterが振れたままの状態⇒転送済みデータの再生を待ってから終了する。
+                Debug.WriteLine("stop start.");
+
+                Task.Run(() =>
+                {
+                    var forceMute = !model.IsRecMute;
+                    if (forceMute)
+                    {
+                        model.IsRecMute = !model.IsRecMute;
+                        Thread.Sleep(150);  // 転送データ再生終了ち(超ザツ)
+                    }
+                    micPlayer.Stop();
+                    if (forceMute)
+                    {
+                        model.IsRecMute = !model.IsRecMute;
+                    }
+                    Debug.WriteLine("stop finished.");
+                });
             }
         }
 
