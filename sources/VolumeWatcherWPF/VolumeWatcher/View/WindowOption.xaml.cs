@@ -292,5 +292,15 @@ namespace VolumeWatcher.View
             }
             volume.MasterVolumeLevelScalar += add;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MoniterPower.PowerOff();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            MoniterPower.ExecScreenSaver();
+        }
     }
 }
