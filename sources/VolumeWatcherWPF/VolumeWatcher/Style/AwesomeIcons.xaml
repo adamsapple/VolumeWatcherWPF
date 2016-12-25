@@ -43,6 +43,9 @@
     <Style TargetType="TextBlock" BasedOn="{StaticResource IconBase}" x:Key="Icon_Experiment">
         <Setter Property="Text" Value="&#xf0c3;" />
     </Style>
+    <Style TargetType="TextBlock" BasedOn="{StaticResource IconBase}" x:Key="Icon_Wrench">
+        <Setter Property="Text" Value="&#xf0ad;" />
+    </Style>
     <!--<TextBlock x:Key="Icon_Gear" Text="&#xf2c3;" FontFamily="{StaticResource Awesome}" FontSize="20" />
     <TextBlock x:Key="Icon_Gear" Text="&#xf026;" FontFamily="{StaticResource Awesome}" FontSize="20" />
     <TextBlock x:Key="Icon_Gear" Text="&#xf05e;" FontFamily="{StaticResource Awesome}" FontSize="20" />

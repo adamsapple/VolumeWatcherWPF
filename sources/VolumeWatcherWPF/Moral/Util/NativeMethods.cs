@@ -59,5 +59,8 @@ namespace Moral.Util
         [DllImport("user32.dll")]
         internal static extern void SendInput(int nInputs, ref INPUT pInputs, int cbsize);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref IntPtr pvParam, int fWinIni);
     }
 }

@@ -43,6 +43,7 @@ namespace VolumeWatcher.View
 
             RenderMeter.DataContext  = viewmodel;       // peakmeterはviewmodelを参照
             CaptureMeter.DataContext = viewmodel;       // peakmeterはviewmodelを参照
+            ScreenSaverToggle.DataContext = viewmodel;
             this.DataContext         = model;           // それ以外はmodelを参照
 
             micPlayer.OnStateChanged += MicPlayter_StateChanged;

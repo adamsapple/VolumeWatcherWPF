@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
-using System.Windows.Data;
 using Moral.Model;
-using VolumeWatcher;
 using VolumeWatcher.View;
-using VolumeWatcher.Enumrate;
+using VolumeWatcher.Command;
+
 
 namespace VolumeWatcher.ViewModel
 {
@@ -25,6 +22,10 @@ namespace VolumeWatcher.ViewModel
             get { return _CapturePeakValue; }
             private set { _CapturePeakValue = value; SetProperty(ref _CapturePeakValue, value); }
         }
+
+        public ICommand ScreenSaverCommand { get; private set; } = new KeepScreenSaverCommand();
+
+        
 
         /// <summary>
         /// メータ更新間隔(単位:100ナノ秒)。= 1/10000ミリ秒。

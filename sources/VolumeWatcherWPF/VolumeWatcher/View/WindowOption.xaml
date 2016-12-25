@@ -135,7 +135,7 @@
                     </StackPanel>
                 </TabItem.Header>
                 <DockPanel Margin="8" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderOptions.EdgeMode="Aliased" LastChildFill="False">
-                    <DockPanel x:Name="VolPanel" DockPanel.Dock="Top" Style="{StaticResource VolumePanel}" Margin="0,4" MouseWheel="DockPanel_MouseWheel" ToolTip="MouseWheelで音量を調整" LastChildFill="True">
+                    <DockPanel x:Name="VolPanel" DockPanel.Dock="Top" Style="{StaticResource VolumePanel}" Margin="0,4" MouseWheel="DockPanel_MouseWheel" ToolTip="MouseWheelで音量を調整" LastChildFill="True" HorizontalAlignment="Left" Width="253">
                         <TextBlock DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Width="30" Margin="4,0,0,0">Play</TextBlock>
                         <Border Margin="0" BorderThickness="1" BorderBrush="#FF00AEFF" RenderOptions.BitmapScalingMode="NearestNeighbor" HorizontalAlignment="Left" VerticalAlignment="Center" >
                             <Image Width="32" Height="32" Source="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
@@ -247,6 +247,17 @@
                             <TextBox x:Name="txtKeyCode"  Text="-" Visibility="Collapsed"/>
                         </StackPanel>
                     </GroupBox>
+                </StackPanel>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource Icon_Wrench}" />
+                        <TextBlock Text="Tools"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <StackPanel Margin="8" VerticalAlignment="Top" >
+                    <ToggleButton x:Name="ScreenSaverToggle" Content="スクリーンセーバー維持" Command="{Binding ScreenSaverCommand,Mode=OneWay}"/>
                 </StackPanel>
             </TabItem>
             <!--<TabItem Header="⚙実験">

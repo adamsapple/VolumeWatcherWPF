@@ -12,7 +12,7 @@ namespace Moral.Util
         private const int POWER_ON = -1;
         private const int POWER_OFF = 2;
         private const int SC_SCREENSAVE = 0xF140;
-
+        private const int SPI_GETSCREENSAVERRUNNING = 114;
 
         public static void PowerOff()
         {
@@ -28,6 +28,15 @@ namespace Moral.Util
         public static void ExecScreenSaver()
         {
             NativeMethods.SendMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_SCREENSAVE, 0);
+
+        }
+
+        public static bool IsExecScreenSaver()
+        {
+            IntPtr result = IntPtr.Zero;
+            NativeMethods.SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0, ref result, 0);
+
+            return (result != IntPtr.Zero);
 
         }
     }
