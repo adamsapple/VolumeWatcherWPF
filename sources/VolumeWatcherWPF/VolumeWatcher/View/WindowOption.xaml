@@ -129,7 +129,8 @@
             <TabItem x:Name="tiStatus">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Path Style="{StaticResource SatusIcon}" />
+                        <!--<Path Style="{StaticResource SatusIcon}" />-->
+                        <TextBlock Style="{StaticResource Icon_Find}" />
                         <TextBlock Text="状態"/>
                     </StackPanel>
                 </TabItem.Header>
@@ -140,8 +141,14 @@
                             <Image Width="32" Height="32" Source="{Binding RenderDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
                         </Border>
                         <StackPanel DockPanel.Dock="Right" Margin="0,4,4,4" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
-                            <ToggleButton IsChecked="{Binding IsMute, Mode=TwoWay}"
-                                          Margin="4,0" VerticalAlignment="Bottom" Content="MUTE" FontSize="8" />
+                            <ToggleButton IsChecked="{Binding IsMute, Mode=TwoWay}" Margin="4,0" VerticalAlignment="Bottom"  Padding="4,2">
+                                <ToggleButton.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Style="{StaticResource Icon_Speaker}" FontSize="18" Margin="0" />
+                                        <TextBlock Style="{StaticResource Icon_Slash}" FontSize="10" Margin="1,0,0,0" />
+                                    </StackPanel>
+                                </ToggleButton.Content>
+                            </ToggleButton>
                             <UI:LevelBar x:Name="RenderMeter"
                                             Height="70" Width="10" 
                                             Value="{Binding RenderPeakValue, Mode=OneWay}"
@@ -168,7 +175,14 @@
                             <Image Width="32" Height="32" Source="{Binding CaptureDevice, Mode=OneWay, Converter={StaticResource Device2IconConverter}, ConverterParameter=LARGE  }" />
                         </Border>
                         <StackPanel DockPanel.Dock="Right" Margin="0,4,4,4" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
-                            <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding IsRecMute, Mode=TwoWay}" Margin="4,0" VerticalAlignment="Bottom" Padding="0"  Content="MUTE" FontSize="8"  />
+                            <ToggleButton IsChecked="{Binding IsRecMute, Mode=TwoWay}" Margin="4,0" VerticalAlignment="Bottom" Padding="4,2" >
+                                <ToggleButton.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Style="{StaticResource Icon_Speaker}" FontSize="18" Margin="0" />
+                                        <TextBlock Style="{StaticResource Icon_Slash}"  FontSize="10"  Margin="1,0,0,0"/>
+                                    </StackPanel>
+                                </ToggleButton.Content>
+                            </ToggleButton>
                             <UI:LevelBar x:Name="CaptureMeter"
                                             DockPanel.Dock="Right" 
                                             Height="70" Width="10" 
@@ -188,14 +202,14 @@
                             <Label HorizontalAlignment="Left" Padding="5,5,0,5" Content="{Binding CaptureDevice, Mode=OneWay, Converter={StaticResource Device2NameConverter}}" />
                         </StackPanel>
                     </DockPanel>
-                    <ToggleButton x:Name="MicListenToggle" IsChecked="False" Content="Listen to Device" Margin="20,10,0,0" Click="ListenToDevice_Click" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left" DockPanel.Dock="Top" />
+                    <ToggleButton x:Name="MicListenToggle" IsChecked="False" Content="Listen to Device" Margin="20,10,0,0" Padding="4" Click="ListenToDevice_Click" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left" DockPanel.Dock="Top" />
                 </DockPanel>
             </TabItem>
             <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <!--<TextBlock FontFamily="Segoe UI Symbol" Text="&#xE115;"/>-->
-                        <Path Style="{StaticResource SettingIcon}" />
+                        <!--<Path Style="{StaticResource SettingIcon}" />-->
+                        <TextBlock Style="{StaticResource Icon_Gear}" />
                         <TextBlock Text="設定"/>
                     </StackPanel>
                 </TabItem.Header>
@@ -235,8 +249,16 @@
                     </GroupBox>
                 </StackPanel>
             </TabItem>
-            <!--<TabItem Header="実験">
+            <!--<TabItem Header="⚙実験">
                 <StackPanel Orientation="Vertical">
+                    <TextBlock FontSize="20" Text="&#xf016;&#xf0f6;&#xf1c7;&#xf013;&#xf007;&#xf2c3;&#xf026;&#xf05e;&#xf131;&#xf0c3;" FontFamily="{StaticResource Awesome}" />
+                    <TextBlock FontFamily="Segoe UI Symbol" Text="&#xE115;"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource Icon_Speaker}" />
+                        <TextBlock Style="{StaticResource Icon_Slash}" />
+                        <TextBlock Style="{StaticResource Icon_MicSlash}" />
+                        <TextBlock Style="{StaticResource Icon_Experiment}" />
+                    </StackPanel>
                     <TextBlock FontSize="100" FontFamily="Segoe UI Symbol" Text="&#x1F507;" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <Button Content="モニタOFF" Click="Button_Click" />
                     <Button Content="スクリーンセーバー" Click="Button_Click_1"/>
@@ -245,7 +267,8 @@
             <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Path Style="{StaticResource AboutIcon}" />
+                        <!--<Path Style="{StaticResource AboutIcon}" />-->
+                        <TextBlock Style="{StaticResource Icon_Auther}" />
                         <TextBlock Text="About"/>
                     </StackPanel>
                 </TabItem.Header>

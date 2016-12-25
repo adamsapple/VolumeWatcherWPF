@@ -213,6 +213,7 @@
       <DependentUpon>WindowVolume.xaml</DependentUpon>
     </Compile>
     <Compile Include="VolumeWatcher\VolumeWatcherMain.cs" />
+    <Resource Include="resources\FontAwesome2.ttf" />
     <Resource Include="resources\UStretchEffect.ps" />
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +251,10 @@
     <Page Include="Moral\UI\LevelBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="VolumeWatcher\Style\AwesomeIcons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="VolumeWatcher\Style\Button.xaml">
       <SubType>Designer</SubType>

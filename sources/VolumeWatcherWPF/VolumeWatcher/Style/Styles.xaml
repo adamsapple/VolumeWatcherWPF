@@ -6,6 +6,7 @@
         <ResourceDictionary Source="TabControl.xaml" />
         <ResourceDictionary Source="GroupBox.xaml" />
         <!--<ResourceDictionary Source="Button.xaml" />-->
-        <ResourceDictionary Source="Icons.xaml" />
+        <!--<ResourceDictionary Source="Icons.xaml" />-->
+        <ResourceDictionary Source="AwesomeIcons.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
