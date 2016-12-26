@@ -8,6 +8,9 @@ using Moral.Util;
 
 namespace VolumeWatcher.Command
 {
+    /// <summary>
+    /// スクリーンセーバー起動状態を5s間隔でチェックし、起動状態を維持するCommand.
+    /// </summary>
     class KeepScreenSaverCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;

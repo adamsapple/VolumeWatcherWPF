@@ -1,0 +1,10 @@
+codepoints = [61462, 61686, 61895, 61442, 61459, 61447, 62147, 61478, 61534, 61480, 61745, 61744, 61635, 61613, 61617, 61712]
+i = 0
+len = SizeOf(codepoints)
+while (i < len)
+    SelectMore(codepoints[i], codepoints[i])
+    ++i
+endloop
+
+SelectInvert()
+Clear()
