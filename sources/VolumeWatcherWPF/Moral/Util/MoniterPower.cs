@@ -27,7 +27,7 @@ namespace Moral.Util
 
         public static void ExecScreenSaver()
         {
-            NativeMethods.SendMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_SCREENSAVE, 0);
+            NativeMethods.PostMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_SCREENSAVE, 0);
 
         }
 
