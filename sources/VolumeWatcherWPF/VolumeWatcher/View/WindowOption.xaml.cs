@@ -175,7 +175,7 @@ namespace VolumeWatcher.View
         /// <param name="e"></param>
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var ti = ((TabControl)sender).SelectedItem as TabItem;
+            var ti = (sender as TabControl).SelectedItem as TabItem;
 
             if (ti == tiStatus)
             {
@@ -267,11 +267,6 @@ namespace VolumeWatcher.View
             }
             volume.MasterVolumeLevelScalar += add;
         }
-
-
-
-
-
 
 
         //

@@ -26,7 +26,7 @@ namespace VolumeWatcher.View
         TrayComponentViewModel viewmodel = new TrayComponentViewModel();
 
         private bool isKeyHook = false;
-        private KeyboardHook keyboardHook1;
+        internal KeyboardHook keyboardHook1;
         private Dictionary<System.Windows.Input.Key, Action> KeyShortcuts;
 
         private ImageSource defaultIcon  = null;

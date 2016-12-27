@@ -175,6 +175,7 @@
     <Compile Include="VolumeWatcher\Audio\MicPlayer.cs" />
     <Compile Include="VolumeWatcher\Audio\VolumeMonitor.cs" />
     <Compile Include="VolumeWatcher\Command\KeepScreenSaverCommand.cs" />
+    <Compile Include="VolumeWatcher\Command\KeyboardHookCommand.cs" />
     <Compile Include="VolumeWatcher\Command\RegisterStartupCommand.cs" />
     <Compile Include="VolumeWatcher\Command\SimpleCommandBase.cs" />
     <Compile Include="VolumeWatcher\Enumrate\EVolumeViewMode.cs" />
