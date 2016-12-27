@@ -216,7 +216,8 @@
                     </StackPanel>
                 </TabItem.Header>
                 <StackPanel Margin="8" VerticalAlignment="Top" >
-                    <CheckBox x:Name="chkIsStartUp" Content="StartUpに登録する" IsChecked="false" Checked="chkIsStartUp_Checked" HorizontalAlignment="Left" />
+                    <CheckBox x:Name="chkIsStartUp" Content="StartUpに登録する" IsChecked="false" HorizontalAlignment="Left"
+                              Command="{Binding RegisterStartupCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}, Mode=OneWay}" />
                     <GroupBox x:Name="groupVolumeWindowPositon" Header="GroupBox"  VerticalAlignment="Top" Padding="0" Margin="0,5">
                         <Grid ShowGridLines="false" x:Name="groupVolumeWindowPositon2">
                             <Grid.RowDefinitions>
@@ -259,7 +260,8 @@
                     </StackPanel>
                 </TabItem.Header>
                 <StackPanel Margin="8" VerticalAlignment="Top" >
-                    <ToggleButton x:Name="ScreenSaverToggle" Content="スクリーンセーバー維持" Command="{Binding ScreenSaverCommand}" />
+                    <ToggleButton x:Name="ScreenSaverToggle" Content="スクリーンセーバー維持"
+                                  Command="{Binding ScreenSaverCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}, Mode=OneWay}" />
                 </StackPanel>
             </TabItem>
             <!--<TabItem Header="⚙実験">

@@ -11,9 +11,8 @@ namespace VolumeWatcher.Command
     /// <summary>
     /// スクリーンセーバー起動状態を5s間隔でチェックし、起動状態を維持するCommand.
     /// </summary>
-    class KeepScreenSaverCommand : ICommand
+    class KeepScreenSaverCommand : SimpleCommandBase
     {
-        public event EventHandler CanExecuteChanged;
         private DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Normal);
 
         private readonly long TIMER_INTERVAL = (5 * 1000) * 10000;
@@ -28,14 +27,16 @@ namespace VolumeWatcher.Command
             timer.Tick    += OnTimer;
         }
 
-        public bool CanExecute(object parameter)
+        override public void Execute(object parameter)
         {
-            return true;
-        }
+            var IsExecute = parameter as bool? ?? false;
 
-        public void Execute(object parameter)
-        {
-            if (!IsRunning)
+            if(IsExecute == IsRunning)
+            {
+                return;
+            }
+
+            if (IsExecute)
             {
                 timer.Start();
             }
@@ -44,7 +45,7 @@ namespace VolumeWatcher.Command
                 timer.Stop();
             }
             
-            IsRunning = !IsRunning;
+            IsRunning = IsExecute;
         }
 
         void OnTimer(object sender, EventArgs e)

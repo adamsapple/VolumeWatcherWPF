@@ -23,9 +23,10 @@ namespace VolumeWatcher.ViewModel
             private set { _CapturePeakValue = value; SetProperty(ref _CapturePeakValue, value); }
         }
 
-        public ICommand ScreenSaverCommand { get; private set; } = new KeepScreenSaverCommand();
+        public KeepScreenSaverCommand KeepScreenSaverCommand { get; private set; } = new KeepScreenSaverCommand();
+        public RegisterStartupCommand RegisterStartupCommand { get; private set; } = new RegisterStartupCommand();
 
-        
+
 
         /// <summary>
         /// メータ更新間隔(単位:100ナノ秒)。= 1/10000ミリ秒。
@@ -53,6 +54,8 @@ namespace VolumeWatcher.ViewModel
                     CapturePeakValue = (int)Math.Round((captureMeter?.PeakValue ?? 0) * 100);
                 }
             };
+
+            RegisterStartupCommand.StartupName = main.model.StartupName;
         }
 
         public void StartPeakMeter()

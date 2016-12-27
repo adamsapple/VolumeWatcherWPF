@@ -41,10 +41,11 @@ namespace VolumeWatcher.View
 
             viewmodel.SetBinding(this, main);
 
-            RenderMeter.DataContext  = viewmodel;       // peakmeterはviewmodelを参照
-            CaptureMeter.DataContext = viewmodel;       // peakmeterはviewmodelを参照
+            RenderMeter.DataContext       = viewmodel;       // peakmeterはviewmodelを参照
+            CaptureMeter.DataContext      = viewmodel;       // peakmeterはviewmodelを参照
             ScreenSaverToggle.DataContext = viewmodel;
-            this.DataContext         = model;           // それ以外はmodelを参照
+            chkIsStartUp.DataContext      = viewmodel;
+            this.DataContext              = model;           // それ以外はmodelを参照
 
             micPlayer.OnStateChanged += MicPlayter_StateChanged;
 
@@ -141,34 +142,7 @@ namespace VolumeWatcher.View
         public void updateControl()
         {
             // checkBoxIsStartupの状態を更新
-            if (WindowsUtil.ExistsStartUp_CurrentUserRun(model.StartupName))
-            {
-                chkIsStartUp.IsChecked = true;
-            }
-            else
-            {
-                chkIsStartUp.IsChecked = false;
-            }
-        }
-
-        /// <summary>
-        /// ev:chkIsStartUp チェックON
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void chkIsStartUp_Checked(object sender, RoutedEventArgs e)
-        {
-            WindowsUtil.RegiserStartUp_CurrentUserRun(model.StartupName);
-        }
-
-        /// <summary>
-        /// ev:chkIsStartUp チェックOFF
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void chkIsStartUp_Unchecked(object sender, RoutedEventArgs e)
-        {
-            WindowsUtil.UnregiserStartUp_CurrentUserRun(model.StartupName);
+            chkIsStartUp.IsChecked = WindowsUtil.ExistsStartUp_CurrentUserRun(model.StartupName);
         }
 
         /// <summary>
@@ -190,7 +164,7 @@ namespace VolumeWatcher.View
         /// <param name="e"></param>
         private void chkIsKeyHook_Changed(object sender, RoutedEventArgs e)
         {
-            main.trayComponent.EnableKeyHook = (bool)((CheckBox)sender).IsChecked;
+            main.trayComponent.EnableKeyHook = (bool)(sender as CheckBox).IsChecked;
         }
 
         /// <summary>
@@ -293,6 +267,22 @@ namespace VolumeWatcher.View
             }
             volume.MasterVolumeLevelScalar += add;
         }
+
+
+
+
+
+
+
+        //
+        //
+        //
+        //
+        // 以下、テストコード
+        //
+        //
+        //
+        //
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
