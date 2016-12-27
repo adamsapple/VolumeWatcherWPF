@@ -20,8 +20,8 @@
         </DockPanel>
     </ControlTemplate>-->
     <DockPanel>
-        <Border BorderThickness="{Binding ElementName=this, Path=BorderThickness}"
+        <!--<Border BorderThickness="{Binding ElementName=this, Path=BorderThickness}"
                 BorderBrush="{Binding ElementName=this, Path=BorderBrush}"
-                OpacityMask="{Binding ElementName=this, Path=OpacityMask}"/>
+                OpacityMask="{Binding ElementName=this, Path=OpacityMask}"/>-->
     </DockPanel>
 </UserControl>
