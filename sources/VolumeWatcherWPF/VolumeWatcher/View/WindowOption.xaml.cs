@@ -137,6 +137,16 @@ namespace VolumeWatcher.View
             //}
         }
 
+        /// <summary>
+        /// キー入力を処理したことにしてBeep音が鳴ることを防いでいる。(e.Handled = true)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.Handled = true;
+        }
+
         public new void Show()
         {
             base.Show();

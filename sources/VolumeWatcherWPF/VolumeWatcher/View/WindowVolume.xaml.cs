@@ -94,17 +94,18 @@ namespace VolumeWatcher.View
                 {
                     return;
                 }
-                viewMode = value;
-                if (viewMode == EVolumeViewMode.Render)
+                
+                if (value == EVolumeViewMode.Render)
                 {
-                    CapturePanel.Visibility = Visibility.Collapsed;
-                    RenderPanel.Visibility  = Visibility.Visible;
+                    CapturePanel.Visibility = Visibility.Collapsed; // 録音レベルを非表示に
+                    RenderPanel.Visibility  = Visibility.Visible;   // ボリュームを表示に
                 }
                 else
                 {
-                    RenderPanel.Visibility  = Visibility.Collapsed;
-                    CapturePanel.Visibility = Visibility.Visible;
+                    RenderPanel.Visibility  = Visibility.Collapsed; // ボリュームを非表示に
+                    CapturePanel.Visibility = Visibility.Visible;   // 録音レベルを表示に
                 }
+                viewMode = value;
             }
         }
 
@@ -148,6 +149,16 @@ namespace VolumeWatcher.View
         }
 
         /// <summary>
+        /// キー入力を処理したことにしてBeep音が鳴ることを防いでいる。(e.Handled = true)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        /// <summary>
         /// Showのオーバーライド
         /// </summary>
         public new void Show()
@@ -157,7 +168,7 @@ namespace VolumeWatcher.View
         }
 
         /// <summary>
-        /// 
+        /// Window幅がちゃんと計算されたかどうかをチェック。(結果をIsSizeCalculatedへ反映)
         /// </summary>
         void CheckWindowPosition()
         {
