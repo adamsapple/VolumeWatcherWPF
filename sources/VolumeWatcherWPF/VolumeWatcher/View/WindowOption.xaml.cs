@@ -45,6 +45,13 @@ namespace VolumeWatcher.View
             CaptureMeter.DataContext      = viewmodel;       // peakmeterはviewmodelを参照
             ScreenSaverToggle.DataContext = viewmodel;
             chkIsStartUp.DataContext      = viewmodel;
+
+            { 
+                chkIsKeyHook.Command          = viewmodel.KeyboardHookCommand;
+                chkIsKeyHook.CommandParameter = chkIsKeyHook;
+            }
+
+
             this.DataContext              = model;           // それ以外はmodelを参照
 
             micPlayer.OnStateChanged += MicPlayter_StateChanged;
@@ -164,7 +171,9 @@ namespace VolumeWatcher.View
         /// <param name="e"></param>
         private void chkIsKeyHook_Changed(object sender, RoutedEventArgs e)
         {
-            main.trayComponent.EnableKeyHook = (bool)(sender as CheckBox).IsChecked;
+            var value = (sender as CheckBox)?.IsChecked ?? false;
+            //main.trayComponent.EnableKeyHook = (bool)(sender as CheckBox).IsChecked;
+            viewmodel.KeyboardHookCommand.Execute(value);
         }
 
         /// <summary>

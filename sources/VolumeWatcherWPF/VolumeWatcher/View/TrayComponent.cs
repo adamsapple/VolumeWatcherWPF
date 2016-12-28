@@ -13,6 +13,8 @@ using VolumeWatcher.Audio;
 using VolumeWatcher.UI;
 using VolumeWatcher.Model;
 using VolumeWatcher.ViewModel;
+using VolumeWatcher.Component;
+
 
 namespace VolumeWatcher.View
 {
@@ -25,9 +27,11 @@ namespace VolumeWatcher.View
         VolumeWatcherModel     model     = null;
         TrayComponentViewModel viewmodel = new TrayComponentViewModel();
 
-        private bool isKeyHook = false;
-        internal KeyboardHook keyboardHook1;
-        private Dictionary<System.Windows.Input.Key, Action> KeyShortcuts;
+        //private bool isKeyHook = false;
+        //internal KeyboardHook keyboardHook1;
+        //private Dictionary<System.Windows.Input.Key, Action> KeyShortcuts;
+
+        internal KeyboardHookComponent KeyboardHooker;
 
         private ImageSource defaultIcon  = null;
         public ImageSource DefaultIcon {
@@ -51,7 +55,7 @@ namespace VolumeWatcher.View
         public TrayComponent() {
             // notifyIcon settings.
             this.ContextMenu   = new MainContextMenu();
-            this.keyboardHook1 = new KeyboardHook();
+            //this.keyboardHook1 = new KeyboardHook();
 
             this.TrayMouseDoubleClick += (_o, _e) => {
                 var main = ((App)System.Windows.Application.Current).main;
@@ -68,6 +72,9 @@ namespace VolumeWatcher.View
                 }
             };
             viewmodel.SetBinding(this);
+
+            // Keyboardのフック処理
+            KeyboardHooker = new KeyboardHookComponent();
         }
 
         /// <summary>
@@ -80,78 +87,6 @@ namespace VolumeWatcher.View
             this.ToolTip = model.StartupName;
 
             this.DataContext = model;
-
-            const float add = 0.02f;
-            var dict = new Dictionary<System.Windows.Input.Key, Action>()
-            {
-                {
-                    Key.OemComma, () => {
-                        // 音量-
-                        var device = main.VolumeMonitor1.AudioDevice;
-                        if(device == null || device.AudioEndpointVolume == null)
-                        {
-                            return;
-                        }
-                        device.AudioEndpointVolume.MasterVolumeLevelScalar -= add;
-                    }
-                },
-                {
-                    Key.OemPeriod, () => {
-                        // 音量+
-                        var device = main.VolumeMonitor1.AudioDevice;
-                        if(device == null || device.AudioEndpointVolume == null)
-                        {
-                            return;
-                        }
-                        device.AudioEndpointVolume.MasterVolumeLevelScalar += add;
-                    }
-                },
-                {
-                    Key.M, () => {
-                        // Mute
-                        var device = main.VolumeMonitor1.AudioDevice;
-                        if(device == null || device.AudioEndpointVolume == null)
-                        {
-                            return;
-                        }
-                        device.AudioEndpointVolume.Mute = !device.AudioEndpointVolume.Mute;
-                    }
-                },
-                {
-                    Key.K, () => {
-                        // 音量-
-                        var device = main.CaptureMonitor.AudioDevice;
-                        if(device == null || device.AudioEndpointVolume == null)
-                        {
-                            return;
-                        }
-                        device.AudioEndpointVolume.MasterVolumeLevelScalar -= add;
-                    }
-                },
-                {
-                    Key.L, () => {
-                        // 音量+
-                        var device = main.CaptureMonitor.AudioDevice;
-                        if(device == null || device.AudioEndpointVolume == null)
-                        {
-                            return;
-                        }
-                        device.AudioEndpointVolume.MasterVolumeLevelScalar += add;
-                    }
-                },
-                {
-                    Key.J, () => {
-                        // Mute
-                        var device = main.CaptureMonitor.AudioDevice;
-                        if(device == null || device.AudioEndpointVolume == null)
-                        {
-                            return;
-                        }
-                        device.AudioEndpointVolume.Mute = !device.AudioEndpointVolume.Mute;
-                    }
-                }
-            };
-            KeyShortcuts = dict;
         }
 
         /// <summary>
@@ -160,7 +95,6 @@ namespace VolumeWatcher.View
         public new void Dispose()
         {
             base.Dispose();
-            keyboardHook1.Dispose(true);
         }
 
         /// <summary>
@@ -179,68 +113,6 @@ namespace VolumeWatcher.View
         public void UpdateTrayText(string devname)
         {
             this.ToolTipText = string.Format("{0}\n({1})", model.StartupName, devname);
-        }
-
-        /// <summary>
-        /// キーフックの活性化
-        /// </summary>
-        public bool EnableKeyHook
-        {
-            get
-            {
-                return isKeyHook;
-            }
-            set
-            {
-
-                if(isKeyHook == value)
-                {
-                    return;
-                }
-
-                if (value)
-                {
-                    keyboardHook1.KeyboardHooked += keyboardHook1_KeyboardHooked;
-                }
-                else
-                {
-                    keyboardHook1.KeyboardHooked -= keyboardHook1_KeyboardHooked;
-                }
-                isKeyHook = value;
-            }
-        }
-
-        /// <summary>
-        /// キーフック時に通知されるイベント
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void keyboardHook1_KeyboardHooked(object sender, KeyboardHookedEventArgs e)
-        {
-            if (e.UpDown != KeyboardUpDown.Down)
-            {
-                return;
-            }
-
-            //main.optionWindow.txtKeyCode.Text = e.ScanCode + ":" + e.KeyCode;
-
-            if (!e.AltDown)
-            {
-                return;
-            }
-
-            var act = KeyShortcuts.GetValueOrDefault(e.KeyCode, null);
-            if (act == null)
-            {
-                return;
-            }
-
-            act.Invoke();
-            if (main.optionWindow.IsActive|main.volumeWindow.IsActive)
-            {
-                // Window上でのキー操作でBeep音が鳴るのを防ぐ(コントロール・ウィンドウにキーイベントをバブリングしない)
-                e.Cancel = true;
-            }
         }
     }
 }

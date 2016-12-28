@@ -25,6 +25,7 @@ namespace VolumeWatcher.ViewModel
 
         public KeepScreenSaverCommand KeepScreenSaverCommand { get; private set; } = new KeepScreenSaverCommand();
         public RegisterStartupCommand RegisterStartupCommand { get; private set; } = new RegisterStartupCommand();
+        public KeyboardHookCommand KeyboardHookCommand       { get; private set; }
 
 
 
@@ -56,6 +57,8 @@ namespace VolumeWatcher.ViewModel
             };
 
             RegisterStartupCommand.StartupName = main.model.StartupName;
+
+            KeyboardHookCommand = new KeyboardHookCommand(main);
         }
 
         public void StartPeakMeter()

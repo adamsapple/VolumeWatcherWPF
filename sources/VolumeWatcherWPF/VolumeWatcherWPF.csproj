@@ -161,7 +161,7 @@
     <Compile Include="Moral\AssemblyInfo.cs" />
     <Compile Include="Moral\Audio\WasapiStopEventArgs.cs" />
     <Compile Include="Moral\Effect\UStretchEffect.cs" />
-    <Compile Include="Moral\Etc\KeyboardHook5.cs" />
+    <Compile Include="Moral\Etc\KeyboardHook6.cs" />
     <Compile Include="Moral\Linq\LinqExtention.cs" />
     <Compile Include="Moral\Util\Ease.cs" />
     <Compile Include="Moral\Util\IconUtil.cs" />
@@ -178,6 +178,7 @@
     <Compile Include="VolumeWatcher\Command\KeyboardHookCommand.cs" />
     <Compile Include="VolumeWatcher\Command\RegisterStartupCommand.cs" />
     <Compile Include="VolumeWatcher\Command\SimpleCommandBase.cs" />
+    <Compile Include="VolumeWatcher\Component\KeyboardHookComponent.cs" />
     <Compile Include="VolumeWatcher\Enumrate\EVolumeViewMode.cs" />
     <Compile Include="VolumeWatcher\Enumrate\EWindowPosition.cs" />
     <Compile Include="Moral\Model\ModelBase.cs" />
