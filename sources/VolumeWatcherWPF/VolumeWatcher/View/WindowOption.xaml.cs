@@ -46,10 +46,10 @@ namespace VolumeWatcher.View
             ScreenSaverToggle.DataContext = viewmodel;
             chkIsStartUp.DataContext      = viewmodel;
 
-            { 
-                chkIsKeyHook.Command          = viewmodel.KeyboardHookCommand;
-                chkIsKeyHook.CommandParameter = chkIsKeyHook;
-            }
+            //{ 
+            //    chkIsKeyHook.CommandParameter = chkIsKeyHook;
+            //    chkIsKeyHook.Command          = viewmodel.KeyboardHookCommand;
+            //}
 
 
             this.DataContext              = model;           // それ以外はmodelを参照

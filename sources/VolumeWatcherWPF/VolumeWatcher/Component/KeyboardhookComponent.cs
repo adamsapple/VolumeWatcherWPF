@@ -136,7 +136,7 @@ namespace VolumeWatcher.Component
             KeyShortcutDictionary.GetValueOrDefault(GetMixedKeyFromKey(e.KeyCode, IsShiftDown, IsCtrlDown, IsAltDown), null)?.Invoke();
 
             // Window上でのキー操作でBeep音が鳴るのを防ぐ(コントロール・ウィンドウにキーイベントをバブリングしない)
-            if (Application.Current.Windows.Cast<Window>().Where(win=>win.IsActive).First() != null)
+            if (Application.Current.Windows.Cast<Window>().Where(win=>win.IsActive).FirstOrDefault() != null)
             {
                 e.Cancel = true;
             }

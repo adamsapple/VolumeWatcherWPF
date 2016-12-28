@@ -101,7 +101,8 @@ namespace VolumeWatcher.Command
 
         public override void Execute(object parameter)
         {
-            var IsExecute = (parameter as CheckBox)?.IsChecked ?? false;
+            var IsExecute = parameter as bool? ?? false;
+            //var IsExecute = (parameter as CheckBox)?.IsChecked ?? false;
 
             KeyboardHooker.Enable = IsExecute;
         }
