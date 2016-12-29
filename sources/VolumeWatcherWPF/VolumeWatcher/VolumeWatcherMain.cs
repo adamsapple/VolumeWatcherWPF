@@ -20,7 +20,7 @@ namespace VolumeWatcher
     /// <summary>
     /// 
     /// </summary>
-    class VolumeWatcherMain
+    public class VolumeWatcherMain
     {
         internal TrayComponent trayComponent = null;
         internal WindowOption optionWindow   = null;

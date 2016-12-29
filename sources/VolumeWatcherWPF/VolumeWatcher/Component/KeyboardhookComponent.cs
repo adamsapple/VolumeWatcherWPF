@@ -65,6 +65,7 @@ namespace VolumeWatcher.Component
         /// <param name="act"></param>
         public void AddShortcut(int mixedKey, Action act)
         {
+            Debug.WriteLine($"AddShortcut:{mixedKey}");
             KeyShortcutDictionary.Add(mixedKey, act);
         }
 
@@ -80,8 +81,10 @@ namespace VolumeWatcher.Component
         {
             int result = (int)keyCode;
             result |= Convert.ToInt32(isShift) << 8;
-            result |= Convert.ToInt32(isCtrl)  << 9;
-            result |= Convert.ToInt32(isAlt)   << 10;
+            result |= Convert.ToInt32(isCtrl) << 9;
+            result |= Convert.ToInt32(isAlt) << 10;
+
+            Debug.WriteLine($"GetMixedKeyFromKey:{result}({keyCode},{isShift},{isCtrl},{isAlt})");
             return result;
         }
 
@@ -96,15 +99,15 @@ namespace VolumeWatcher.Component
             {
                 case Key.LeftShift:
                 case Key.RightShift:
-                    IsShiftDown = e.UpDown.HasFlag(KeyboardUpDown.Down);
+                    IsShiftDown = (e.UpDown == KeyboardUpDown.Down);
                     return true;
                 case Key.LeftCtrl:
                 case Key.RightCtrl:
-                    IsCtrlDown  = e.UpDown.HasFlag(KeyboardUpDown.Down);
+                    IsCtrlDown  = (e.UpDown == KeyboardUpDown.Down);
                     return true;
                 case Key.LeftAlt:
                 case Key.RightAlt:
-                    IsAltDown   = e.UpDown.HasFlag(KeyboardUpDown.Down);
+                    IsAltDown   = (e.UpDown == KeyboardUpDown.Down);
                     return true;
                 default:
                     return false;
@@ -119,6 +122,10 @@ namespace VolumeWatcher.Component
         private void OnKeyboardHooked(object sender, KeyboardHookedEventArgs e)
         {
             Debug.WriteLine($"[hooking key code]:{e.ScanCode}({e.KeyCode})");
+            var main = ((App)System.Windows.Application.Current).main;
+            //main?.optionWindow.setKeyState($"[hooking key code]:{e.ScanCode}({e.KeyCode})");
+            //main?.optionWindow.setKeyState($"hook({e.KeyCode},{IsShiftDown},{IsCtrlDown},{IsAltDown}) updown({e.UpDown})");
+
 
             // Shift,Ctrl,Altならフラグ処理して終了
             if (CheckEffectiveKeys(e))

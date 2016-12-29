@@ -299,6 +299,11 @@ namespace VolumeWatcher.View
         //
         //
 
+
+        public void setKeyState(string state)
+        {
+            txtKeyCode.Text = state;
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             MoniterPower.PowerOff();
