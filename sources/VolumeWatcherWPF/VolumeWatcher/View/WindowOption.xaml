@@ -245,7 +245,9 @@
                     </DockPanel>
                     <GroupBox x:Name="groupBox1" Padding="0" Margin="0,8,0,0">
                         <GroupBox.Header>
-                            <CheckBox x:Name="chkIsKeyHook" Content="キーボードでVolume操作を行う" IsChecked="{Binding IsKeyHook, Mode=TwoWay}" Checked="chkIsKeyHook_Changed" Unchecked="chkIsKeyHook_Changed"/>
+                            <CheckBox x:Name="chkIsKeyHook" Content="キーボードでVolume操作を行う" IsChecked="{Binding IsKeyHook, Mode=TwoWay}" 
+                                      Command="{Binding KeyboardHookCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}, Mode=OneWay}" />
+                            <!--Checked="chkIsKeyHook_Changed" Unchecked="chkIsKeyHook_Changed"/>-->
                         </GroupBox.Header>
                         <StackPanel Orientation="Vertical" IsEnabled="{Binding IsChecked, ElementName=chkIsKeyHook}" >
                             <Label x:Name="label4" Content="[Alt]+[&lt;][&gt;] =&gt;音量+-&#xA;[Alt]+[M] =&gt; Mute&#xa;[Alt]+[K][L] =&gt;録音レベル+-&#xA;[Alt]+[J] =&gt; マイクMute"/>

@@ -45,6 +45,7 @@ namespace VolumeWatcher.View
             CaptureMeter.DataContext      = viewmodel;       // peakmeterはviewmodelを参照
             ScreenSaverToggle.DataContext = viewmodel;
             chkIsStartUp.DataContext      = viewmodel;
+            chkIsKeyHook.DataContext      = viewmodel;
 
             //{ 
             //    chkIsKeyHook.CommandParameter = chkIsKeyHook;

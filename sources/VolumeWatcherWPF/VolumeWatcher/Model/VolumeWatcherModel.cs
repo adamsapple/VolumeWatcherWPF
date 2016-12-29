@@ -38,19 +38,19 @@ namespace VolumeWatcher.Model
         public float Opacity
         {
             get { return _Opacity; }
-            set { _Opacity = value; SetProperty(ref _Opacity, value); }
+            set { SetProperty(ref _Opacity, value); }
         }
         private EWindowPosition _WindowPosition = EWindowPosition.LEFT_TOP;
         public EWindowPosition WindowPosition
         {
             get { return _WindowPosition; }
-            set { _WindowPosition = value; SetProperty(ref _WindowPosition, value); }
+            set { SetProperty(ref _WindowPosition, value); }
         }
         private bool _IsKeyHook = false;
         public bool IsKeyHook
         {
             get { return _IsKeyHook; }
-            set { _IsKeyHook = value; SetProperty(ref _IsKeyHook, value); }
+            set { SetProperty(ref _IsKeyHook, value); }
         }
         private string _StartupName = string.Empty;
 
@@ -64,14 +64,13 @@ namespace VolumeWatcher.Model
         public int Volume
         {
             get { return _Volume; }
-            set { _Volume = value; SetProperty(ref _Volume, value); }
+            set { SetProperty(ref _Volume, value); }
         }
         private bool _IsMute = false;
         public bool IsMute
         {
             get { return _IsMute; }
             set {
-                _IsMute = value;
                 SetProperty(ref _IsMute, value);
                 var volume = this.RenderDevice?.AudioEndpointVolume;
                 if (volume == null)
@@ -90,7 +89,7 @@ namespace VolumeWatcher.Model
         public int RecVolume
         {
             get { return _RecVolume; }
-            set { _RecVolume = value; SetProperty(ref _RecVolume, value); }
+            set { SetProperty(ref _RecVolume, value); }
         }
 
         private bool _IsRecMute = false;
@@ -99,7 +98,6 @@ namespace VolumeWatcher.Model
             get { return _IsRecMute; }
             set
             {
-                _IsRecMute = value;
                 SetProperty(ref _IsRecMute, value);
                 var volume = this.CaptureDevice?.AudioEndpointVolume;
                 if (volume == null)

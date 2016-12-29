@@ -1,8 +1,11 @@
 ﻿using System;
-using System.Windows.Input;
+using System.ComponentModel;
 using System.Windows.Threading;
+
 using Moral.Model;
+
 using VolumeWatcher.View;
+using VolumeWatcher.Model;
 using VolumeWatcher.Command;
 
 
@@ -14,14 +17,28 @@ namespace VolumeWatcher.ViewModel
         public int RenderPeakValue
         {
             get { return _RenderPeakValue; }
-            private set { _RenderPeakValue = value; SetProperty(ref _RenderPeakValue, value); }
+            private set { SetProperty(ref _RenderPeakValue, value); }
         }
         private int _CapturePeakValue = 0;
         public int CapturePeakValue
         {
             get { return _CapturePeakValue; }
-            private set { _CapturePeakValue = value; SetProperty(ref _CapturePeakValue, value); }
+            private set { SetProperty(ref _CapturePeakValue, value); }
         }
+
+        private bool _IsKeyHook;
+        public bool IsKeyHook
+        {
+            get { return model.IsKeyHook; }
+            set
+            {
+                model.IsKeyHook = value;
+                SetProperty(ref _IsKeyHook, value);
+                KeyboardHookCommand.Execute(value);
+            }
+        }
+
+        public VolumeWatcherModel model;
 
         public KeepScreenSaverCommand KeepScreenSaverCommand { get; private set; } = new KeepScreenSaverCommand();
         public RegisterStartupCommand RegisterStartupCommand { get; private set; } = new RegisterStartupCommand();
@@ -44,9 +61,19 @@ namespace VolumeWatcher.ViewModel
         /// <param name="main"></param>
         public void SetBinding(WindowOption window, VolumeWatcherMain main)
         {
+            // 参照モデルの設定
+            model = main.model;
+            // Command初期化
+            KeyboardHookCommand = new KeyboardHookCommand(main);
+            RegisterStartupCommand.StartupName = model.StartupName;
+
+            // Binding初期化
+            IsKeyHook = model.IsKeyHook;
+
+            
             // ピークメータ表示用タイマ
             StatusTimer.Interval = new TimeSpan(PEAKMETER_RENDER_INTERVAL);
-            StatusTimer.Tick += (o, el) => {
+            StatusTimer.Tick    += (o, el) => {
                 var renderMeter  = main.VolumeMonitor1.AudioDevice?.AudioMeterInformation;
                 var captureMeter = main.CaptureMonitor.AudioDevice?.AudioMeterInformation;
                 if (StatusTimer.IsEnabled)
@@ -55,10 +82,6 @@ namespace VolumeWatcher.ViewModel
                     CapturePeakValue = (int)Math.Round((captureMeter?.PeakValue ?? 0) * 100);
                 }
             };
-
-            RegisterStartupCommand.StartupName = main.model.StartupName;
-
-            KeyboardHookCommand = new KeyboardHookCommand(main);
         }
 
         public void StartPeakMeter()
