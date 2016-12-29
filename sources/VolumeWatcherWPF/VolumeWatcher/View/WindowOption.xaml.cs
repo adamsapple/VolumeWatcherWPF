@@ -289,6 +289,7 @@ namespace VolumeWatcher.View
         }
 
 
+#if DEBUG
         //
         //
         //
@@ -313,5 +314,6 @@ namespace VolumeWatcher.View
         {
             MoniterPower.ExecScreenSaver();
         }
+#endif
     }
 }
