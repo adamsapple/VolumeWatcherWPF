@@ -9,6 +9,7 @@ using System.Windows.Data;
 
 using Audio.CoreAudio;
 using VolumeWatcher.View;
+using VolumeWatcher.Model;
 using VolumeWatcher.Enumrate;
 
 namespace VolumeWatcher.ViewModel
@@ -95,21 +96,29 @@ namespace VolumeWatcher.ViewModel
         public void SetBinding(FrameworkElement view)
         {
             // binding設定:MaxOpacity
-            view.SetBinding(MaxOpacityProperty, new Binding("Opacity") { Mode = BindingMode.OneWay });
+            view.SetBinding(MaxOpacityProperty,
+                new Binding(nameof(VolumeWatcherModel.Opacity)) { Mode = BindingMode.OneWay });
             // binding設定:WindowPosition
-            view.SetBinding(WindowPositionProperty, new Binding("WindowPosition") { Mode = BindingMode.OneWay });
+            view.SetBinding(WindowPositionProperty,
+                new Binding(nameof(VolumeWatcherModel.WindowPosition)) { Mode = BindingMode.OneWay });
             // binding設定:Volume
-            view.SetBinding(VolumeProperty, new Binding("Volume") { Mode = BindingMode.OneWay });
+            view.SetBinding(VolumeProperty,
+                new Binding(nameof(VolumeWatcherModel.Volume)) { Mode = BindingMode.OneWay });
             // binding設定:IsMute
-            view.SetBinding(IsMuteProperty, new Binding("IsMute") { Mode = BindingMode.OneWay });
+            view.SetBinding(IsMuteProperty, 
+                new Binding(nameof(VolumeWatcherModel.IsMute)) { Mode = BindingMode.OneWay });
             // binding設定:RenderDeviceProperty
-            view.SetBinding(RenderDeviceProperty, new Binding("RenderDevice") { Mode = BindingMode.OneWay });
+            view.SetBinding(RenderDeviceProperty,
+                new Binding(nameof(VolumeWatcherModel.RenderDevice)) { Mode = BindingMode.OneWay });
             // binding設定:Volume
-            view.SetBinding(RecVolumeProperty, new Binding("RecVolume") { Mode = BindingMode.OneWay });
+            view.SetBinding(RecVolumeProperty,
+                new Binding(nameof(VolumeWatcherModel.RecVolume)) { Mode = BindingMode.OneWay });
             // binding設定:IsMute
-            view.SetBinding(IsRecMuteProperty, new Binding("IsRecMute") { Mode = BindingMode.OneWay });
+            view.SetBinding(IsRecMuteProperty,
+                new Binding(nameof(VolumeWatcherModel.IsRecMute)) { Mode = BindingMode.OneWay });
             // binding設定:RenderDeviceProperty
-            view.SetBinding(CaptureDeviceProperty, new Binding("CaptureDevice") { Mode = BindingMode.OneWay });
+            view.SetBinding(CaptureDeviceProperty,
+                new Binding(nameof(VolumeWatcherModel.CaptureDevice)) { Mode = BindingMode.OneWay });
 
             ((WindowVolume)view).IsBindInitialized = true;           // ここにかけば良いのだ、と後で気づく
         }

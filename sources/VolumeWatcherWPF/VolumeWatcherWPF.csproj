@@ -199,7 +199,7 @@
     <Compile Include="VolumeWatcher\ViewModel\Converter\MuteToBrushConverter.cs" />
     <Compile Include="VolumeWatcher\ViewModel\Converter\ReadOnlyConverter.cs" />
     <Compile Include="VolumeWatcher\ViewModel\OptionWindowViewModel.cs" />
-    <Compile Include="VolumeWatcher\ViewModel\WindowPositionConverter.cs" />
+    <Compile Include="VolumeWatcher\ViewModel\Converter\WindowPositionConverter.cs" />
     <Compile Include="VolumeWatcher\Properties\Settings.cs" />
     <Compile Include="VolumeWatcher\ViewModel\TrayComponentViewModel.cs" />
     <Compile Include="Moral\UI\LevelBar.xaml.cs">

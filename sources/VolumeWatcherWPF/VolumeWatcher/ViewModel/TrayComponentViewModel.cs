@@ -8,6 +8,7 @@ using System.Windows.Data;
 
 using Audio.CoreAudio;
 using VolumeWatcher.View;
+using VolumeWatcher.Model;
 
 namespace VolumeWatcher.ViewModel
 {
@@ -39,7 +40,7 @@ namespace VolumeWatcher.ViewModel
         public void SetBinding(FrameworkElement view)
         {
             // binding設定:RenderDevice
-            view.SetBinding(RenderDeviceProperty, new Binding("RenderDevice") { Mode = BindingMode.OneWay });
+            view.SetBinding(RenderDeviceProperty, new Binding(nameof(VolumeWatcherModel.RenderDevice)) { Mode = BindingMode.OneWay });
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 using VolumeWatcher.Enumrate;
 
-namespace VolumeWatcher.ViewModel
+namespace VolumeWatcher.ViewModel.Converter
 {
     public class WindowPositionConverter : System.Windows.Data.IValueConverter
     {

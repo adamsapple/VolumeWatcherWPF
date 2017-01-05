@@ -28,7 +28,7 @@
         <!--<system:String x:Key="AsmInfo_ProductName">Product Name</system:String>
         <system:String x:Key="AsmInfo_Version">9.9.9</system:String>-->
         <!-- バリューコンバータ -->
-        <vm:WindowPositionConverter         x:Key="E2BConverter"/>
+        <vmc:WindowPositionConverter        x:Key="E2BConverter"/>
         <vmc:MMDeviceToNameConverter        x:Key="Device2NameConverter"/>
         <vmc:MMDeviceToDescriptionConverter x:Key="Device2DescriptionConverter"/>
         <vmc:MMDeviceToIconConverter        x:Key="Device2IconConverter"/>
