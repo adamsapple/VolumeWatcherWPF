@@ -161,6 +161,9 @@
     <Compile Include="Moral\AssemblyInfo.cs" />
     <Compile Include="Moral\Audio\WasapiStopEventArgs.cs" />
     <Compile Include="Moral\Effect\UStretchEffect.cs" />
+    <Compile Include="Moral\Etc\ActiveWindowHook.cs" />
+    <Compile Include="Moral\Etc\EHookType.cs" />
+    <Compile Include="Moral\Etc\GlobalHook.cs" />
     <Compile Include="Moral\Etc\KeyboardHook6.cs" />
     <Compile Include="Moral\Linq\LinqExtention.cs" />
     <Compile Include="Moral\Util\Ease.cs" />
