@@ -16,8 +16,10 @@ namespace VolumeWatcher.ViewModel
 {
     class VolumeWindowViewModel:DependencyObject
     {
+        private static readonly Type TargetType = typeof(WindowVolume);
+
         private static readonly DependencyProperty MaxOpacityProperty =
-           DependencyProperty.Register("MaxOpacity", typeof(float), typeof(WindowVolume),
+           DependencyProperty.Register("MaxOpacity", typeof(float), TargetType,
                                    new FrameworkPropertyMetadata(0.95f, new PropertyChangedCallback((sender, e) => {
                                        var self = (WindowVolume)sender;
                                        var value = (float)e.NewValue;
@@ -26,7 +28,7 @@ namespace VolumeWatcher.ViewModel
                                    })));
 
         private static readonly DependencyProperty WindowPositionProperty =
-           DependencyProperty.Register("WindowPosition", typeof(EWindowPosition), typeof(WindowVolume),
+           DependencyProperty.Register("WindowPosition", typeof(EWindowPosition), TargetType,
                                    new FrameworkPropertyMetadata(EWindowPosition.UNKNOWN, new PropertyChangedCallback((sender, e) => {
                                        var self  = (WindowVolume)sender;
                                        var value = (EWindowPosition)e.NewValue;
@@ -35,7 +37,7 @@ namespace VolumeWatcher.ViewModel
                                    })));
 
         private static readonly DependencyProperty VolumeProperty =
-           DependencyProperty.Register("Volume", typeof(int), typeof(WindowVolume),
+           DependencyProperty.Register("Volume", typeof(int), TargetType,
                                    new FrameworkPropertyMetadata(0, new PropertyChangedCallback((sender, e) =>
                                    {
                                        var self = (WindowVolume)sender;
@@ -43,7 +45,7 @@ namespace VolumeWatcher.ViewModel
                                    })));
 
         private static readonly DependencyProperty IsMuteProperty =
-           DependencyProperty.Register("IsMute", typeof(bool), typeof(WindowVolume),
+           DependencyProperty.Register("IsMute", typeof(bool), TargetType,
                                    new FrameworkPropertyMetadata(false, new PropertyChangedCallback((sender, e) => {
                                        var self = (WindowVolume)sender;
                                        //var value = (bool)e.NewValue;
@@ -53,17 +55,15 @@ namespace VolumeWatcher.ViewModel
                                    })));
 
         private static readonly DependencyProperty RenderDeviceProperty =
-           DependencyProperty.Register("RenderDevice", typeof(MMDevice), typeof(WindowVolume),
+           DependencyProperty.Register("RenderDevice", typeof(MMDevice), TargetType,
                                    new FrameworkPropertyMetadata(null, new PropertyChangedCallback((sender, e) => {
                                        var self = (WindowVolume)sender;
                                        //var value = (MMDevice)e.NewValue;
                                        self.ShowVolume(EVolumeViewMode.Render);
                                    })));
-
-
         
         private static readonly DependencyProperty RecVolumeProperty =
-            DependencyProperty.Register("RecVolume", typeof(int), typeof(WindowVolume),
+            DependencyProperty.Register("RecVolume", typeof(int), TargetType,
                                     new FrameworkPropertyMetadata(0, new PropertyChangedCallback((sender, e) =>
                                     {
                                         var self = (WindowVolume)sender;
@@ -71,7 +71,7 @@ namespace VolumeWatcher.ViewModel
                                     })));
         
         private static readonly DependencyProperty IsRecMuteProperty =
-           DependencyProperty.Register("IsRecMute", typeof(bool), typeof(WindowVolume),
+           DependencyProperty.Register("IsRecMute", typeof(bool), TargetType,
                                    new FrameworkPropertyMetadata(false, new PropertyChangedCallback((sender, e) => {
                                        var self  = (WindowVolume)sender;
                                        //var value = (bool)e.NewValue;
@@ -81,7 +81,7 @@ namespace VolumeWatcher.ViewModel
                                    })));
 
         private static readonly DependencyProperty CaptureDeviceProperty =
-           DependencyProperty.Register("CaptureDevice", typeof(MMDevice), typeof(WindowVolume),
+           DependencyProperty.Register("CaptureDevice", typeof(MMDevice), TargetType,
                                    new FrameworkPropertyMetadata(null, new PropertyChangedCallback((sender, e) => {
                                        var self = (WindowVolume)sender;
                                        //var value = (MMDevice)e.NewValue;
