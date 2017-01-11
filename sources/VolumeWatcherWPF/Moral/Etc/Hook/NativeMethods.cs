@@ -13,6 +13,8 @@ namespace Moral.Etc.Hook
         internal static extern bool UnhookWindowsHookEx(IntPtr hook);
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern int CallNextHookEx(IntPtr hook, int code, IntPtr message, IntPtr state);
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr GetModuleHandle(string name);
     }
 
     [StructLayout(LayoutKind.Sequential)]

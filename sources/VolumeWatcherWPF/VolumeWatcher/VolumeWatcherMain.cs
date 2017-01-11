@@ -35,6 +35,7 @@ namespace VolumeWatcher
 #if DEBUG
 
         private VolumeWatcher.Sandbox.ISandBox tester = null;
+        private VolumeWatcher.Sandbox.ActiveWindowHookTest tester2 = null;
 #endif
         /// <summary>
         /// コンストラクタ
@@ -86,9 +87,11 @@ namespace VolumeWatcher
 
             //tester = new VolumeWatcher.Sandbox.RecorderTest();
 #if DEBUG
-            tester?.Start();
+            //tester?.Start();
 
-            optionWindow.Show();
+            //optionWindow.Show();
+
+            //tester2 = new Sandbox.ActiveWindowHookTest();
 #endif
         }
 

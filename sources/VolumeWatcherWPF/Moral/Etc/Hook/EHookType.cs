@@ -9,7 +9,7 @@ namespace Moral.Etc.Hook
     /// </summary>
     public enum EHookType : int
     {
-        WH_NOTHOOK         = -1,
+        WH_NOTHOOK         = -100,
         /// <summary>入力イベントを監視､ 記録する。通常､ アプリケーションは､ このフックを使ってマウス イベントやキーボード イベントのシーケンスを記録し､ 後でWH_JOURNALPLAYBACKフックを使って再生する</summary>
         WH_JOURNALRECORD = 0,
         /// <summary>システム メッセージ キューにメッセージを挿入する。アプリケーションは､ WH_JOURNALRECORDフックで記録しておいた一連のマウス イベントやキーボード イベントを､ このフックを使って再生できる。WH_JOURNALPLAYBACKフックがインストールされているときは､ 通常のマウス入力やキーボード入力は使用不能になる。</summary>
@@ -29,6 +29,7 @@ namespace Moral.Etc.Hook
         WH_CBT = 5,
         /// <summary>メニューやスクロール バー､ メッセージ ボックス､ ダイアログ ボックスが処理しようとしているメッセージを監視したり､ ユーザーがAlt+TabキーやAlt+Escキーを押したときに別のウィンドウがアクティブ化されようとするのを検出できる。WH_MSGFILTERフックは､ フック プロシージャをインストールしたアプリケーションが作成したメニューやスクロール バー､ メッセージ ボックス､ ダイアログ ボックスに渡されるメッセージしか監視できない。WH_SYSMSGFILTERフックは､ すべてのアプリケーションについてこのようなメッセージを監視できる。</summary>
         WH_SYSMSGFILTER = 6,
+        WH_MSGFILTER = -1,
         /// <summary>GetMessage関数やPeekMessage関数が返そうとしているマウス メッセージを監視</summary>
         WH_MOUSE = 7,
         /// <summary></summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,16 @@ namespace VolumeWatcher.Sandbox
         public ActiveWindowHookTest()
         {
             Hooker = new ActiveWindowHook();
+
+
+
+
+            Hooker.Callbacks += OnHook;
+        }
+
+        void OnHook(object sender, ActiveWindowChangedEventArgs e)
+        {
+            Console.WriteLine("Get new Event.");
         }
     }
 }

@@ -181,11 +181,11 @@ namespace HongliangSoft.Utilities.Gui {
 
             this.hook = SetWindowsHookEx(KeyboardHookType, callback, module, 0);
 
-            //if (hook == IntPtr.Zero)
-            //{
-            //    int errorCode = Marshal.GetLastWin32Error();
-            //    throw new Win32Exception(errorCode);
-            //}
+            if (hook == IntPtr.Zero)
+            {
+                int errorCode = Marshal.GetLastWin32Error();
+                throw new Win32Exception(errorCode);
+            }
         }
 
         private void UnHook()

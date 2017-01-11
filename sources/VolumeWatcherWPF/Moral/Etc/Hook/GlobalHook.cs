@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+
+
+// https://msdn.microsoft.com/en-us/library/ms644990%28VS.85%29.aspx?f=255&MSPPError=-2147217396
 
 namespace Moral.Etc.Hook
 {
@@ -59,6 +63,7 @@ namespace Moral.Etc.Hook
                 throw new PlatformNotSupportedException("Windows 98/Meではサポートされていません。");
 
             this.module = Marshal.GetHINSTANCE(System.Reflection.Assembly.GetExecutingAssembly().GetModules()[0]);
+            //this.module = NativeMethods.GetModuleHandle(Process.GetCurrentProcess().MainModule.ModuleName);
             this.hookCallback = new HookHandler(OnHook);
             this.hookHandle = GCHandle.Alloc(this.hookCallback);
         }
@@ -94,7 +99,7 @@ namespace Moral.Etc.Hook
             //
             // Hook.
             //
-            this.hook = NativeMethods.SetWindowsHookEx(this.HookType, this.hookCallback, this.module, 0);
+            this.hook = NativeMethods.SetWindowsHookEx(this.HookType, this.hookCallback, this.module, Process.Threads);
             if (this.hook == IntPtr.Zero)
             {
                 var error = Marshal.GetLastWin32Error();
