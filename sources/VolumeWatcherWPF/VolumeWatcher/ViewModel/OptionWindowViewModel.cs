@@ -42,7 +42,7 @@ namespace VolumeWatcher.ViewModel
 
         public KeepScreenSaverCommand KeepScreenSaverCommand { get; private set; } = new KeepScreenSaverCommand();
         public RegisterStartupCommand RegisterStartupCommand { get; private set; } = new RegisterStartupCommand();
-        public KeyboardHookCommand KeyboardHookCommand       { get; private set; }
+        public KeyboardHookCommand    KeyboardHookCommand    { get; private set; }
 
 
 
