@@ -188,6 +188,7 @@
     <Compile Include="VolumeWatcher\Model\VolumeWatcherModel.cs" />
     <Compile Include="Moral\Audio\BufferedWaveProvider.cs" />
     <Compile Include="Moral\Data\CircularBuffer.cs" />
+    <Compile Include="VolumeWatcher\Sandbox\ActiveWindowHookTest.cs" />
     <Compile Include="VolumeWatcher\Sandbox\ISandBox.cs" />
     <Compile Include="VolumeWatcher\Sandbox\RecorderTest.cs" />
     <Compile Include="Moral\Audio\ResampleWaveProvider.cs" />
