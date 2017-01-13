@@ -323,7 +323,12 @@
   <ItemGroup>
     <Resource Include="resources\icon-windw.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\GlobalHookAssistATL\GlobalHookAssistATL.vcxproj">
+      <Project>{2fcf65c7-866a-4531-8368-f81eab427b94}</Project>
+      <Name>GlobalHookAssistATL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

@@ -15,6 +15,11 @@ namespace Moral.Etc.Hook
         internal static extern int CallNextHookEx(IntPtr hook, int code, IntPtr message, IntPtr state);
         [DllImport("kernel32.dll")]
         public static extern IntPtr GetModuleHandle(string name);
+
+        //[DllImport("GlobalHookAssist.dll")]
+        //internal extern static IntPtr BeginHook(EHookType hookType, HookHandler hookDelegate);
+        //[DllImport("GlobalHookAssist.dll")]
+        //internal extern static bool EndHook(IntPtr hook);
     }
 
     [StructLayout(LayoutKind.Sequential)]

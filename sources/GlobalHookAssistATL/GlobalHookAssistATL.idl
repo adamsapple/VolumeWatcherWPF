@@ -1,0 +1,18 @@
+// GlobalHookAssistATL.idl : GlobalHookAssistATL の IDL ソース
+//
+
+// このファイルは、タイプ ライブラリ (GlobalHookAssistATL.tlb) およびマーシャリング コードを
+// 作成するために MIDL ツールによって処理されます。
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(2F567A28-7E00-4B5F-93AE-38CCD3A88F17),
+	version(1.0),
+]
+library GlobalHookAssistATLLib
+{
+	importlib("stdole2.tlb");
+};
+

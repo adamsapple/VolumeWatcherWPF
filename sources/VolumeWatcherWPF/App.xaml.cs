@@ -27,7 +27,7 @@ namespace VolumeWatcher
                 this.Shutdown();        //Application.Current.Shutdown();
                 return;
             }
-
+            this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             main = new VolumeWatcherMain();
         }
 
