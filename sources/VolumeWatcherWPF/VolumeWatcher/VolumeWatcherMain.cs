@@ -91,7 +91,7 @@ namespace VolumeWatcher
 
             //optionWindow.Show();
 
-            tester2 = new Sandbox.ActiveWindowHookTest();
+            //tester2 = new Sandbox.ActiveWindowHookTest();
 #endif
         }
 

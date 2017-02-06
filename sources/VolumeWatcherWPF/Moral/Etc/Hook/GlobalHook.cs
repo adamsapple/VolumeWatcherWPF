@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using Gl
 
 
 // https://msdn.microsoft.com/en-us/library/ms644990%28VS.85%29.aspx?f=255&MSPPError=-2147217396
@@ -101,7 +100,7 @@ namespace Moral.Etc.Hook
             // Hook.
             //
             //this.hook = NativeMethods.SetWindowsHookEx(this.HookType, this.hookCallback, this.module, 0);
-      this.hook = GlobalHookAssistATL.BeginHook(this.HookType, this.hookCallback);
+            //this.hook = GlobalHookAssistATL.BeginHook(this.HookType, this.hookCallback);
             if (this.hook == IntPtr.Zero)
             {
                 var error = Marshal.GetLastWin32Error();
@@ -117,7 +116,7 @@ namespace Moral.Etc.Hook
             // UnHook.
             //
             //NativeMethods.UnhookWindowsHookEx(this.hook);
-            NativeMethods.EndHook(this.hook);
+            //NativeMethods.EndHook(this.hook);
             this.hook = IntPtr.Zero;
         }
 
