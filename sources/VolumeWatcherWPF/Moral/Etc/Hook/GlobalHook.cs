@@ -99,7 +99,7 @@ namespace Moral.Etc.Hook
             //
             // Hook.
             //
-            this.hook = NativeMethods.SetWindowsHookEx(this.HookType, this.hookCallback, this.module, Process.Threads);
+            this.hook = NativeMethods.SetWindowsHookEx(this.HookType, this.hookCallback, this.module, 0);
             if (this.hook == IntPtr.Zero)
             {
                 var error = Marshal.GetLastWin32Error();
