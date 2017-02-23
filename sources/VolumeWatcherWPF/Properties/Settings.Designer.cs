@@ -124,5 +124,17 @@ namespace VolumeWatcher.Properties {
                 this["AssemblyVersion"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Is_Mic_Mute {
+            get {
+                return ((bool)(this["Is_Mic_Mute"]));
+            }
+            set {
+                this["Is_Mic_Mute"] = value;
+            }
+        }
     }
 }

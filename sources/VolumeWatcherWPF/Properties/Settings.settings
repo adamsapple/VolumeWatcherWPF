@@ -29,5 +29,8 @@
     <Setting Name="AssemblyVersion" Type="System.String" Scope="User">
       <Value Profile="(Default)">0.0.0</Value>
     </Setting>
+    <Setting Name="Is_Mic_Mute" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -220,7 +220,9 @@
                 <StackPanel Margin="8" VerticalAlignment="Top" >
                     <CheckBox x:Name="chkIsStartUp" Content="StartUpに登録する" IsChecked="false" HorizontalAlignment="Left"
                               Command="{Binding RegisterStartupCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}, Mode=OneWay}" />
-                    <GroupBox x:Name="groupVolumeWindowPositon" Header="GroupBox"  VerticalAlignment="Top" Padding="0" Margin="0,5">
+                    <CheckBox x:Name="chkIsMicMute" Content="アプリケーション起動時にマイクをミュートする" IsChecked="{Binding IsMicMute, Mode=TwoWay}"  HorizontalAlignment="Left"
+                              />
+                    <GroupBox x:Name="groupVolumeWindowPositon" Header="ボリューム位置"  VerticalAlignment="Top" Padding="0" Margin="0,5">
                         <Grid ShowGridLines="false" x:Name="groupVolumeWindowPositon2">
                             <Grid.RowDefinitions>
                                 <!-- 行の定義 -->

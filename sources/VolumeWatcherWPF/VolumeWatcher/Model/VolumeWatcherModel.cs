@@ -46,6 +46,12 @@ namespace VolumeWatcher.Model
             get { return _WindowPosition; }
             set { SetProperty(ref _WindowPosition, value); }
         }
+        private bool _IsMicMute = false;
+        public bool IsMicMute
+        {
+            get { return _IsMicMute; }
+            set { SetProperty(ref _IsMicMute, value); }
+        }
         private bool _IsKeyHook = false;
         public bool IsKeyHook
         {
@@ -193,14 +199,15 @@ namespace VolumeWatcher.Model
             // save情報を設定に反映
             //
             {
-                this.StartupName = setting.startup_name;
-                this.GitURL = setting.GitURL;
-                this.Opacity = setting.window_opacity;
+                this.StartupName    = setting.startup_name;
+                this.GitURL         = setting.GitURL;
+                this.Opacity        = setting.window_opacity;
                 this.WindowPosition = setting.window_position2;
-                this.IsKeyHook = setting.enable_volume_key;
+                this.IsKeyHook      = setting.enable_volume_key;
+                this.IsMicMute      = setting.Is_Mic_Mute;
 
                 this.OptionWindow_Left = setting.OptionWindow_Left;
-                this.OptionWindow_Top = setting.OptionWindow_Top;
+                this.OptionWindow_Top  = setting.OptionWindow_Top;
             }
         }
 
@@ -214,6 +221,7 @@ namespace VolumeWatcher.Model
             setting.window_opacity      = this.Opacity;
             setting.window_position2    = this.WindowPosition;
             setting.enable_volume_key   = this.IsKeyHook;
+            setting.Is_Mic_Mute         = this.IsMicMute;
 
             setting.OptionWindow_Left   = this.OptionWindow_Left;
             setting.OptionWindow_Top    = this.OptionWindow_Top;

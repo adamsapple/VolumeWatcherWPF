@@ -55,6 +55,10 @@ namespace VolumeWatcher
             // Model初期化
             model = new VolumeWatcherModel();
             model.LoadSettings();
+            if (model.IsMicMute)
+            {
+                CaptureMonitor.AudioDevice.AudioEndpointVolume.Mute = true;
+            }
             
             var VolumeMonitorViewModel1 = new VolumeMonitorViewModel(VolumeMonitor1, CaptureMonitor, model);
         }
